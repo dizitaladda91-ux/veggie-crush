@@ -1,19 +1,84 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShoppingCart, Heart, Check, Eye, Image as ImageIcon } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 
 const FALLBACK_PRODUCTS = [
-  { id: "1", name: "Vine Tomatoes", price: 49, mrp: 65, unit: "500g", rating: 4.6, reviews: 128 },
-  { id: "2", name: "Farm Carrots", price: 39, mrp: 50, unit: "500g", rating: 4.8, reviews: 94 },
-  { id: "3", name: "Broccoli Florets", price: 79, mrp: 99, unit: "300g", rating: 4.5, reviews: 61 },
-  { id: "4", name: "Baby Spinach", price: 35, mrp: 45, unit: "200g", rating: 4.7, reviews: 143 },
-  { id: "5", name: "Green Chillies", price: 19, mrp: 25, unit: "150g", rating: 4.3, reviews: 52 },
-  { id: "6", name: "Garlic Bulbs", price: 45, mrp: 60, unit: "250g", rating: 4.9, reviews: 187 },
-  { id: "7", name: "Sweet Corn", price: 55, mrp: 70, unit: "3 pcs", rating: 4.4, reviews: 76 },
-  { id: "8", name: "Red Onions", price: 29, mrp: 38, unit: "1kg", rating: 4.6, reviews: 210 },
+  {
+    id: "1",
+    slug: "beetroot",
+    name: "Beetroot",
+    price: 299,
+    mrp: 399,
+    unit: "200g",
+    rating: 4.7,
+    reviews: 128,
+    description: "Naturally rich in nitrates and antioxidants, beetroot supports stamina, heart health, and better blood flow throughout the day.",
+    images: ["/products/beetroot_1.webp", "/products/beetroot_2.webp", "/products/beetroot_3.webp", "/products/beetroot_4.webp"],
+  },
+  {
+    id: "2",
+    slug: "gooseberry",
+    name: "Gooseberry",
+    price: 349,
+    mrp: 449,
+    unit: "200g",
+    rating: 4.8,
+    reviews: 94,
+    description: "Packed with Vitamin C and natural antioxidants, gooseberry helps support immunity, digestion, and everyday vitality.",
+    images: ["/products/goosberry_1.webp", "/products/goosberry_2.webp", "/products/goosberry_3.webp", "/products/goosberry_4.webp"],
+  },
+  {
+    id: "3",
+    slug: "moringa",
+    name: "Moringa",
+    price: 399,
+    mrp: 499,
+    unit: "200g",
+    rating: 4.7,
+    reviews: 143,
+    description: "Moringa is a nutrient-dense superleaf known for supporting immunity, energy, and balanced daily wellness.",
+    images: ["/products/moringa_1.webp", "/products/moringa_2.webp", "/products/moringa_3.webp", "/products/moringa_4.webp"],
+  },
+  {
+    id: "4",
+    slug: "neem",
+    name: "Neem",
+    price: 389,
+    mrp: 499,
+    unit: "200g",
+    rating: 4.6,
+    reviews: 68,
+    description: "Neem is traditionally valued for its natural cleansing support, skin wellness, and daily balance.",
+    images: ["/products/neem_1.webp", "/products/neem_2.webp", "/products/neem_3.webp", "/products/neem_4.webp"],
+  },
+  {
+    id: "5",
+    slug: "everfit",
+    name: "Everfit",
+    price: 499,
+    mrp: 649,
+    unit: "60 capsules",
+    rating: 4.6,
+    reviews: 72,
+    description: "Everfit is a wellness-support formula designed to promote everyday vitality, better balance, and a natural daily health routine.",
+    images: ["/products/everfit_1.webp", "/products/everfit_2.webp", "/products/everfit_3.webp", "/products/everfit_4.webp"],
+  },
+  {
+    id: "6",
+    slug: "giloy-powder",
+    name: "Giloy Powder",
+    price: 429,
+    mrp: 549,
+    unit: "200g",
+    rating: 4.8,
+    reviews: 101,
+    description: "Giloy powder is traditionally used to support immunity, vitality, and overall balance with a pure herbal profile.",
+    images: ["/products/giloy_1.webp", "/products/giloy_2.webp", "/products/giloy_3.webp", "/products/giloy_4.webp"],
+  },
 ];
 
 const gridVariants = {
@@ -37,6 +102,7 @@ function ProductCard({ product }) {
   const [added, setAdded] = useState(false);
   const { addToCart } = useCart();
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+  const productSlug = product.slug || product.name.toLowerCase().replace(/\s+/g, "-");
 
   function handleAdd() {
     addToCart({
@@ -52,13 +118,14 @@ function ProductCard({ product }) {
   }
 
   return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative rounded-3xl overflow-hidden border"
-      style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
-    >
+    <Link href={`/products/${productSlug}`} className="block">
+      <motion.div
+        variants={cardVariants}
+        whileHover={{ y: -6 }}
+        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+        className="group relative rounded-3xl overflow-hidden border"
+        style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+      >
       <div
         className="relative aspect-square flex items-center justify-center overflow-hidden"
         style={{ backgroundColor: "#F0E8D6" }}
@@ -83,7 +150,7 @@ function ProductCard({ product }) {
         )}
 
         <motion.button
-          onClick={() => setWishlisted((w) => !w)}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setWishlisted((w) => !w); }}
           whileTap={{ scale: 0.8 }}
           aria-label="Toggle wishlist"
           className="absolute top-3 right-3 w-8 h-8 rounded-full grid place-items-center z-10 backdrop-blur-sm"
@@ -151,7 +218,7 @@ function ProductCard({ product }) {
           </div>
 
           <motion.button
-            onClick={handleAdd}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAdd(); }}
             whileTap={{ scale: 0.88 }}
             aria-label={`Add ${product.name} to cart`}
             className="relative w-9 h-9 rounded-full grid place-items-center text-white shrink-0 overflow-hidden"
@@ -181,8 +248,9 @@ function ProductCard({ product }) {
             </AnimatePresence>
           </motion.button>
         </div>
-      </div>
-    </motion.div>
+        </div>
+      </motion.div>
+    </Link>
   );
 }
 
@@ -212,33 +280,37 @@ function ProductSkeleton() {
 }
 
 export default function TopSellingProducts() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(FALLBACK_PRODUCTS);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
 
     async function loadProducts() {
       try {
-        const res = await fetch("/api/products/top-selling");
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch("/api/products/top-selling", { signal: controller.signal });
+        clearTimeout(timeout);
         if (!res.ok) throw new Error("Request failed");
         const data = await res.json();
-        if (!cancelled) setProducts(data.products);
-      } catch (err) {
         if (!cancelled) {
-          setError(true);
-          setProducts(FALLBACK_PRODUCTS);
+          const fetched = Array.isArray(data.products) && data.products.length > 0
+            ? data.products
+            : FALLBACK_PRODUCTS;
+          setProducts(fetched);
         }
+      } catch {
+        // silently fall back to hardcoded products — no error shown to user
+        if (!cancelled) setProducts(FALLBACK_PRODUCTS);
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
 
     loadProducts();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   return (
@@ -293,11 +365,6 @@ export default function TopSellingProducts() {
           </motion.a>
         </motion.div>
 
-        {error && (
-          <p className="text-xs mb-4" style={{ color: "#D9483A" }}>
-            Live inventory unavailable — showing cached picks.
-          </p>
-        )}
 
         <motion.div
           variants={gridVariants}

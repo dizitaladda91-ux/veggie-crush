@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
-
-
 
 const NAV_LINKS = [
   { label: "All Products", href: "/products" },
@@ -29,99 +27,133 @@ const NAV_LINKS = [
   { label: "Shop By Recipe", href: "/recipe" },
 ];
 
-function SproutTick() {
-  return (
-    <svg
-      width="18"
-      height="10"
-      viewBox="0 0 18 10"
-      fill="none"
-      className="absolute -bottom-[9px] left-1/2 -translate-x-1/2"
-      aria-hidden="true"
-    >
-      <path
-        d="M9 9V3"
-        stroke="#6FAE3E"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M9 4c0-2.2-1.6-3.4-3.6-3.2C5.6 3 6.9 4.6 9 4.6"
-        fill="#6FAE3E"
-      />
-      <path
-        d="M9 5.2c0-2.2 1.7-3.3 3.7-3 -.2 2.1-1.5 3.6-3.7 3.6"
-        fill="#8DC552"
-      />
-    </svg>
-  );
-}
-
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount } = useCart();
   const active = "All Products";
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
-      style={{ backgroundColor: "#FBF7EC", fontFamily: "Inter, sans-serif" }}
-      className="w-full border-b border-[#E7DCC2] relative z-30"
+      className="w-full sticky top-0 z-40 transition-all duration-300"
+      style={{
+        backgroundColor: "#FBF7EC",
+        fontFamily: "Inter, sans-serif",
+        boxShadow: scrolled
+          ? "0 4px 24px rgba(30,70,32,0.12), 0 1px 0 #E7DCC2"
+          : "0 1px 0 #E7DCC2",
+      }}
     >
-      {/* Top row: logo · search · icons */}
-      <div className="flex items-center gap-6 px-6 lg:px-10 py-4 max-w-[1440px] mx-auto">
-        {/* Logo */}
-        <a href="/" className="flex items-center gap-2 shrink-0">
-          <span
-            className="grid place-items-center w-11 h-11 rounded-full border-2"
-            style={{ borderColor: "#6FAE3E", backgroundColor: "#F0E8D6" }}
-          >
-            <Leaf size={20} color="#1E4620" strokeWidth={2.2} />
-          </span>
-          <span
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
-            className="leading-none"
-          >
-            <span className="block text-xl font-extrabold tracking-tight">
-              Veggie
-              <span style={{ color: "#6FAE3E" }}>Crush</span>
-            </span>
-            <span className="block text-[10px] font-semibold tracking-[0.2em] text-[#7A8B6F] uppercase mt-0.5">
-              Farm to Door
-            </span>
-          </span>
-        </a>
+      {/* ══════════════════════════════════════════
+          TOP ROW — 3-column grid: left | CENTER LOGO | right
+      ══════════════════════════════════════════ */}
+      <div className="grid grid-cols-3 items-center px-5 lg:px-10 py-3 max-w-[1440px] mx-auto">
 
-        {/* Search */}
-        <div className="flex-1 max-w-2xl mx-auto hidden md:block">
-          <div
-            className="flex items-center gap-3 rounded-full px-5 py-3 border"
-            style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+        {/* ── LEFT: Mobile hamburger + search (desktop) ── */}
+        <div className="flex items-center gap-3">
+          {/* Mobile hamburger */}
+          <button
+            aria-label="Open menu"
+            className="md:hidden shrink-0 p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
           >
+            {mobileOpen
+              ? <X size={20} color="#1E4620" />
+              : <Menu size={20} color="#1E4620" />
+            }
+          </button>
+
+          {/* Desktop: search bar */}
+          <div className="hidden md:flex flex-1 items-center gap-3 rounded-xl px-4 py-2.5 border transition-all duration-200 focus-within:ring-2 focus-within:ring-[#6FAE3E44]"
+            style={{ backgroundColor: "#F0E8D6", borderColor: "#DDD0B0" }}
+          >
+            <Search size={15} color="#6FAE3E" className="shrink-0" />
             <input
               type="text"
-              placeholder="Search carrots, kale, farm boxes..."
-              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#8B8064]"
+              placeholder="Search vegetables, herbs…"
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#A89B7D] min-w-0"
               style={{ color: "#24321F" }}
             />
-            <button aria-label="Search" className="shrink-0">
-              <Search size={18} color="#1E4620" />
-            </button>
+            <span
+              className="shrink-0 hidden lg:flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md border font-medium"
+              style={{ color: "#8B8064", borderColor: "#DDD0B0", backgroundColor: "#EDE4CE" }}
+            >
+              ⌘K
+            </span>
           </div>
         </div>
 
-        {/* Icons */}
-        <div className="flex items-center gap-5 shrink-0 ml-auto">
-          <button aria-label="Account" className="flex flex-col items-center gap-0.5 group">
-            <User size={20} color="#24321F" className="group-hover:opacity-70" />
+        {/* ── CENTER: Logo (always centered) ── */}
+        <div className="flex justify-center">
+          <a href="/" className="flex items-center gap-2.5 group">
+            <span
+              className="grid place-items-center w-10 h-10 rounded-xl border-2 transition-all duration-300 group-hover:scale-105 group-hover:shadow-md"
+              style={{
+                borderColor: "#6FAE3E",
+                backgroundColor: "#EAF4DA",
+                boxShadow: "0 2px 8px rgba(111,174,62,0.20)",
+              }}
+            >
+              <Leaf size={18} color="#1E4620" strokeWidth={2.3} />
+            </span>
+            <span
+              style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+              className="leading-none"
+            >
+              <span className="block text-[19px] font-extrabold tracking-tight">
+                Veggie<span style={{ color: "#6FAE3E" }}>Crush</span>
+              </span>
+              <span
+                className="block text-[9px] font-bold tracking-[0.22em] uppercase mt-0.5"
+                style={{ color: "#7A8B6F" }}
+              >
+                Farm to Door
+              </span>
+            </span>
+          </a>
+        </div>
+
+        {/* ── RIGHT: Icons ── */}
+        <div className="flex items-center justify-end gap-1">
+          {/* Mobile search */}
+          <button
+            aria-label="Search"
+            className="md:hidden p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors"
+            onClick={() => setSearchOpen((v) => !v)}
+          >
+            <Search size={19} color="#24321F" />
           </button>
-          <button aria-label="Track delivery" className="flex flex-col items-center gap-0.5 group">
-            <Truck size={20} color="#24321F" className="group-hover:opacity-70" />
+
+          <button
+            aria-label="Account"
+            className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
+          >
+            <User size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
           </button>
-          <button aria-label="Cart" className="relative flex flex-col items-center gap-0.5 group">
-            <ShoppingBag size={20} color="#24321F" className="group-hover:opacity-70" />
+
+          <button
+            aria-label="Track delivery"
+            className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
+          >
+            <Truck size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
+          </button>
+
+          <button
+            aria-label="Cart"
+            className="relative flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
+          >
+            <ShoppingBag size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
             {itemCount > 0 && (
               <span
-                className="absolute -top-2 -right-2 text-[10px] font-bold text-white rounded-full w-4 h-4 grid place-items-center"
+                className="absolute -top-0.5 -right-0.5 text-[10px] font-bold text-white rounded-full w-4 h-4 grid place-items-center"
                 style={{ backgroundColor: "#D9483A" }}
               >
                 {itemCount}
@@ -131,12 +163,37 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Bottom row: nav links */}
-      <nav className="border-t border-[#E7DCC2]">
-        <ul className="flex items-center gap-8 px-6 lg:px-10 py-3 max-w-[1440px] mx-auto text-sm font-semibold ">
+      {/* Mobile search bar */}
+      {searchOpen && (
+        <div className="md:hidden px-4 pb-3">
+          <div
+            className="flex items-center gap-3 rounded-xl px-4 py-2.5 border"
+            style={{ backgroundColor: "#F0E8D6", borderColor: "#DDD0B0" }}
+          >
+            <Search size={15} color="#6FAE3E" />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search vegetables, herbs…"
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#A89B7D]"
+              style={{ color: "#24321F" }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════
+          NAV LINKS ROW — centered navigation
+      ══════════════════════════════════════════ */}
+      <nav
+        className="border-t hidden md:block"
+        style={{ borderColor: "#EAE0C8", backgroundColor: "#F7F2E4" }}
+      >
+        <ul className="flex items-center justify-center gap-1 px-5 lg:px-10 max-w-[1440px] mx-auto text-[13px] font-semibold relative">
           {NAV_LINKS.map((link) => {
             const isActive = link.label === active;
             const isOpen = openDropdown === link.label;
+
             return (
               <li
                 key={link.label}
@@ -146,35 +203,59 @@ export default function Navbar() {
               >
                 <a
                   href={link.href}
-                  className="flex items-center gap-1 pb-3 transition-colors"
+                  className="flex items-center gap-1 px-3 py-3 transition-all duration-150 rounded-md hover:text-[#1E4620]"
                   style={{ color: isActive ? "#1E4620" : "#4B5443" }}
                 >
+                  {isActive && (
+                    <span
+                      className="inline-block w-1.5 h-1.5 rounded-full mr-0.5"
+                      style={{ backgroundColor: "#6FAE3E" }}
+                    />
+                  )}
                   {link.label}
                   {link.dropdown && (
                     <ChevronDown
-                      size={14}
-                      className="transition-transform"
+                      size={13}
+                      className="transition-transform duration-200"
                       style={{
                         transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                        color: "#7A8B6F",
                       }}
                     />
                   )}
                 </a>
-                {isActive && <SproutTick />}
 
+                {/* Active underline */}
+                {isActive && (
+                  <span
+                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full"
+                    style={{ backgroundColor: "#6FAE3E" }}
+                  />
+                )}
+
+                {/* Dropdown */}
                 {link.dropdown && isOpen && (
                   <div
-                    className="absolute top-full left-0 mt-1 min-w-[220px] z-50 rounded-xl border shadow-lg py-2 animate-[fadeIn_0.15s_ease-out]"
-                    style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+                    className="absolute top-full left-0 mt-1 min-w-[210px] z-50 rounded-2xl border py-2 overflow-hidden"
+                    style={{
+                      backgroundColor: "#FDFAF2",
+                      borderColor: "#E0D5B5",
+                      boxShadow: "0 16px 48px rgba(30,70,32,0.14), 0 2px 8px rgba(30,70,32,0.07)",
+                    }}
                   >
                     {link.dropdown.map((item) => (
                       <a
                         key={item}
                         href="#"
-                        className="flex items-center gap-2 px-4 py-2 text-[13px] font-medium hover:bg-[#F0E8D6]"
+                        className="flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors hover:bg-[#F0E8D6]"
                         style={{ color: "#3A4433" }}
                       >
-                        <Leaf size={12} color="#6FAE3E" />
+                        <span
+                          className="grid place-items-center w-5 h-5 rounded-full shrink-0"
+                          style={{ backgroundColor: "#EAF4DA" }}
+                        >
+                          <Leaf size={10} color="#6FAE3E" />
+                        </span>
                         {item}
                       </a>
                     ))}
@@ -183,8 +264,43 @@ export default function Navbar() {
               </li>
             );
           })}
+
+          {/* Fresh stock badge — absolute right */}
+          <li className="absolute right-5 lg:right-10 top-1/2 -translate-y-1/2">
+            <span
+              className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide px-3 py-1 rounded-full"
+              style={{ backgroundColor: "#EAF4DA", color: "#3A6B22" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6FAE3E] animate-pulse" />
+              Fresh stock today
+            </span>
+          </li>
         </ul>
       </nav>
+
+      {/* ── MOBILE MENU ── */}
+      {mobileOpen && (
+        <div
+          className="md:hidden border-t"
+          style={{ backgroundColor: "#F7F2E4", borderColor: "#EAE0C8" }}
+        >
+          <ul className="px-4 py-3 space-y-1">
+            {NAV_LINKS.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors hover:bg-[#EAF4DA]"
+                  style={{ color: "#24321F" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Leaf size={13} color="#6FAE3E" />
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

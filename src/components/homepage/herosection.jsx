@@ -1,154 +1,191 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
+
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Sprout } from "lucide-react";
+import { ArrowRight, Sprout, Star, ShieldCheck, Truck } from "lucide-react";
 
-
-
-const SLIDES = [
-  {
-    eyebrow: "FRESH. HEALTHY. DELICIOUS.",
-    heading: ["Veggie", "Crush"],
-    body: "Your one-stop shop for farm-fresh vegetables delivered fresh to your home.",
-    cta: "Shop Fresh Picks",
-    imageLabel: "Hero image — crate of mixed vegetables",
-  },
-  {
-    eyebrow: "PICKED THIS MORNING",
-    heading: ["Farm", "Boxes"],
-    body: "Curated weekly boxes packed straight from the field to your doorstep.",
-    cta: "Build Your Box",
-    imageLabel: "Hero image — weekly farm box",
-  },
-  {
-    eyebrow: "NO PESTICIDES. EVER.",
-    heading: ["100%", "Organic"],
-    body: "Certified organic greens, roots, and herbs grown without shortcuts.",
-    cta: "See Certifications",
-    imageLabel: "Hero image — leafy greens close-up",
-  },
+const TRUST_BADGES = [
+  { icon: <Star size={13} fill="#F0B429" color="#F0B429" />, label: "4.8★ Rated" },
+  { icon: <Truck size={13} color="#6FAE3E" />, label: "Free delivery ₹599+" },
+  { icon: <ShieldCheck size={13} color="#6FAE3E" />, label: "Certified Organic" },
 ];
 
-const AUTOPLAY_MS = 5000;
-
-export default function HeroCarousel() {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef(null);
-
-  const goTo = useCallback((i) => {
-    setIndex((i + SLIDES.length) % SLIDES.length);
-  }, []);
-
-  const next = useCallback(() => goTo(index + 1), [goTo, index]);
-  const prev = useCallback(() => goTo(index - 1), [goTo, index]);
-
-  useEffect(() => {
-    if (paused) return;
-    timerRef.current = setInterval(() => {
-      setIndex((i) => (i + 1) % SLIDES.length);
-    }, AUTOPLAY_MS);
-    return () => clearInterval(timerRef.current);
-  }, [paused]);
-
-  const slide = SLIDES[index];
-
+export default function HeroSection() {
   return (
-    <section
-      style={{ backgroundColor: "#FBF7EC", fontFamily: "Inter, sans-serif" }}
-      className="w-full px-6 lg:px-10 py-10 lg:py-16"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-10 items-center">
-        {/* Text side */}
-        <div key={index + "-text"} className="animate-[fadeIn_0.4s_ease-out]">
-          <p
-            className="text-xs font-bold tracking-[0.25em] mb-3"
-            style={{ color: "#6FAE3E" }}
-          >
-            {slide.eyebrow}
-          </p>
-          <h1
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
-            className="leading-[0.95] mb-5"
-          >
-            <span className="block text-6xl lg:text-7xl font-extrabold">
-              {slide.heading[0]}
-            </span>
-            <span
-              className="block text-6xl lg:text-7xl font-extrabold"
-              style={{ color: "#6FAE3E" }}
-            >
-              {slide.heading[1]}
-            </span>
-          </h1>
-          <div
-            className="w-16 h-1 rounded-full mb-5"
-            style={{ backgroundColor: "#6FAE3E" }}
-          />
-          <p className="text-base max-w-md mb-8" style={{ color: "#4B5443" }}>
-            {slide.body}
-          </p>
-          <button
-            className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white transition-transform hover:scale-[1.03]"
-            style={{ backgroundColor: "#1E4620" }}
-          >
-            <Sprout size={16} />
-            {slide.cta}
-          </button>
+    <section className="relative w-full overflow-hidden" style={{ backgroundColor: "#FBF7EC" }}>
+      {/* ── Background image container ── */}
+      <div className="relative h-[500px] sm:h-[580px] lg:h-[680px] xl:h-[740px]">
+        <Image
+          src="/homesection/veggiecrush.png"
+          alt="Fresh vegetables and greens"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+
+        {/* Multi-layer gradient for depth */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(105deg, rgba(20,38,18,0.82) 0%, rgba(20,38,18,0.60) 38%, rgba(20,38,18,0.15) 70%, rgba(20,38,18,0.05) 100%)",
+          }}
+        />
+        {/* Bottom fade */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-32"
+          style={{
+            background: "linear-gradient(to top, #FBF7EC 0%, transparent 100%)",
+          }}
+        />
+
+        {/* Decorative orbs */}
+        <div
+          className="absolute -left-24 top-1/3 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+          style={{ backgroundColor: "rgba(111,174,62,0.25)" }}
+        />
+        <div
+          className="absolute right-0 top-0 w-64 h-64 rounded-full blur-3xl pointer-events-none"
+          style={{ backgroundColor: "rgba(30,70,32,0.3)" }}
+        />
+
+        {/* ── Content ── */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="px-6 lg:px-16 xl:px-24 max-w-[1440px] w-full mx-auto">
+            <div className="max-w-2xl">
+
+              {/* Eyebrow pill */}
+              <div className="inline-flex items-center gap-2 mb-6">
+                <span
+                  className="flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase"
+                  style={{
+                    backgroundColor: "rgba(111,174,62,0.20)",
+                    color: "#C8F090",
+                    border: "1px solid rgba(111,174,62,0.35)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#8DC552] animate-pulse" />
+                  Fresh. Healthy. Straight from the Farm.
+                </span>
+              </div>
+
+              {/* Headline */}
+              <h1
+                className="text-[2.8rem] sm:text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.05] tracking-tight"
+                style={{ fontFamily: "'Baloo 2', cursive", color: "#FFFFFF" }}
+              >
+                Your daily dose
+                <br />
+                of{" "}
+                <span
+                  className="relative inline-block"
+                  style={{ color: "#A8D96A" }}
+                >
+                  fresh goodness
+                  {/* Underline squiggle */}
+                  <svg
+                    className="absolute -bottom-2 left-0 w-full"
+                    viewBox="0 0 300 10"
+                    preserveAspectRatio="none"
+                    style={{ height: "8px" }}
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M0,6 C50,0 100,10 150,5 C200,0 250,10 300,5"
+                      stroke="#6FAE3E"
+                      strokeWidth="2.5"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>
+              </h1>
+
+              {/* Sub-copy */}
+              <p
+                className="mt-7 max-w-lg text-[15px] leading-relaxed"
+                style={{ color: "rgba(232,245,196,0.85)" }}
+              >
+                Discover farm-picked vegetables, wellness herbs, and curated boxes — delivered with care from our farms to your kitchen.
+              </p>
+
+              {/* CTA row */}
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href="/products"
+                  className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.03] hover:shadow-lg active:scale-[0.98]"
+                  style={{
+                    backgroundColor: "#6FAE3E",
+                    color: "#FFFFFF",
+                    boxShadow: "0 4px 20px rgba(111,174,62,0.40)",
+                  }}
+                >
+                  <Sprout size={16} />
+                  Shop Fresh Picks
+                  <ArrowRight size={16} />
+                </a>
+
+                <a
+                  href="/farm-boxes"
+                  className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.12)",
+                    color: "#E8F5C5",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  Explore Farm Boxes
+                </a>
+              </div>
+
+              {/* Trust badges */}
+              <div className="mt-8 flex flex-wrap gap-3">
+                {TRUST_BADGES.map((badge) => (
+                  <span
+                    key={badge.label}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.10)",
+                      color: "#E8F5C5",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                      backdropFilter: "blur(6px)",
+                    }}
+                  >
+                    {badge.icon}
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Image / carousel side */}
-        <div className="relative">
+        {/* ── Floating stat card ── */}
+        <div className="absolute bottom-12 right-6 lg:right-16 hidden sm:block">
           <div
-            className="relative w-full aspect-[4/3] rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden"
-            style={{ backgroundColor: "#F0E8D6", borderColor: "#D8CBA8" }}
+            className="flex items-center gap-3 px-5 py-3.5 rounded-2xl"
+            style={{
+              backgroundColor: "rgba(251,247,236,0.92)",
+              boxShadow: "0 8px 32px rgba(30,70,32,0.18)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(111,174,62,0.25)",
+            }}
           >
-            <Image
-              src="/homesection/veggiecrush.png"
-              alt="Fresh vegetables arranged in a Veggie Crush crate"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-
-            {/* Prev / next arrows */}
-            <button
-              onClick={prev}
-              aria-label="Previous slide"
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full grid place-items-center bg-white/80 hover:bg-white transition-colors shadow-sm"
+            <span
+              className="grid place-items-center w-10 h-10 rounded-xl shrink-0"
+              style={{ backgroundColor: "#EAF4DA" }}
             >
-              <ChevronLeft size={18} color="#1E4620" />
-            </button>
-            <button
-              onClick={next}
-              aria-label="Next slide"
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full grid place-items-center bg-white/80 hover:bg-white transition-colors shadow-sm"
-            >
-              <ChevronRight size={18} color="#1E4620" />
-            </button>
-
-            {/* Dot navigation — sits inside the bottom of the image frame */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-              {SLIDES.map((_, i) => {
-                const isActive = i === index;
-                return (
-                  <button
-                    key={i}
-                    onClick={() => goTo(i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                    aria-current={isActive}
-                    className="transition-all duration-300 rounded-full"
-                    style={{
-                      width: isActive ? "22px" : "8px",
-                      height: "8px",
-                      backgroundColor: isActive ? "#1E4620" : "#D8CBA8",
-                    }}
-                  />
-                );
-              })}
+              <Sprout size={20} color="#1E4620" />
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold" style={{ color: "#7A8B6F" }}>
+                Delivered fresh today
+              </p>
+              <p className="text-base font-extrabold" style={{ color: "#1E4620" }}>
+                10,000+ orders
+              </p>
             </div>
           </div>
         </div>
