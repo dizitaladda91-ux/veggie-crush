@@ -48,11 +48,11 @@ export default function Navbar() {
     <header
       className="w-full sticky top-0 z-40 transition-all duration-300"
       style={{
-        backgroundColor: "#FBF7EC",
+        backgroundColor: "#FFFFFF",
         fontFamily: "Inter, sans-serif",
         boxShadow: scrolled
-          ? "0 4px 24px rgba(30,70,32,0.12), 0 1px 0 #E7DCC2"
-          : "0 1px 0 #E7DCC2",
+          ? "0 4px 24px rgba(30,70,32,0.08), 0 1px 0 #E5E7EB"
+          : "0 1px 0 #E5E7EB",
       }}
     >
       {/* ══════════════════════════════════════════
@@ -65,7 +65,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             aria-label="Open menu"
-            className="md:hidden shrink-0 p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors"
+            className="md:hidden shrink-0 p-2 rounded-xl hover:bg-[#F3F4F6] transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
           >
             {mobileOpen
@@ -76,18 +76,18 @@ export default function Navbar() {
 
           {/* Desktop: search bar */}
           <div className="hidden md:flex flex-1 items-center gap-3 rounded-xl px-4 py-2.5 border transition-all duration-200 focus-within:ring-2 focus-within:ring-[#6FAE3E44]"
-            style={{ backgroundColor: "#F0E8D6", borderColor: "#DDD0B0" }}
+            style={{ backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }}
           >
             <Search size={15} color="#6FAE3E" className="shrink-0" />
             <input
               type="text"
               placeholder="Search vegetables, herbs…"
-              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#A89B7D] min-w-0"
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9CA3AF] min-w-0"
               style={{ color: "#24321F" }}
             />
             <span
               className="shrink-0 hidden lg:flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md border font-medium"
-              style={{ color: "#8B8064", borderColor: "#DDD0B0", backgroundColor: "#EDE4CE" }}
+              style={{ color: "#6B7280", borderColor: "#E5E7EB", backgroundColor: "#E5E7EB" }}
             >
               ⌘K
             </span>
@@ -129,7 +129,7 @@ export default function Navbar() {
           {/* Mobile search */}
           <button
             aria-label="Search"
-            className="md:hidden p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors"
+            className="md:hidden p-2 rounded-xl hover:bg-[#F3F4F6] transition-colors"
             onClick={() => setSearchOpen((v) => !v)}
           >
             <Search size={19} color="#24321F" />
@@ -137,13 +137,17 @@ export default function Navbar() {
 
           {user ? (
             <div className="hidden sm:flex items-center gap-1.5 pl-2">
-              <span className="text-xs font-bold px-2.5 py-1 rounded-full text-[#1E4620] bg-[#EAF4DA]">
+              <Link
+                href="/account"
+                className="text-xs font-bold px-2.5 py-1 rounded-full text-[#1E4620] bg-[#EAF4DA] hover:bg-[#6FAE3E] hover:text-white transition-colors"
+                title="View your account"
+              >
                 {user.name?.split(" ")[0] || "Account"}
-              </span>
+              </Link>
               <button
                 onClick={logout}
                 title="Log out"
-                className="p-1.5 rounded-lg hover:bg-[#F0E8D6] text-[#7A8B6F] hover:text-[#D9483A] transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg hover:bg-[#F3F4F6] text-[#7A8B6F] hover:text-[#D9483A] transition-colors cursor-pointer"
               >
                 <LogOut size={16} />
               </button>
@@ -152,24 +156,26 @@ export default function Navbar() {
             <button
               onClick={openAuthModal}
               aria-label="Sign In"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-[#F0E8D6] transition-colors group cursor-pointer text-xs font-bold text-[#1E4620]"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-[#F3F4F6] transition-colors group cursor-pointer text-xs font-bold text-[#1E4620]"
             >
               <User size={16} color="#1E4620" />
               <span>Sign In</span>
             </button>
           )}
 
-          <button
+          <Link
+            href="/track-order"
             aria-label="Track delivery"
-            className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
+            className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F3F4F6] transition-colors group"
+            title="Track your order"
           >
             <Truck size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
-          </button>
+          </Link>
 
           <button
             onClick={openCart}
             aria-label="Cart"
-            className="relative flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group cursor-pointer"
+            className="relative flex items-center p-2 rounded-xl hover:bg-[#F3F4F6] transition-colors group cursor-pointer"
           >
             <ShoppingBag size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
             {itemCount > 0 && (
@@ -189,14 +195,14 @@ export default function Navbar() {
         <div className="md:hidden px-4 pb-3">
           <div
             className="flex items-center gap-3 rounded-xl px-4 py-2.5 border"
-            style={{ backgroundColor: "#F0E8D6", borderColor: "#DDD0B0" }}
+            style={{ backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }}
           >
             <Search size={15} color="#6FAE3E" />
             <input
               autoFocus
               type="text"
               placeholder="Search vegetables, herbs…"
-              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#A89B7D]"
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#9CA3AF]"
               style={{ color: "#24321F" }}
             />
           </div>
@@ -208,7 +214,7 @@ export default function Navbar() {
       ══════════════════════════════════════════ */}
       <nav
         className="border-t hidden md:block"
-        style={{ borderColor: "#EAE0C8", backgroundColor: "#F7F2E4" }}
+        style={{ borderColor: "#E5E7EB", backgroundColor: "#FAFAFA" }}
       >
         <ul className="flex items-center justify-center gap-1 px-5 lg:px-10 max-w-[1440px] mx-auto text-[13px] font-semibold relative">
           {NAV_LINKS.map((link) => {
@@ -259,8 +265,8 @@ export default function Navbar() {
                   <div
                     className="absolute top-full left-0 mt-1 min-w-[210px] z-50 rounded-2xl border py-2 overflow-hidden"
                     style={{
-                      backgroundColor: "#FDFAF2",
-                      borderColor: "#E0D5B5",
+                      backgroundColor: "#FFFFFF",
+                      borderColor: "#E5E7EB",
                       boxShadow: "0 16px 48px rgba(30,70,32,0.14), 0 2px 8px rgba(30,70,32,0.07)",
                     }}
                   >
@@ -268,7 +274,7 @@ export default function Navbar() {
                       <a
                         key={item}
                         href="#"
-                        className="flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors hover:bg-[#F0E8D6]"
+                        className="flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors hover:bg-[#F3F4F6]"
                         style={{ color: "#3A4433" }}
                       >
                         <span
@@ -303,7 +309,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div
           className="md:hidden border-t"
-          style={{ backgroundColor: "#F7F2E4", borderColor: "#EAE0C8" }}
+          style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
         >
           <ul className="px-4 py-3 space-y-1">
             {NAV_LINKS.map((link) => (

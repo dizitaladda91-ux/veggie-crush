@@ -59,7 +59,7 @@ function FeaturedCard({ post }) {
       variants={fadeUp}
       whileHover="hover"
       className="group relative flex flex-col justify-end overflow-hidden rounded-3xl border p-6 sm:p-8 min-h-[420px] lg:min-h-full"
-      style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+      style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
     >
       <motion.div
         variants={{ hover: { scale: 1.08, rotate: 4 } }}
@@ -89,7 +89,7 @@ function FeaturedCard({ post }) {
         <p className="text-sm max-w-md mb-5" style={{ color: "#4B5443" }}>
           {post.excerpt}
         </p>
-        <div className="flex items-center gap-4 text-xs font-medium" style={{ color: "#8B8064" }}>
+        <div className="flex items-center gap-4 text-xs font-medium" style={{ color: "#6B7280" }}>
           <span>{post.date}</span>
           <span className="flex items-center gap-1">
             <Clock size={12} />
@@ -115,14 +115,14 @@ function CompactCard({ post }) {
       href={`/blog/${post.id}`}
       variants={fadeUp}
       whileHover="hover"
-      className="group flex gap-4 rounded-2xl border p-3 sm:p-4"
-      style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+      className="group flex gap-4 rounded-2xl border p-3 sm:p-4 shadow-sm"
+      style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
     >
       <motion.div
         variants={{ hover: { scale: 1.08 } }}
         transition={{ type: "spring", stiffness: 250, damping: 16 }}
         className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl grid place-items-center overflow-hidden"
-        style={{ backgroundColor: "#F0E8D6" }}
+        style={{ backgroundColor: "#F3F4F6" }}
       >
         <span className="text-4xl">{post.emoji}</span>
         <Leaf
@@ -143,7 +143,7 @@ function CompactCard({ post }) {
         >
           {post.title}
         </h4>
-        <div className="flex items-center gap-3 text-[11px]" style={{ color: "#8B8064" }}>
+        <div className="flex items-center gap-3 text-[11px]" style={{ color: "#6B7280" }}>
           <span>{post.date}</span>
           <span className="flex items-center gap-1">
             <Clock size={10} />
@@ -159,11 +159,11 @@ function CardSkeleton({ tall }) {
   return (
     <div
       className={`rounded-3xl border overflow-hidden relative ${tall ? "min-h-[420px]" : "h-24"}`}
-      style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+      style={{ backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }}
     >
       <motion.div
         className="absolute inset-0"
-        style={{ background: "linear-gradient(90deg, transparent, #FBF7EC66, transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, #FFFFFF88, transparent)" }}
         animate={{ x: ["-100%", "100%"] }}
         transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
       />
@@ -200,7 +200,7 @@ export default function BlogSection() {
   const [featured, ...rest] = posts;
 
   return (
-    <section style={{ backgroundColor: "#FBF7EC" }} className="w-full px-6 lg:px-10 py-16">
+    <section style={{ backgroundColor: "#FFFFFF" }} className="w-full px-6 lg:px-10 py-16">
       <div className="max-w-[1440px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

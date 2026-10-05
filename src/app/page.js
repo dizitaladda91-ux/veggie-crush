@@ -10,7 +10,7 @@ import Newsletter from "../components/homepage/newsletter";
 
 export default function Home() {
   return (
-    <main className="w-full bg-[#FBF7EC]">
+    <main className="w-full bg-white">
       <Herosection />
       <FeaturesStrip />
       <CategoriesSection />

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Leaf, ShieldCheck } from "lucide-react";
 
 function FacebookIcon(props) {
@@ -42,24 +43,48 @@ function LinkedinIcon(props) {
   );
 }
 
-const CATEGORIES = ["Leafy Greens", "Root Vegetables", "Herbs & Spices"];
+const CATEGORIES = [
+  { label: "Leafy Greens", href: "/category" },
+  { label: "Root Vegetables", href: "/category" },
+  { label: "Herbs & Spices", href: "/category" },
+];
 
 const LINK_GROUPS = [
   {
     title: "Company",
-    links: ["About Us", "Our Farms", "Manufacturing", "Certifications", "Press Kit"],
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Our Farms", href: "/about" },
+      { label: "Certifications", href: "/about" },
+      { label: "Farm Journal", href: "/blog" },
+    ],
   },
   {
     title: "Orders",
-    links: ["Track Order", "Delivery Options", "Account Details", "Delivery & Returns", "MTN Shipping"],
+    links: [
+      { label: "Track Order", href: "/track-order" },
+      { label: "Farm Boxes", href: "/farm-boxes" },
+      { label: "Account Details", href: "/account" },
+      { label: "Delivery Options", href: "/faqs" },
+    ],
   },
   {
     title: "Support",
-    links: ["FAQs", "Data Privacy", "Process Guide", "Distance Sales Agreement", "Privacy & Security"],
+    links: [
+      { label: "FAQs", href: "/faqs" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Data Security", href: "/privacy-policy" },
+      { label: "Recipes", href: "/recipe" },
+    ],
   },
   {
     title: "Account",
-    links: ["New Membership", "Help", "Find Us", "In the News", "Careers"],
+    links: [
+      { label: "My Profile", href: "/account" },
+      { label: "Order History", href: "/account" },
+      { label: "Seasonal Harvest", href: "/season" },
+      { label: "Help Center", href: "/faqs" },
+    ],
   },
 ];
 
@@ -67,7 +92,7 @@ const SOCIALS = [FacebookIcon, XIcon, InstagramIcon, YoutubeIcon, LinkedinIcon];
 
 export default function Footer() {
   return (
-    <footer style={{ fontFamily: "Inter, sans-serif" }} className="w-full px-6 lg:px-10 pb-8 bg-[#FBF7EC]">
+    <footer style={{ fontFamily: "Inter, sans-serif" }} className="w-full px-6 lg:px-10 pb-8 bg-white">
       <div className="max-w-[1440px] mx-auto">
         <div
           className="relative overflow-hidden rounded-3xl px-8 lg:px-12 py-10 lg:py-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
@@ -98,7 +123,7 @@ export default function Footer() {
                 type="email"
                 placeholder="Enter your email address"
                 className="flex-1 rounded-full px-5 py-3 text-sm outline-none"
-                style={{ backgroundColor: "#FBF7EC", color: "#24321F" }}
+                style={{ backgroundColor: "#FFFFFF", color: "#24321F" }}
               />
               <button
                 className="px-6 py-3 rounded-full text-sm font-bold text-white shrink-0"
@@ -119,8 +144,8 @@ export default function Footer() {
         </div>
 
         <div
-          className="rounded-3xl px-8 lg:px-12 py-10 lg:py-12"
-          style={{ backgroundColor: "#F0E8D6" }}
+          className="rounded-3xl px-8 lg:px-12 py-10 lg:py-12 border"
+          style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             <div>
@@ -129,10 +154,10 @@ export default function Footer() {
               </h3>
               <ul className="space-y-2">
                 {CATEGORIES.map((item) => (
-                  <li key={item}>
-                    <a href="#" className="text-sm hover:underline" style={{ color: "#4B5443" }}>
-                      {item}
-                    </a>
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-sm hover:underline hover:text-[#1E4620] transition-colors" style={{ color: "#4B5443" }}>
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -145,10 +170,10 @@ export default function Footer() {
                 </h3>
                 <ul className="space-y-2">
                   {group.links.map((item) => (
-                    <li key={item}>
-                      <a href="#" className="text-sm hover:underline" style={{ color: "#4B5443" }}>
-                        {item}
-                      </a>
+                    <li key={item.label}>
+                      <Link href={item.href} className="text-sm hover:underline hover:text-[#1E4620] transition-colors" style={{ color: "#4B5443" }}>
+                        {item.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -158,7 +183,7 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-3">
               <div
                 className="flex items-center gap-2 rounded-xl px-3 py-2 border"
-                style={{ borderColor: "#D8CBA8", backgroundColor: "#FBF7EC" }}
+                style={{ borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }}
               >
                 <ShieldCheck size={20} color="#1E4620" />
                 <span className="text-xs font-semibold" style={{ color: "#1E4620" }}>
@@ -169,7 +194,7 @@ export default function Footer() {
               </div>
               <div
                 className="w-16 h-16 rounded-lg border grid place-items-center text-[9px] text-center font-semibold"
-                style={{ borderColor: "#D8CBA8", backgroundColor: "#FBF7EC", color: "#4B5443" }}
+                style={{ borderColor: "#E5E7EB", backgroundColor: "#FFFFFF", color: "#4B5443" }}
               >
                 QR
                 <br />

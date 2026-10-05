@@ -134,8 +134,8 @@ export default function CheckoutPage() {
 
   if (orderComplete) {
     return (
-      <main className="min-h-screen py-16 px-6 lg:px-10 flex items-center justify-center" style={{ backgroundColor: "#FBF7EC" }}>
-        <div className="max-w-md w-full rounded-3xl border p-8 text-center" style={{ backgroundColor: "#FFFFFF", borderColor: "#E7DCC2" }}>
+      <main className="min-h-screen py-16 px-6 lg:px-10 flex items-center justify-center" style={{ backgroundColor: "#FFFFFF" }}>
+        <div className="max-w-md w-full rounded-3xl border p-8 text-center shadow-xl" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
           <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4" style={{ backgroundColor: "#EAF4DA" }}>
             <CheckCircle2 size={36} color="#6FAE3E" />
           </div>
@@ -145,7 +145,7 @@ export default function CheckoutPage() {
           <p className="text-xs text-[#7A8B6F] mb-6">
             Thank you for ordering with VeggieCrush. Your farm-fresh produce is being packed at the farm.
           </p>
-          <div className="rounded-2xl p-4 text-left text-xs space-y-2 mb-6" style={{ backgroundColor: "#F0E8D6" }}>
+          <div className="rounded-2xl p-4 text-left text-xs space-y-2 mb-6" style={{ backgroundColor: "#F9FAFB" }}>
             <div className="flex justify-between font-semibold" style={{ color: "#1E4620" }}>
               <span>Order Reference:</span>
               <span className="font-mono">{orderComplete.orderId?.slice(-8).toUpperCase()}</span>
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen py-10 px-6 lg:px-10" style={{ backgroundColor: "#FBF7EC" }}>
+    <main className="min-h-screen py-10 px-6 lg:px-10" style={{ backgroundColor: "#FFFFFF" }}>
       <div className="max-w-5xl mx-auto">
         <Link
           href="/"
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Shipping Form */}
-          <div className="lg:col-span-7 rounded-3xl border p-6 sm:p-8" style={{ backgroundColor: "#FFFFFF", borderColor: "#E7DCC2" }}>
+          <div className="lg:col-span-7 rounded-3xl border p-6 sm:p-8 shadow-sm" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: "#1E4620" }}>
               <Truck size={18} color="#6FAE3E" />
               <span>1. Delivery Address</span>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                     onChange={handleChange}
                     placeholder="e.g. Rahul Sharma"
                     className="w-full text-xs rounded-xl border p-3 outline-none"
-                    style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                    style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                   />
                 </div>
                 <div>
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
                     onChange={handleChange}
                     placeholder="10-digit mobile number"
                     className="w-full text-xs rounded-xl border p-3 outline-none"
-                    style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                    style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                   />
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default function CheckoutPage() {
                   onChange={handleChange}
                   placeholder="For order receipt & tracking updates"
                   className="w-full text-xs rounded-xl border p-3 outline-none"
-                  style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                  style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                 />
               </div>
 
@@ -254,7 +254,7 @@ export default function CheckoutPage() {
                   onChange={handleChange}
                   placeholder="Flat / House No., Apartment, Street"
                   className="w-full text-xs rounded-xl border p-3 outline-none"
-                  style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                  style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                 />
               </div>
 
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
                     onChange={handleChange}
                     placeholder="City"
                     className="w-full text-xs rounded-xl border p-3 outline-none"
-                    style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                    style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                   />
                 </div>
                 <div>
@@ -282,7 +282,7 @@ export default function CheckoutPage() {
                     onChange={handleChange}
                     placeholder="State"
                     className="w-full text-xs rounded-xl border p-3 outline-none"
-                    style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                    style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                   />
                 </div>
                 <div>
@@ -295,7 +295,7 @@ export default function CheckoutPage() {
                     onChange={handleChange}
                     placeholder="6 digits"
                     className="w-full text-xs rounded-xl border p-3 outline-none"
-                    style={{ borderColor: "#DDD0B0", backgroundColor: "#FBF7EC" }}
+                    style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}
                   />
                 </div>
               </div>
@@ -312,15 +312,15 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-5 rounded-3xl border p-6 sm:p-7" style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}>
+          <div className="lg:col-span-5 rounded-3xl border p-6 sm:p-7 shadow-sm" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
             <h2 className="text-base font-bold mb-4" style={{ color: "#1E4620" }}>
               Order Summary ({items.length} {items.length === 1 ? "item" : "items"})
             </h2>
 
-            <div className="divide-y divide-[#E7DCC2] max-h-80 overflow-y-auto mb-4">
+            <div className="divide-y divide-[#E5E7EB] max-h-80 overflow-y-auto mb-4">
               {items.map((item) => (
                 <div key={item.id} className="py-3 flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border bg-white" style={{ borderColor: "#E7DCC2" }}>
+                  <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border bg-white" style={{ borderColor: "#E5E7EB" }}>
                     {item.image ? (
                       <Image src={item.image} alt={item.name} fill sizes="48px" className="object-contain p-1" />
                     ) : (
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold truncate" style={{ color: "#1E4620" }}>{item.name}</p>
-                    <p className="text-[11px]" style={{ color: "#8B8064" }}>Qty: {item.quantity}</p>
+                    <p className="text-[11px]" style={{ color: "#6B7280" }}>Qty: {item.quantity}</p>
                   </div>
                   <span className="text-xs font-extrabold" style={{ color: "#1E4620" }}>
                     ₹{item.price * item.quantity}
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
               ))}
             </div>
 
-            <div className="border-t pt-4 space-y-2 text-xs" style={{ borderColor: "#E7DCC2" }}>
+            <div className="border-t pt-4 space-y-2 text-xs" style={{ borderColor: "#E5E7EB" }}>
               <div className="flex justify-between" style={{ color: "#4B5443" }}>
                 <span>Subtotal</span>
                 <span className="font-bold">₹{subtotal}</span>
@@ -347,7 +347,7 @@ export default function CheckoutPage() {
                 <span>Farm Delivery</span>
                 <span className="font-bold">{deliveryFee === 0 ? "FREE" : "₹49"}</span>
               </div>
-              <div className="border-t pt-2 flex justify-between text-sm font-black" style={{ borderColor: "#E7DCC2", color: "#1E4620" }}>
+              <div className="border-t pt-2 flex justify-between text-sm font-black" style={{ borderColor: "#E5E7EB", color: "#1E4620" }}>
                 <span>Grand Total</span>
                 <span>₹{grandTotal}</span>
               </div>

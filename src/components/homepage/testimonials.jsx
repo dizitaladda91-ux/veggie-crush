@@ -35,7 +35,7 @@ const REVIEWS = [
 
 export default function Testimonials() {
   return (
-    <section className="w-full py-16 px-6 lg:px-10 border-t" style={{ backgroundColor: "#F7F2E4", borderColor: "#E7DCC2" }}>
+    <section className="w-full py-16 px-6 lg:px-10 border-t" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
       <div className="max-w-[1440px] mx-auto">
         <div className="text-center max-w-xl mx-auto mb-12">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: "#6FAE3E" }}>
@@ -60,8 +60,8 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.4 }}
-              className="rounded-3xl border p-6 sm:p-7 flex flex-col justify-between"
-              style={{ backgroundColor: "#FFFFFF", borderColor: "#E7DCC2" }}
+              className="rounded-3xl border p-6 sm:p-7 flex flex-col justify-between shadow-sm"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -70,7 +70,7 @@ export default function Testimonials() {
                       <Star key={i} size={14} fill="#F0B429" color="#F0B429" />
                     ))}
                   </div>
-                  <Quote size={20} color="#D9CBA6" />
+                  <Quote size={20} color="#9CA3AF" />
                 </div>
 
                 <h3 className="text-sm font-bold mb-2" style={{ color: "#1E4620" }}>
@@ -81,7 +81,7 @@ export default function Testimonials() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: "#F0E8D6" }}>
+              <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: "#F3F4F6" }}>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-extrabold" style={{ color: "#1E4620" }}>
@@ -89,11 +89,11 @@ export default function Testimonials() {
                     </span>
                     <CheckCircle size={12} color="#6FAE3E" fill="#EAF4DA" />
                   </div>
-                  <span className="text-[11px]" style={{ color: "#8B8064" }}>
+                  <span className="text-[11px]" style={{ color: "#6B7280" }}>
                     Verified Buyer • {rev.city}
                   </span>
                 </div>
-                <span className="text-[10px] font-semibold px-2 py-1 rounded-full" style={{ backgroundColor: "#F0E8D6", color: "#1E4620" }}>
+                <span className="text-[10px] font-semibold px-2 py-1 rounded-full" style={{ backgroundColor: "#F0FDF4", color: "#1E4620" }}>
                   {rev.product}
                 </span>
               </div>

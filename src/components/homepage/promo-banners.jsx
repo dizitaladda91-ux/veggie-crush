@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function PromoBanners() {
   return (
-    <section className="w-full py-12 px-6 lg:px-10" style={{ backgroundColor: "#FBF7EC" }}>
+    <section className="w-full py-12 px-6 lg:px-10" style={{ backgroundColor: "#FFFFFF" }}>
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Banner 1 */}
         <div
@@ -57,11 +57,11 @@ export default function PromoBanners() {
         {/* Banner 2 */}
         <div
           className="relative rounded-3xl overflow-hidden border p-8 sm:p-10 flex flex-col justify-between min-h-[320px]"
-          style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+          style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
         >
           <div className="relative z-10 max-w-sm">
             <span
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-4 text-[#1E4620] bg-white/70 border border-[#D9CEB4]"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-4 text-[#1E4620] bg-white border border-[#E5E7EB] shadow-sm"
             >
               🌱 Weekly Farm Subscription
             </span>
@@ -71,7 +71,7 @@ export default function PromoBanners() {
             >
               Curated Harvest Boxes For Your Family
             </h3>
-            <p className="text-xs sm:text-sm mt-3 leading-relaxed" style={{ color: "#5F6C53" }}>
+            <p className="text-xs sm:text-sm mt-3 leading-relaxed" style={{ color: "#4B5563" }}>
               Get seasonal leafy greens, root veggies, and fresh herbs hand-picked at dawn and delivered right on schedule every week.
             </p>
           </div>

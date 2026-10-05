@@ -64,12 +64,12 @@ export default function AuthModal() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           className="relative w-full max-w-md rounded-3xl border shadow-2xl p-6 sm:p-8 overflow-hidden z-10"
-          style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+          style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
         >
           {/* Close button */}
           <button
             onClick={closeAuthModal}
-            className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#F0E8D6] transition-colors cursor-pointer"
+            className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#F3F4F6] transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X size={18} color="#1E4620" />
@@ -91,7 +91,7 @@ export default function AuthModal() {
           </div>
 
           {/* Tab Selector */}
-          <div className="flex rounded-full p-1 border mb-6" style={{ backgroundColor: "#F0E8D6", borderColor: "#DDD0B0" }}>
+          <div className="flex rounded-full p-1 border mb-6" style={{ backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }}>
             <button
               onClick={() => { setTab("login"); setError(""); }}
               className="flex-1 py-2 text-xs font-bold rounded-full transition-all cursor-pointer"
@@ -135,7 +135,7 @@ export default function AuthModal() {
               <>
                 <div>
                   <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Full Name</label>
-                  <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#DDD0B0" }}>
+                  <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#E5E7EB" }}>
                     <User size={15} color="#7A8B6F" />
                     <input
                       type="text"
@@ -151,7 +151,7 @@ export default function AuthModal() {
 
                 <div>
                   <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Phone Number</label>
-                  <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#DDD0B0" }}>
+                  <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#E5E7EB" }}>
                     <Phone size={15} color="#7A8B6F" />
                     <input
                       type="tel"
@@ -168,7 +168,7 @@ export default function AuthModal() {
 
             <div>
               <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Email Address</label>
-              <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#DDD0B0" }}>
+              <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#E5E7EB" }}>
                 <Mail size={15} color="#7A8B6F" />
                 <input
                   type="email"
@@ -184,7 +184,7 @@ export default function AuthModal() {
 
             <div>
               <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Password</label>
-              <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#DDD0B0" }}>
+              <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#E5E7EB" }}>
                 <Lock size={15} color="#7A8B6F" />
                 <input
                   type="password"

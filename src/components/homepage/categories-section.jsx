@@ -20,7 +20,7 @@ const CATEGORIES = [
     image: "/products/everfit_1.webp",
     count: "3 Products",
     href: "/products?category=immunity",
-    bg: "#F4ECD8",
+    bg: "#F0FDF4",
   },
   {
     title: "Farm-Fresh Roots",
@@ -28,7 +28,7 @@ const CATEGORIES = [
     image: "/products/beetroot_1.webp",
     count: "2 Products",
     href: "/products?category=roots",
-    bg: "#F9E4DE",
+    bg: "#ECFDF5",
   },
   {
     title: "Curated Farm Boxes",
@@ -36,13 +36,13 @@ const CATEGORIES = [
     image: "/homesection/veggiecrush.png",
     count: "Custom Bundles",
     href: "/farm-boxes",
-    bg: "#E3ECE2",
+    bg: "#F3F4F6",
   },
 ];
 
 export default function CategoriesSection() {
   return (
-    <section className="w-full py-16 px-6 lg:px-10" style={{ backgroundColor: "#FBF7EC" }}>
+    <section className="w-full py-16 px-6 lg:px-10" style={{ backgroundColor: "#FFFFFF" }}>
       <div className="max-w-[1440px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
@@ -78,7 +78,7 @@ export default function CategoriesSection() {
               <Link
                 href={cat.href}
                 className="group relative block rounded-3xl overflow-hidden border p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5"
-                style={{ backgroundColor: cat.bg, borderColor: "#E7DCC2" }}
+                style={{ backgroundColor: cat.bg, borderColor: "#E5E7EB" }}
               >
                 <div className="flex items-start justify-between relative z-10 mb-8">
                   <div>

@@ -158,7 +158,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className="min-h-screen py-10 px-6 lg:px-10" style={{ backgroundColor: "#FBF7EC" }}>
+    <main className="min-h-screen py-10 px-6 lg:px-10" style={{ backgroundColor: "#FFFFFF" }}>
       <div className="max-w-[1440px] mx-auto">
         {/* Breadcrumb & Title */}
         <div className="mb-8">
@@ -184,7 +184,7 @@ export default function ProductsPage() {
         {/* Filters and Search Bar */}
         <div
           className="rounded-3xl border p-4 sm:p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+          style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
         >
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
@@ -194,9 +194,9 @@ export default function ProductsPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className="px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer"
                 style={{
-                  backgroundColor: selectedCategory === cat ? "#1E4620" : "#FBF7EC",
+                  backgroundColor: selectedCategory === cat ? "#1E4620" : "#FFFFFF",
                   color: selectedCategory === cat ? "#FFFFFF" : "#1E4620",
-                  border: "1px solid #E7DCC2",
+                  border: "1px solid #E5E7EB",
                 }}
               >
                 {cat}
@@ -208,7 +208,7 @@ export default function ProductsPage() {
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 border bg-white flex-1 md:w-64"
-              style={{ borderColor: "#DDD0B0" }}
+              style={{ borderColor: "#E5E7EB" }}
             >
               <Search size={14} color="#7A8B6F" />
               <input
@@ -225,7 +225,7 @@ export default function ProductsPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-full px-3 py-2 text-xs font-semibold bg-white border border-[#DDD0B0] text-[#1E4620] outline-none cursor-pointer"
+                className="rounded-full px-3 py-2 text-xs font-semibold bg-white border border-[#E5E7EB] text-[#1E4620] outline-none cursor-pointer"
               >
                 <option value="popular">Best Sellers</option>
                 <option value="price_asc">Price: Low to High</option>
@@ -259,10 +259,10 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product.id}
-                  className="rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-                  style={{ backgroundColor: "#FFFFFF", borderColor: "#E7DCC2" }}
+                  className="rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
+                  style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                 >
-                  <Link href={`/products/${product.slug}`} className="block relative aspect-square p-8" style={{ backgroundColor: "#F9F5EA" }}>
+                  <Link href={`/products/${product.slug}`} className="block relative aspect-square p-8" style={{ backgroundColor: "#F9FAFB" }}>
                     {discount > 0 && (
                       <span
                         className="absolute top-4 left-4 text-[10px] font-bold text-white px-3 py-1 rounded-full z-10"
@@ -301,7 +301,7 @@ export default function ProductsPage() {
                         <span className="text-xs font-bold" style={{ color: "#1E4620" }}>
                           {product.rating}
                         </span>
-                        <span className="text-xs" style={{ color: "#8B8064" }}>
+                        <span className="text-xs" style={{ color: "#6B7280" }}>
                           ({product.reviews} reviews)
                         </span>
                       </div>
@@ -317,17 +317,17 @@ export default function ProductsPage() {
                       </p>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: "#F0E8D6" }}>
+                    <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: "#F3F4F6" }}>
                       <div>
                         <span className="text-lg font-black" style={{ color: "#1E4620" }}>
                           ₹{product.price}
                         </span>
                         {product.mrp > product.price && (
-                          <span className="text-xs line-through ml-2" style={{ color: "#8B8064" }}>
+                          <span className="text-xs line-through ml-2" style={{ color: "#6B7280" }}>
                             ₹{product.mrp}
                           </span>
                         )}
-                        <span className="block text-[11px]" style={{ color: "#8B8064" }}>
+                        <span className="block text-[11px]" style={{ color: "#6B7280" }}>
                           {product.unit}
                         </span>
                       </div>

@@ -37,7 +37,7 @@ export default async function ProductDetailPage({ params }) {
   const discount = mrp > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0;
 
   return (
-    <main style={{ backgroundColor: "#FBF7EC" }} className="min-h-screen px-6 py-12 lg:px-10">
+    <main style={{ backgroundColor: "#FFFFFF" }} className="min-h-screen px-6 py-12 lg:px-10">
       <div className="mx-auto max-w-6xl">
         <Link href="/" className="mb-8 inline-block text-sm font-semibold" style={{ color: "#1E4620" }}>
           ← Back to home
@@ -46,7 +46,7 @@ export default async function ProductDetailPage({ params }) {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <ProductGallery productName={product.name} images={images} />
 
-          <aside className="rounded-[28px] border p-6 sm:p-8" style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}>
+          <aside className="rounded-[28px] border p-6 sm:p-8 shadow-sm" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: "#6FAE3E" }}>
               VeggieCrush
             </p>
@@ -66,13 +66,13 @@ export default async function ProductDetailPage({ params }) {
                 ₹{price}
               </span>
               {mrp > 0 && (
-                <span className="mb-1 text-lg line-through" style={{ color: "#8B8064" }}>
+                <span className="mb-1 text-lg line-through" style={{ color: "#6B7280" }}>
                   ₹{mrp}
                 </span>
               )}
             </div>
 
-            <div className="mt-6 rounded-2xl border p-4" style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}>
+            <div className="mt-6 rounded-2xl border p-4" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
               <p className="text-base font-semibold mb-2" style={{ color: "#1E4620" }}>
                 Product description
               </p>

@@ -49,10 +49,10 @@ export default function CartDrawer() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="w-screen max-w-md flex flex-col shadow-2xl border-l"
-              style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
             >
               {/* Header */}
-              <div className="p-5 border-b flex items-center justify-between" style={{ borderColor: "#E7DCC2" }}>
+              <div className="p-5 border-b flex items-center justify-between" style={{ borderColor: "#E5E7EB" }}>
                 <div className="flex items-center gap-2.5">
                   <ShoppingBag size={20} color="#1E4620" />
                   <h2 className="text-lg font-black tracking-tight" style={{ color: "#1E4620" }}>
@@ -68,14 +68,14 @@ export default function CartDrawer() {
                 <button
                   onClick={closeCart}
                   aria-label="Close cart"
-                  className="p-2 rounded-full hover:bg-[#F0E8D6] transition-colors"
+                  className="p-2 rounded-full hover:bg-[#F3F4F6] transition-colors"
                 >
                   <X size={20} color="#1E4620" />
                 </button>
               </div>
 
               {/* Free shipping milestone bar */}
-              <div className="px-5 py-3 border-b text-xs" style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}>
+              <div className="px-5 py-3 border-b text-xs" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
                 <div className="flex items-center justify-between mb-1.5 font-semibold" style={{ color: "#1E4620" }}>
                   <span className="flex items-center gap-1.5">
                     <Truck size={14} color="#6FAE3E" />
@@ -83,7 +83,7 @@ export default function CartDrawer() {
                   </span>
                   <span>{shippingProgress}%</span>
                 </div>
-                <div className="w-full h-2 rounded-full overflow-hidden bg-white/60">
+                <div className="w-full h-2 rounded-full overflow-hidden bg-[#E5E7EB]">
                   <div
                     className="h-full rounded-full transition-all duration-300"
                     style={{
@@ -107,7 +107,7 @@ export default function CartDrawer() {
                     <h3 className="text-base font-bold mb-1" style={{ color: "#1E4620" }}>
                       Your cart is empty
                     </h3>
-                    <p className="text-xs max-w-[220px] mb-6" style={{ color: "#8B8064" }}>
+                    <p className="text-xs max-w-[220px] mb-6" style={{ color: "#6B7280" }}>
                       Looks like you haven&apos;t added any farm fresh vegetables or wellness herbs yet.
                     </p>
                     <button
@@ -123,9 +123,9 @@ export default function CartDrawer() {
                     <div
                       key={item.id}
                       className="flex items-center gap-3.5 p-3 rounded-2xl border"
-                      style={{ backgroundColor: "#FFFFFF", borderColor: "#E7DCC2" }}
+                      style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                     >
-                      <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border" style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}>
+                      <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
                         {item.image ? (
                           <Image
                             src={item.image}
@@ -135,7 +135,7 @@ export default function CartDrawer() {
                             className="object-contain p-1.5"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs text-[#8B8064]">
+                          <div className="w-full h-full flex items-center justify-center text-xs text-[#6B7280]">
                             🌱
                           </div>
                         )}
@@ -145,7 +145,7 @@ export default function CartDrawer() {
                         <h4 className="text-sm font-bold truncate" style={{ color: "#1E4620" }}>
                           {item.name}
                         </h4>
-                        <p className="text-xs mb-2" style={{ color: "#8B8064" }}>
+                        <p className="text-xs mb-2" style={{ color: "#6B7280" }}>
                           {item.unit || "Pack"}
                         </p>
                         <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ export default function CartDrawer() {
                           </span>
 
                           {/* Quantity stepper */}
-                          <div className="flex items-center gap-2 border rounded-full px-2 py-0.5" style={{ borderColor: "#E7DCC2", backgroundColor: "#FBF7EC" }}>
+                          <div className="flex items-center gap-2 border rounded-full px-2 py-0.5" style={{ borderColor: "#E5E7EB", backgroundColor: "#F9FAFB" }}>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               aria-label="Decrease quantity"
@@ -179,7 +179,7 @@ export default function CartDrawer() {
                       <button
                         onClick={() => removeFromCart(item.id)}
                         aria-label="Remove item"
-                        className="text-[#8B8064] hover:text-[#D9483A] p-2 transition-colors"
+                        className="text-[#9CA3AF] hover:text-[#D9483A] p-2 transition-colors"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -190,7 +190,7 @@ export default function CartDrawer() {
 
               {/* Drawer Footer */}
               {items.length > 0 && (
-                <div className="p-5 border-t space-y-3" style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}>
+                <div className="p-5 border-t space-y-3" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-semibold" style={{ color: "#4B5443" }}>Subtotal</span>
                     <span className="text-lg font-extrabold" style={{ color: "#1E4620" }}>
@@ -198,7 +198,7 @@ export default function CartDrawer() {
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs" style={{ color: "#8B8064" }}>
+                  <div className="flex items-center justify-between text-xs" style={{ color: "#6B7280" }}>
                     <span>Shipping</span>
                     <span>{amountNeeded === 0 ? "FREE" : "₹49"}</span>
                   </div>

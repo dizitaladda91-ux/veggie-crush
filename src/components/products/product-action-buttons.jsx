@@ -56,7 +56,7 @@ export default function ProductActionButtons({ product, mainVariant, image }) {
       <button
         onClick={handleBuyNow}
         className="flex-1 flex items-center justify-center gap-2 rounded-full border px-7 py-3.5 text-sm font-bold transition-all hover:scale-[1.02] cursor-pointer"
-        style={{ borderColor: "#1E4620", color: "#1E4620", backgroundColor: "#FBF7EC" }}
+        style={{ borderColor: "#1E4620", color: "#1E4620", backgroundColor: "#FFFFFF" }}
       >
         <Zap size={18} fill="#1E4620" color="#1E4620" />
         <span>Buy Now</span>

@@ -22,7 +22,7 @@ function VideoPlayer({ video, active, onPlay }) {
   return (
     <div
       className="relative w-full aspect-video rounded-3xl overflow-hidden border"
-      style={{ backgroundColor: "#F0E8D6", borderColor: "#E7DCC2" }}
+      style={{ backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }}
     >
       {active ? (
         <iframe
@@ -72,7 +72,7 @@ export default function VideoSection() {
   }
 
   return (
-    <section style={{ backgroundColor: "#FBF7EC" }} className="w-full px-6 lg:px-10 py-16">
+    <section style={{ backgroundColor: "#FFFFFF" }} className="w-full px-6 lg:px-10 py-16">
       <div className="max-w-[1440px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -129,8 +129,8 @@ export default function VideoSection() {
                   onClick={() => selectVideo(video)}
                   className="flex items-center gap-3 rounded-2xl p-2 text-left shrink-0 w-64 lg:w-full border transition-colors"
                   style={{
-                    backgroundColor: isSelected ? "#F0E8D6" : "transparent",
-                    borderColor: isSelected ? "#6FAE3E" : "#E7DCC2",
+                    backgroundColor: isSelected ? "#F0FDF4" : "transparent",
+                    borderColor: isSelected ? "#6FAE3E" : "#E5E7EB",
                   }}
                 >
                   <div className="relative w-24 h-16 rounded-lg overflow-hidden shrink-0">

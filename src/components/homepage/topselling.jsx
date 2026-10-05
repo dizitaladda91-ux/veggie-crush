@@ -123,12 +123,12 @@ function ProductCard({ product }) {
         variants={cardVariants}
         whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="group relative rounded-3xl overflow-hidden border"
-        style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+        className="group relative rounded-3xl overflow-hidden border shadow-sm hover:shadow-md transition-shadow"
+        style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
       >
       <div
         className="relative aspect-square flex items-center justify-center overflow-hidden"
-        style={{ backgroundColor: "#F0E8D6" }}
+        style={{ backgroundColor: "#F9FAFB" }}
       >
         <motion.div
           className="absolute -right-10 -top-10 w-32 h-32 rounded-full"
@@ -154,7 +154,7 @@ function ProductCard({ product }) {
           whileTap={{ scale: 0.8 }}
           aria-label="Toggle wishlist"
           className="absolute top-3 right-3 w-8 h-8 rounded-full grid place-items-center z-10 backdrop-blur-sm"
-          style={{ backgroundColor: "#FBF7ECcc" }}
+          style={{ backgroundColor: "#FFFFFFcc" }}
         >
           <Heart
             size={15}
@@ -170,7 +170,7 @@ function ProductCard({ product }) {
             className="relative z-[1] h-full w-full object-contain p-8 transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#D8CBA8", color: "#8B8064" }}>
+          <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
             <ImageIcon size={30} strokeWidth={1.5} aria-hidden="true" />
           </div>
         )}
@@ -191,7 +191,7 @@ function ProductCard({ product }) {
         <h3 className="text-sm font-bold mb-1" style={{ color: "#1E4620" }}>
           {product.name}
         </h3>
-        <p className="text-xs mb-2" style={{ color: "#8B8064" }}>
+        <p className="text-xs mb-2" style={{ color: "#6B7280" }}>
           {product.unit}
         </p>
 
@@ -200,7 +200,7 @@ function ProductCard({ product }) {
           <span className="text-xs font-semibold" style={{ color: "#4B5443" }}>
             {product.rating}
           </span>
-          <span className="text-xs" style={{ color: "#8B8064" }}>
+          <span className="text-xs" style={{ color: "#6B7280" }}>
             ({product.reviews})
           </span>
         </div>
@@ -211,7 +211,7 @@ function ProductCard({ product }) {
               ₹{product.price}
             </span>
             {discount > 0 && (
-              <span className="text-xs line-through" style={{ color: "#B7AE8D" }}>
+              <span className="text-xs line-through" style={{ color: "#9CA3AF" }}>
                 ₹{product.mrp}
               </span>
             )}
@@ -257,23 +257,23 @@ function ProductCard({ product }) {
 function ProductSkeleton() {
   return (
     <div
-      className="rounded-3xl overflow-hidden border"
-      style={{ backgroundColor: "#FBF7EC", borderColor: "#E7DCC2" }}
+      className="rounded-3xl overflow-hidden border shadow-sm"
+      style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
     >
-      <div className="aspect-square relative overflow-hidden" style={{ backgroundColor: "#F0E8D6" }}>
+      <div className="aspect-square relative overflow-hidden" style={{ backgroundColor: "#F3F4F6" }}>
         <motion.div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(90deg, transparent, #FBF7EC66, transparent)",
+            background: "linear-gradient(90deg, transparent, #FFFFFF88, transparent)",
           }}
           animate={{ x: ["-100%", "100%"] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
         />
       </div>
       <div className="p-4 space-y-2">
-        <div className="h-3 w-3/4 rounded-full" style={{ backgroundColor: "#F0E8D6" }} />
-        <div className="h-3 w-1/2 rounded-full" style={{ backgroundColor: "#F0E8D6" }} />
-        <div className="h-4 w-1/3 rounded-full" style={{ backgroundColor: "#F0E8D6" }} />
+        <div className="h-3 w-3/4 rounded-full" style={{ backgroundColor: "#F3F4F6" }} />
+        <div className="h-3 w-1/2 rounded-full" style={{ backgroundColor: "#F3F4F6" }} />
+        <div className="h-4 w-1/3 rounded-full" style={{ backgroundColor: "#F3F4F6" }} />
       </div>
     </div>
   );
@@ -313,7 +313,7 @@ export default function TopSellingProducts() {
   }, []);
 
   return (
-    <section style={{ backgroundColor: "#FBF7EC" }} className="relative w-full px-6 lg:px-10 py-16 overflow-hidden">
+    <section style={{ backgroundColor: "#FFFFFF" }} className="relative w-full px-6 lg:px-10 py-16 overflow-hidden">
       <motion.div
         className="absolute -top-24 -left-24 w-72 h-72 rounded-full pointer-events-none"
         style={{ backgroundColor: "#6FAE3E14" }}

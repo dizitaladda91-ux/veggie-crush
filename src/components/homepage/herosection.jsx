@@ -40,7 +40,7 @@ const HERO_CARDS = [
 
 export default function HeroSection() {
   return (
-    <section className="w-full" style={{ backgroundColor: "#FBF7EC" }}>
+    <section className="w-full" style={{ backgroundColor: "#FFFFFF" }}>
       {/* 3-Column Editorial Hero Grid matching reference site structure */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-1 p-1">
         {HERO_CARDS.map((card, idx) => (

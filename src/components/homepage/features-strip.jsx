@@ -28,7 +28,7 @@ const FEATURES = [
 
 export default function FeaturesStrip() {
   return (
-    <section className="w-full border-y" style={{ backgroundColor: "#F7F2E4", borderColor: "#E7DCC2" }}>
+    <section className="w-full border-y" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {FEATURES.map((feature, idx) => (
