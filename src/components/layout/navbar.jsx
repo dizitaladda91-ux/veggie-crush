@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 
@@ -32,7 +33,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { itemCount } = useCart();
+  const { itemCount, openCart } = useCart();
   const active = "All Products";
 
   useEffect(() => {
@@ -93,7 +94,7 @@ export default function Navbar() {
 
         {/* ── CENTER: Logo (always centered) ── */}
         <div className="flex justify-center">
-          <a href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group">
             <span
               className="grid place-items-center w-10 h-10 rounded-xl border-2 transition-all duration-300 group-hover:scale-105 group-hover:shadow-md"
               style={{
@@ -118,7 +119,7 @@ export default function Navbar() {
                 Farm to Door
               </span>
             </span>
-          </a>
+          </Link>
         </div>
 
         {/* ── RIGHT: Icons ── */}
@@ -147,8 +148,9 @@ export default function Navbar() {
           </button>
 
           <button
+            onClick={openCart}
             aria-label="Cart"
-            className="relative flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
+            className="relative flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group cursor-pointer"
           >
             <ShoppingBag size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
             {itemCount > 0 && (

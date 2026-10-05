@@ -285,7 +285,6 @@ export default function TopSellingProducts() {
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
 
     async function loadProducts() {
       try {

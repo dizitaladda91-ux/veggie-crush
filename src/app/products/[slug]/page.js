@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductGallery from "@/components/products/product-gallery";
+import ProductActionButtons from "@/components/products/product-action-buttons";
 import { prisma } from "@/lib/prisma";
 
 const PRODUCT_IMAGES = {
@@ -80,14 +81,11 @@ export default async function ProductDetailPage({ params }) {
               </p>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <button className="rounded-full px-6 py-3 text-sm font-bold text-white shadow-sm" style={{ backgroundColor: "#6FAE3E" }}>
-                Add to Cart
-              </button>
-              <button className="rounded-full border px-6 py-3 text-sm font-bold" style={{ borderColor: "#E7DCC2", color: "#1E4620", backgroundColor: "#FBF7EC" }}>
-                Buy Now
-              </button>
-            </div>
+            <ProductActionButtons
+              product={{ id: product.id, name: product.name, startingAt: product.startingAt }}
+              mainVariant={mainVariant}
+              image={images[0]}
+            />
           </aside>
         </div>
       </div>

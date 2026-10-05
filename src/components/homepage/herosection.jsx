@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Sprout, Star, ShieldCheck, Truck } from "lucide-react";
 
 const TRUST_BADGES = [
@@ -112,7 +113,7 @@ export default function HeroSection() {
 
               {/* CTA row */}
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <a
+                <Link
                   href="/products"
                   className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.03] hover:shadow-lg active:scale-[0.98]"
                   style={{
@@ -124,9 +125,9 @@ export default function HeroSection() {
                   <Sprout size={16} />
                   Shop Fresh Picks
                   <ArrowRight size={16} />
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/farm-boxes"
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
                   style={{
@@ -137,7 +138,7 @@ export default function HeroSection() {
                   }}
                 >
                   Explore Farm Boxes
-                </a>
+                </Link>
               </div>
 
               {/* Trust badges */}

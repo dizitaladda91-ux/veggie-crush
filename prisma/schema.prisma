@@ -3,7 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -29,21 +30,23 @@ enum PaymentStatus {
 }
 
 model User {
-  id        String    @id // = Supabase auth user id
-  email     String    @unique
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  authId    String?    @unique // External auth ID (Supabase / Auth provider)
+  email     String     @unique
+  password  String?    // Hashed password for JWT authentication
   name      String?
   phone     String?
-  role      Role      @default(CUSTOMER)
+  role      Role       @default(CUSTOMER)
   addresses Address[]
   orders    Order[]
   reviews   Review[]
   wishlist  Wishlist[]
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
 }
 
 model Address {
-  id        String   @id @default(cuid())
-  userId    String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   label     String?  // "Home" / "Work"
   fullName  String
@@ -59,22 +62,22 @@ model Address {
 }
 
 model Category {
-  name        String    @unique
-  slug        String    @unique
-  id          String    @id @default(cuid())
-  image       String?
-  products    Product[]
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
+  slug     String    @unique
+  image    String?
+  products Product[]
 }
 
-model Condition {          // Shop-by-health-condition
-  id       String             @id @default(cuid())
+model Condition {
+  id       String             @id @default(auto()) @map("_id") @db.ObjectId
   name     String             @unique // "Diabetes Care", "Weight Management"
   slug     String             @unique
   products ProductCondition[]
 }
 
 model Product {
-  id           String             @id @default(cuid())
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   slug         String             @unique
   description  String?
@@ -82,7 +85,7 @@ model Product {
   startingAt   Int                @default(0) // min variant price (paise), used for sorting/"Starts at ₹X"
   isBestSeller Boolean            @default(false)
   isActive     Boolean            @default(true)
-  categoryId   String
+  categoryId   String             @db.ObjectId
   category     Category           @relation(fields: [categoryId], references: [id])
   variants     ProductVariant[]
   conditions   ProductCondition[]
@@ -94,8 +97,8 @@ model Product {
 }
 
 model ProductVariant {
-  id        String   @id @default(cuid())
-  productId String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId String   @db.ObjectId
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   label     String
   price     Int
@@ -108,19 +111,20 @@ model ProductVariant {
 }
 
 model ProductCondition {
-  productId   String
-  conditionId String
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String    @db.ObjectId
+  conditionId String    @db.ObjectId
   product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   condition   Condition @relation(fields: [conditionId], references: [id], onDelete: Cascade)
 
-  @@id([productId, conditionId])
+  @@unique([productId, conditionId])
 }
 
 model Order {
-  id            String        @id @default(cuid())
-  userId        String
-  addressId     String?
-  user          User          @relation(fields: [userId], references: [id])
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String?       @db.ObjectId
+  addressId     String?       @db.ObjectId
+  user          User?         @relation(fields: [userId], references: [id])
   address       Address?      @relation(fields: [addressId], references: [id])
   items         OrderItem[]
   status        OrderStatus   @default(PENDING)
@@ -131,20 +135,20 @@ model Order {
 }
 
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  productId String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String   @db.ObjectId
+  productId String?  @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product? @relation(fields: [productId], references: [id])
   name      String
   quantity  Int
   unitPrice Int
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  userId    String
-  productId String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  productId String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   rating    Int
@@ -155,11 +159,12 @@ model Review {
 }
 
 model Wishlist {
-  userId    String
-  productId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  productId String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
-  @@id([userId, productId])
+  @@unique([userId, productId])
 }
