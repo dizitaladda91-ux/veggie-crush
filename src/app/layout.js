@@ -5,6 +5,9 @@ import Footer from "../components/layout/footer";
 import AnnouncementBar from "../components/layout/announcement-bar";
 import { CartProvider } from "../components/cart/cart-provider";
 import CartDrawer from "../components/cart/cart-drawer";
+import { AuthProvider } from "../components/auth/auth-context";
+import AuthModal from "../components/auth/auth-modal";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,13 +30,16 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <AnnouncementBar />
-          <Navbar />
-          {children}
-          <Footer />
-          <CartDrawer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <AnnouncementBar />
+            <Navbar />
+            {children}
+            <Footer />
+            <CartDrawer />
+            <AuthModal />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

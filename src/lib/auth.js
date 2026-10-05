@@ -1,42 +1,75 @@
-import { createClient } from "./supabase/server";
+import { cookies, headers } from "next/headers";
+import { verifyJWT } from "./jwt";
 import { prisma } from "./prisma";
+import { createClient as createSupabaseClient } from "./supabase/server";
 
 /**
- * Gets the currently authenticated user from the Supabase session,
- * and ensures a synchronized record exists in the Prisma User database.
- * Returns null if the user is not authenticated.
+ * Gets the currently authenticated user from JWT cookie or Bearer token header.
+ * Falls back to Supabase auth session if present.
+ * Returns null if the user is unauthenticated.
  */
 export async function getCurrentUser() {
   try {
-    const supabase = await createClient();
-    if (!supabase) return null;
+    const cookieStore = await cookies();
+    let token = cookieStore.get("token")?.value;
 
-    const {
-      data: { user: authUser },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !authUser) {
-      return null;
+    if (!token) {
+      const headerList = await headers();
+      const authHeader = headerList.get("authorization");
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.substring(7);
+      }
     }
 
-    // Upsert into Prisma User database so relation queries (Orders, Wishlist, Address) work seamlessly
-    const user = await prisma.user.upsert({
-      where: { id: authUser.id },
-      update: {
-        email: authUser.email || "",
-        name: authUser.user_metadata?.full_name || authUser.user_metadata?.name || undefined,
-        phone: authUser.phone || authUser.user_metadata?.phone || undefined,
-      },
-      create: {
-        id: authUser.id,
-        email: authUser.email || "",
-        name: authUser.user_metadata?.full_name || authUser.user_metadata?.name || null,
-        phone: authUser.phone || authUser.user_metadata?.phone || null,
-      },
-    });
+    // 1. Verify via native JWT
+    if (token) {
+      const payload = await verifyJWT(token);
+      if (payload && payload.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: payload.userId },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            phone: true,
+            role: true,
+            createdAt: true,
+          },
+        });
+        if (user) return user;
+      }
+    }
 
-    return user;
+    // 2. Fallback to Supabase auth if configured
+    try {
+      const supabase = await createSupabaseClient();
+      if (supabase) {
+        const {
+          data: { user: authUser },
+        } = await supabase.auth.getUser();
+
+        if (authUser) {
+          const user = await prisma.user.findFirst({
+            where: {
+              OR: [{ authId: authUser.id }, { email: authUser.email }],
+            },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phone: true,
+              role: true,
+              createdAt: true,
+            },
+          });
+          if (user) return user;
+        }
+      }
+    } catch {
+      // Supabase not configured or failed, ignore
+    }
+
+    return null;
   } catch (error) {
     console.error("Error in getCurrentUser:", error);
     return null;

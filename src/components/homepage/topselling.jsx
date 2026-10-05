@@ -112,7 +112,7 @@ function ProductCard({ product }) {
       mrp: product.mrp,
       unit: product.unit,
       image: product.images?.[0] || null,
-    });
+    }, true);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }

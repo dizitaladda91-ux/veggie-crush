@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu } from "lucide-react";
+import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu, LogOut } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
+import { useAuth } from "../auth/auth-context";
 
 const NAV_LINKS = [
   { label: "All Products", href: "/products" },
@@ -34,6 +35,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount, openCart } = useCart();
+  const { user, openAuthModal, logout } = useAuth();
   const active = "All Products";
 
   useEffect(() => {
@@ -133,12 +135,29 @@ export default function Navbar() {
             <Search size={19} color="#24321F" />
           </button>
 
-          <button
-            aria-label="Account"
-            className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F0E8D6] transition-colors group"
-          >
-            <User size={19} color="#24321F" className="group-hover:opacity-70 transition-opacity" />
-          </button>
+          {user ? (
+            <div className="hidden sm:flex items-center gap-1.5 pl-2">
+              <span className="text-xs font-bold px-2.5 py-1 rounded-full text-[#1E4620] bg-[#EAF4DA]">
+                {user.name?.split(" ")[0] || "Account"}
+              </span>
+              <button
+                onClick={logout}
+                title="Log out"
+                className="p-1.5 rounded-lg hover:bg-[#F0E8D6] text-[#7A8B6F] hover:text-[#D9483A] transition-colors cursor-pointer"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={openAuthModal}
+              aria-label="Sign In"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-[#F0E8D6] transition-colors group cursor-pointer text-xs font-bold text-[#1E4620]"
+            >
+              <User size={16} color="#1E4620" />
+              <span>Sign In</span>
+            </button>
+          )}
 
           <button
             aria-label="Track delivery"
