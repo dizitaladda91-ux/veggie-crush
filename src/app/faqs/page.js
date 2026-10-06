@@ -81,7 +81,7 @@ export default function FAQsPage() {
           </span>
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mt-1"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Frequently Asked Questions
           </h1>

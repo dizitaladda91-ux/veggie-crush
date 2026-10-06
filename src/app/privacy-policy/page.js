@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
           </span>
           <h1
             className="text-3xl sm:text-4xl font-black tracking-tight mt-1"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Privacy Policy & Data Security
           </h1>

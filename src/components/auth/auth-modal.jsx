@@ -80,7 +80,7 @@ export default function AuthModal() {
             <span className="text-[11px] font-bold tracking-[0.2em] uppercase" style={{ color: "#6FAE3E" }}>
               VeggieCrush Account
             </span>
-            <h2 className="text-2xl font-black mt-1" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+            <h2 className="text-2xl font-black mt-1" style={{ color: "#1E4620" }}>
               {tab === "login" ? "Welcome Back!" : "Join the Farm Family"}
             </h2>
             <p className="text-xs mt-1" style={{ color: "#7A8B6F" }}>

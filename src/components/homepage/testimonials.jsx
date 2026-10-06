@@ -43,7 +43,7 @@ export default function Testimonials() {
           </span>
           <h2
             className="text-2xl sm:text-3xl lg:text-4xl font-black mt-1 tracking-tight"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Loved By Over 10,000+ Families
           </h2>

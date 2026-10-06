@@ -22,7 +22,6 @@ export default function PromoBanners() {
             </span>
             <h3
               className="text-2xl sm:text-3xl font-black text-white leading-tight"
-              style={{ fontFamily: "'Baloo 2', cursive" }}
             >
               Elevate Your Daily Wellness Routine
             </h3>
@@ -67,7 +66,7 @@ export default function PromoBanners() {
             </span>
             <h3
               className="text-2xl sm:text-3xl font-black leading-tight"
-              style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+              style={{ color: "#1E4620" }}
             >
               Curated Harvest Boxes For Your Family
             </h3>

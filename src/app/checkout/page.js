@@ -139,7 +139,7 @@ export default function CheckoutPage() {
           <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4" style={{ backgroundColor: "#EAF4DA" }}>
             <CheckCircle2 size={36} color="#6FAE3E" />
           </div>
-          <h1 className="text-2xl font-black mb-2" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+          <h1 className="text-2xl font-black mb-2" style={{ color: "#1E4620" }}>
             Order Confirmed!
           </h1>
           <p className="text-xs text-[#7A8B6F] mb-6">
@@ -181,7 +181,7 @@ export default function CheckoutPage() {
 
         <h1
           className="text-3xl sm:text-4xl font-black mb-8 tracking-tight"
-          style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+          style={{ color: "#1E4620" }}
         >
           Secure Checkout
         </h1>

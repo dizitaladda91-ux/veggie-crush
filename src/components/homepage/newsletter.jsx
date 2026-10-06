@@ -24,7 +24,6 @@ export default function Newsletter() {
           </span>
           <h2
             className="text-2xl sm:text-3xl font-black text-white mt-1 leading-snug"
-            style={{ fontFamily: "'Baloo 2', cursive" }}
           >
             Get ₹100 OFF Your First Farm Order
           </h2>

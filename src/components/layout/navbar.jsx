@@ -49,7 +49,6 @@ export default function Navbar() {
       className="w-full sticky top-0 z-40 transition-all duration-300"
       style={{
         backgroundColor: "#FFFFFF",
-        fontFamily: "Inter, sans-serif",
         boxShadow: scrolled
           ? "0 4px 24px rgba(30,70,32,0.08), 0 1px 0 #E5E7EB"
           : "0 1px 0 #E5E7EB",
@@ -108,7 +107,7 @@ export default function Navbar() {
               <Leaf size={18} color="#1E4620" strokeWidth={2.3} />
             </span>
             <span
-              style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+              style={{ color: "#1E4620" }}
               className="leading-none"
             >
               <span className="block text-[19px] font-extrabold tracking-tight">

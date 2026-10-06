@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }) {
 
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             {post.title}
           </h1>
@@ -68,7 +68,7 @@ export default async function BlogPostPage({ params }) {
         {/* Call to action box */}
         <div className="rounded-3xl border p-8 sm:p-10 mb-16 bg-[#1E4620] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <h3 className="text-2xl font-black" style={{ fontFamily: "'Baloo 2', cursive" }}>
+            <h3 className="text-2xl font-black">
               Ready for Pure Farm Nutrition?
             </h3>
             <p className="text-xs sm:text-sm text-[#D7E8BD] mt-1">

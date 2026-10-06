@@ -172,7 +172,7 @@ export default function ProductsPage() {
           </Link>
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Farm-Fresh Shop & Wellness
           </h1>

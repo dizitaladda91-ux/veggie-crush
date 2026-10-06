@@ -103,7 +103,7 @@ export default function SeasonPage() {
           </span>
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mt-1"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Shop By Season
           </h1>
@@ -155,7 +155,7 @@ export default function SeasonPage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-[#6FAE3E]">Active Harvest Cycle</span>
                 <span className="text-xs font-semibold text-[#6B7280]">({activeSeason.period})</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+              <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: "#1E4620" }}>
                 {activeSeason.name} Picks
               </h2>
               <p className="text-xs text-[#4B5443] mt-1 max-w-xl font-medium">

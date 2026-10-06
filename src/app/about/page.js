@@ -61,7 +61,7 @@ export default function AboutPage() {
           </span>
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Reimagining What Real, Honest Food Tastes Like
           </h1>
@@ -96,7 +96,7 @@ export default function AboutPage() {
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#6FAE3E]">
               Our Ethical Standards
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: "#1E4620" }}>
               How We Farm Differently
             </h2>
           </div>
@@ -121,7 +121,7 @@ export default function AboutPage() {
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#6FAE3E]">
               Verification & Safety
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: "#1E4620" }}>
               Official Farm Certifications
             </h2>
           </div>
@@ -153,7 +153,7 @@ export default function AboutPage() {
         {/* CTA Banner */}
         <div className="rounded-3xl p-8 sm:p-12 bg-[#1E4620] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div>
-            <h3 className="text-2xl sm:text-3xl font-black" style={{ fontFamily: "'Baloo 2', cursive" }}>
+            <h3 className="text-2xl sm:text-3xl font-black">
               Taste the Difference of Pure Organic Harvest
             </h3>
             <p className="text-xs sm:text-sm text-[#D7E8BD] mt-2 max-w-md">

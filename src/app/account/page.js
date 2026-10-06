@@ -38,7 +38,7 @@ export default function AccountPage() {
           <div className="w-16 h-16 rounded-full bg-[#EAF4DA] mx-auto flex items-center justify-center mb-4">
             <User size={30} color="#1E4620" />
           </div>
-          <h1 className="text-2xl font-black mb-2" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+          <h1 className="text-2xl font-black mb-2" style={{ color: "#1E4620" }}>
             Sign In to Your Account
           </h1>
           <p className="text-xs text-[#6B7280] mb-6">

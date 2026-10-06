@@ -92,7 +92,7 @@ const SOCIALS = [FacebookIcon, XIcon, InstagramIcon, YoutubeIcon, LinkedinIcon];
 
 export default function Footer() {
   return (
-    <footer style={{ fontFamily: "Inter, sans-serif" }} className="w-full px-6 lg:px-10 pb-8 bg-white">
+    <footer className="w-full px-6 lg:px-10 pb-8 bg-white">
       <div className="max-w-[1440px] mx-auto">
         <div
           className="relative overflow-hidden rounded-3xl px-8 lg:px-12 py-10 lg:py-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
@@ -107,7 +107,6 @@ export default function Footer() {
 
           <div className="relative z-10 max-w-md">
             <h2
-              style={{ fontFamily: "'Baloo 2', cursive" }}
               className="text-3xl lg:text-4xl font-extrabold text-white mb-2"
             >
               Subscribe to our newsletter

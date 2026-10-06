@@ -81,7 +81,7 @@ function FeaturedCard({ post }) {
           {post.category}
         </span>
         <h3
-          style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+          style={{ color: "#1E4620" }}
           className="text-2xl sm:text-3xl font-extrabold leading-tight mb-3 max-w-lg"
         >
           {post.title}
@@ -214,7 +214,7 @@ export default function BlogSection() {
               FROM THE JOURNAL
             </p>
             <h2
-              style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+              style={{ color: "#1E4620" }}
               className="text-3xl lg:text-4xl font-extrabold"
             >
               Fresh Reads

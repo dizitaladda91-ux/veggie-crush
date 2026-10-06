@@ -119,7 +119,7 @@ export default function FarmBoxesPage() {
           </span>
           <h1
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
-            style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}
+            style={{ color: "#1E4620" }}
           >
             Curated Farm Subscription Boxes
           </h1>
@@ -249,7 +249,7 @@ export default function FarmBoxesPage() {
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#6FAE3E]">
               Simple & Transparent
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ fontFamily: "'Baloo 2', cursive", color: "#1E4620" }}>
+            <h2 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: "#1E4620" }}>
               How Farm Boxes Work
             </h2>
           </div>

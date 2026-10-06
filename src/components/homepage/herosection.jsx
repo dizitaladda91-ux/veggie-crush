@@ -84,7 +84,6 @@ export default function HeroSection() {
               {/* Headline */}
               <h2
                 className="text-2xl sm:text-3xl font-black text-white leading-snug tracking-tight mb-3"
-                style={{ fontFamily: "'Baloo 2', cursive" }}
               >
                 {card.title}
               </h2>
