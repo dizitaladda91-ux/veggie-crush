@@ -77,6 +77,11 @@ export default function AdminPortal() {
     isBestSeller: false,
     isActive: true,
   });
+  const price = Number(form.price);
+  const mrp = form.mrp ? Number(form.mrp) : price;
+  const discountPercent = Number.isFinite(price) && Number.isFinite(mrp) && mrp > 0
+    ? Math.max(0, Math.round(((mrp - price) / mrp) * 100))
+    : 0;
 
   // Category modal
   const [newCatName, setNewCatName] = useState("");
