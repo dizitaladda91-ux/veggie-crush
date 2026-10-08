@@ -1,10 +1,12 @@
 import Herosection from "../components/homepage/herosection";
-import NewArrivals from "@/components/homepage/new-arrivals";
+import NewArrivalsSection from "@/components/homepage/new-arrivals-section";
 import CategoriesSection from "../components/homepage/categories-section";
 import FromSeedToTable from "../components/homepage/from-seed-to-table";
 import SubscriptionBoxes from "../components/homepage/subscription-boxes";
 import SocialGram from "../components/homepage/social-gram";
 import Newsletter from "../components/homepage/newsletter";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
@@ -13,7 +15,7 @@ export default function Home() {
       <Herosection />
 
       {/* 2. New Arrivals matching Wix comp-ml7u8bz8 */}
-      <NewArrivals />
+      <NewArrivalsSection />
 
       {/* 3. Shop by Category matching Wix comp-ml7ubq9z */}
       <CategoriesSection />

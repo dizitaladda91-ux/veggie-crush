@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import ComboCard from "@/components/products/combo-card";
+import NewArrivalProductCard from "@/components/products/new-arrival-product-card";
 
 const containerVariants = {
   hidden: {},
@@ -23,53 +23,16 @@ const cardVariants = {
   },
 };
 
-function ComboSkeleton() {
-  return (
-    <div className="overflow-hidden rounded-3xl border border-[#E5E7EB] bg-white">
-      <div className="aspect-square animate-pulse bg-[#F0F4ED]" />
-      <div className="space-y-3 p-5">
-        <div className="h-3 w-16 animate-pulse rounded-full bg-[#E9EFE5]" />
-        <div className="h-5 w-2/3 animate-pulse rounded-full bg-[#E9EFE5]" />
-        <div className="h-4 w-1/2 animate-pulse rounded-full bg-[#E9EFE5]" />
-      </div>
-    </div>
-  );
-}
-
-export default function NewArrivals() {
-  const [combos, setCombos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+export default function NewArrivals({ products, comboGroups, error }) {
   const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function loadCombos() {
-      try {
-        const response = await fetch("/api/combos", { signal: controller.signal });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error || "Could not load the combo collection.");
-        }
-        if (!Array.isArray(data.combos)) {
-          throw new Error("The combo collection response was invalid.");
-        }
-        setCombos(data.combos);
-        setError("");
-      } catch (loadError) {
-        if (loadError.name !== "AbortError") {
-          console.error("New-arrival combos failed to load:", loadError);
-          setError("Combos could not be loaded right now. Please refresh to try again.");
-        }
-      } finally {
-        if (!controller.signal.aborted) setLoading(false);
-      }
-    }
-
-    loadCombos();
-    return () => controller.abort();
-  }, []);
+  const groups = [
+    { title: "Single Products", items: products, kind: "product" },
+    ...comboGroups.map((group) => ({
+      title: group.title,
+      items: group.combos,
+      kind: "combo",
+    })),
+  ];
 
   const motionProps = shouldReduceMotion
     ? {}
@@ -100,7 +63,7 @@ export default function NewArrivals() {
               New Arrivals
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[#556F59]">
-              Explore every thoughtfully paired VeggieCrush combo, with special bundle pricing and fresh wellness essentials.
+              Two picks from each collection: single products, double combos, triple combos, and quad combos.
             </p>
           </div>
           <Link
@@ -119,29 +82,40 @@ export default function NewArrivals() {
         ) : (
           <motion.div
             {...motionProps}
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7"
+            className="space-y-10"
           >
-            {loading
-              ? Array.from({ length: 4 }, (_, index) => <ComboSkeleton key={index} />)
-              : combos.map((combo) => (
-                  <motion.div
-                    key={combo.id}
-                    variants={shouldReduceMotion ? undefined : cardVariants}
-                    whileHover={shouldReduceMotion ? undefined : { y: -7, scale: 1.012 }}
-                    transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                    className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4"
-                  >
-                    <ComboCard combo={combo} />
-                  </motion.div>
-                ))}
+            {groups.map((group) => (
+              <section key={group.title} className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-semibold text-[#173719]">{group.title}</h3>
+                  <span className="text-xs font-medium text-[#667E6A]">{group.items.length} shown</span>
+                </div>
+                {group.items.length ? (
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+                    {group.items.map((item) => (
+                      <motion.div
+                        key={item.id}
+                        variants={shouldReduceMotion ? undefined : cardVariants}
+                        whileHover={shouldReduceMotion ? undefined : { y: -7, scale: 1.012 }}
+                        transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                        className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4"
+                      >
+                        {group.kind === "product"
+                          ? <NewArrivalProductCard product={item} />
+                          : <ComboCard combo={item} />}
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="rounded-2xl border border-[#E5EBE2] bg-white p-5 text-sm text-[#667E6A]">
+                    No {group.title.toLowerCase()} are available right now.
+                  </p>
+                )}
+              </section>
+            ))}
           </motion.div>
         )}
 
-        {!loading && !error && combos.length === 0 && (
-          <p className="rounded-2xl border border-[#E5EBE2] bg-white p-6 text-center text-sm text-[#667E6A]">
-            No combos are available right now. Please check back soon.
-          </p>
-        )}
       </div>
     </section>
   );
