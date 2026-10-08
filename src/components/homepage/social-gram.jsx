@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Instagram, Heart } from "lucide-react";
+import { Camera, Heart } from "lucide-react";
 
 const GRAM_POSTS = [
   {
@@ -41,7 +41,7 @@ export default function SocialGram() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
             <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.2em] uppercase px-3.5 py-1 rounded-full mb-3" style={{ backgroundColor: "#EAF3E7", color: "#2E5D31" }}>
-              <Instagram size={12} className="text-[#5C8E42]" />
+              <Camera size={12} className="text-[#5C8E42]" />
               <span>COMMUNITY STORIES</span>
             </div>
             <h2
@@ -62,7 +62,7 @@ export default function SocialGram() {
             className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-300 border hover:bg-[#1E4620] hover:text-white"
             style={{ borderColor: "#CBDDC5", color: "#1E4620", backgroundColor: "#F7FAF5" }}
           >
-            <Instagram size={14} />
+            <Camera size={14} />
             <span>Follow @VeggieCrush</span>
           </a>
         </div>
@@ -91,7 +91,7 @@ export default function SocialGram() {
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center text-white"
                 style={{ backgroundColor: "rgba(30, 70, 32, 0.75)" }}
               >
-                <Instagram size={24} className="mb-2" />
+                <Camera size={24} className="mb-2" />
                 <div className="flex items-center gap-1.5 text-xs font-bold mb-1">
                   <Heart size={13} fill="currentColor" />
                   <span>{post.likes}</span>
