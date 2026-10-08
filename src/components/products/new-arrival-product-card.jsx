@@ -42,12 +42,16 @@ export default function NewArrivalProductCard({ product }) {
         <WishlistButton productId={product.id} className="absolute right-3 top-3 z-10 h-10 w-10" />
       </Link>
       <div className="flex flex-1 flex-col p-5">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#5C8E42]">Single product</p>
-        <Link href={`/products/${product.slug}`}>
+        <Link
+          href={`/products/${product.slug}`}
+          aria-label={`View details for ${product.name}`}
+          className="flex flex-1 flex-col"
+        >
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#5C8E42]">Single product</p>
           <h3 className="text-lg font-semibold text-[#173719]">{product.name}</h3>
+          <p className="mt-1 text-sm text-[#667E6A]">{product.size}</p>
+          <p className="mt-auto pt-4 text-xl font-semibold text-[#173719]">₹{product.price}</p>
         </Link>
-        <p className="mt-1 text-sm text-[#667E6A]">{product.size}</p>
-        <p className="mt-auto pt-4 text-xl font-semibold text-[#173719]">₹{product.price}</p>
         <button
           type="button"
           onClick={() => addToCart({

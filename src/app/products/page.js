@@ -343,20 +343,22 @@ export default function ProductsPage() {
 
                   {/* Bottom Details Section */}
                   <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <Link href={`/products/${product.slug}`}>
+                    <Link
+                      href={`/products/${product.slug}`}
+                      aria-label={`View details for ${product.name}`}
+                      className="flex flex-1 flex-col"
+                    >
+                      <div>
                         <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
                           {product.name}
                         </h3>
-                      </Link>
 
-                      <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-5">
-                        {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
-                      </p>
-                    </div>
+                        <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-5">
+                          {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
+                        </p>
+                      </div>
 
-                    <div className="flex items-center justify-between pt-2 mt-auto">
-                      <div className="flex items-baseline gap-1.5">
+                      <div className="mt-auto flex items-baseline gap-1.5 pt-2">
                         <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
                           ₹{product.price}
                         </span>
@@ -371,9 +373,11 @@ export default function ProductsPage() {
                           </span>
                         )}
                       </div>
+                    </Link>
 
-                      {/* Circular outline button with '+' icon (Exact match to reference image button) */}
+                    <div className="flex justify-end pt-2">
                       <button
+                        type="button"
                         onClick={() => handleAdd(product)}
                         aria-label={`Add ${product.name} to cart`}
                         className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${

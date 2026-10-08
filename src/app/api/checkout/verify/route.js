@@ -85,6 +85,16 @@ export async function POST(request) {
       },
     });
     if (updated.count !== 1) {
+      const latestOrder = await prisma.order.findUnique({
+        where: { id: order.id },
+      });
+      if (latestOrder?.paymentStatus === "PAID" && latestOrder.razorpayPaymentId === razorpayPaymentId) {
+        const confirmedOrder = await prisma.order.findUnique({
+          where: { id: order.id },
+          include: { items: true, address: true },
+        });
+        return NextResponse.json({ success: true, order: confirmedOrder });
+      }
       return NextResponse.json({ error: "This order has already been updated. Refresh your order history." }, { status: 409 });
     }
 

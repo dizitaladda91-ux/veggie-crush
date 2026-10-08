@@ -83,7 +83,7 @@ export async function GET(_request, { params }) {
       return NextResponse.json({ error: "Receipt not found." }, { status: 404 });
     }
     const order = await prisma.order.findFirst({
-      where: { id, userId: user.id, status: "CONFIRMED", paymentStatus: "PAID" },
+      where: { id, userId: user.id, status: { not: "CANCELLED" }, paymentStatus: "PAID" },
       include: { items: true, address: true },
     });
     if (!order) {
@@ -94,7 +94,7 @@ export async function GET(_request, { params }) {
     const deliveryFee = Math.max(0, order.total - itemSubtotal);
     const address = order.address;
     const lines = [
-      "VeggieCrush | PAYMENT RECEIPT",
+      "VeggieCrush | ORDER INVOICE / PAYMENT RECEIPT",
       "Farm-fresh goodness, delivered with care",
       "",
       `Order reference: VC-${order.id.slice(-8).toUpperCase()}`,
@@ -131,7 +131,7 @@ export async function GET(_request, { params }) {
     return new NextResponse(pdf, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="veggiecrush-receipt-${order.id.slice(-8)}.pdf"`,
+        "Content-Disposition": `attachment; filename="veggiecrush-invoice-${order.id.slice(-8)}.pdf"`,
         "Content-Length": String(pdf.byteLength),
         "Cache-Control": "private, no-store",
       },

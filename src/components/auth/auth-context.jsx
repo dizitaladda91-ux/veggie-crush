@@ -8,6 +8,8 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState("login");
+  const [authSessionId, setAuthSessionId] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -49,7 +51,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = useCallback(async (email, password) => {
+  const login = useCallback(async (email, password, { closeModal = true } = {}) => {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,11 +64,11 @@ export function AuthProvider({ children }) {
     }
 
     setUser(data.user);
-    setIsAuthModalOpen(false);
+    if (closeModal) setIsAuthModalOpen(false);
     return data.user;
   }, []);
 
-  const register = useCallback(async (formData) => {
+  const register = useCallback(async (formData, { closeModal = true } = {}) => {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,7 +81,7 @@ export function AuthProvider({ children }) {
     }
 
     setUser(data.user);
-    setIsAuthModalOpen(false);
+    if (closeModal) setIsAuthModalOpen(false);
     return data.user;
   }, []);
 
@@ -88,7 +90,11 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
-  const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
+  const openAuthModal = useCallback((tab = "login") => {
+    setAuthModalTab(tab === "register" ? "register" : "login");
+    setAuthSessionId((current) => current + 1);
+    setIsAuthModalOpen(true);
+  }, []);
   const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
 
   const value = useMemo(
@@ -96,6 +102,9 @@ export function AuthProvider({ children }) {
       user,
       loading,
       isAuthModalOpen,
+      authModalTab,
+      setAuthModalTab,
+      authSessionId,
       openAuthModal,
       closeAuthModal,
       login,
@@ -103,7 +112,7 @@ export function AuthProvider({ children }) {
       logout,
       refreshUser,
     }),
-    [user, loading, isAuthModalOpen, openAuthModal, closeAuthModal, login, register, logout, refreshUser]
+    [user, loading, isAuthModalOpen, authModalTab, authSessionId, openAuthModal, closeAuthModal, login, register, logout, refreshUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

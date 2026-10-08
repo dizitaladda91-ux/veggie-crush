@@ -409,9 +409,15 @@ export default function AccountPage() {
           <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#6FAE3E]">Your VeggieCrush space</p>
           <h1 className="mt-2 text-2xl font-black text-[#1E4620]">Sign in to your account</h1>
           <p className="mt-2 text-sm leading-6 text-[#6D7768]">See your real orders, saved favourites, delivery addresses and profile details in one place.</p>
-          <button type="button" onClick={openAuthModal} className="mt-6 w-full rounded-full bg-[#1E4620] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#2C5F31]">
-            Sign in or create account
-          </button>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <button type="button" onClick={() => openAuthModal("login")} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1E4620] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#2C5F31]">
+              Sign in
+              <ArrowRight size={16} />
+            </button>
+            <button type="button" onClick={() => openAuthModal("register")} className="rounded-full border border-[#CBDDC5] px-5 py-3.5 text-sm font-bold text-[#1E4620] transition-colors hover:bg-[#F4F8F1]">
+              Create account
+            </button>
+          </div>
           <Link href="/products" className="mt-4 inline-block text-sm font-semibold text-[#4D763B] hover:underline">Continue shopping</Link>
         </section>
       </main>
@@ -542,7 +548,7 @@ export default function AccountPage() {
                             {order.paymentStatus === "PAID" && order.status !== "CANCELLED" && (
                               <a href={`/api/orders/${order.id}/receipt`} className="inline-flex items-center gap-1.5 rounded-full border border-[#DDE5D8] px-3 py-2 text-[11px] font-bold text-[#426638] hover:bg-[#F2F7EE]">
                                 <ArrowDownToLine size={13} />
-                                Receipt
+                                Invoice / receipt
                               </a>
                             )}
                           </div>

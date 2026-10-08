@@ -60,6 +60,7 @@ export default function CheckoutPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [verificationPending, setVerificationPending] = useState(false);
   const [orderComplete, setOrderComplete] = useState(null);
 
   const checkoutAddress = {
@@ -128,6 +129,7 @@ export default function CheckoutPage() {
     }
 
     setError("");
+    setVerificationPending(false);
     setLoading(true);
     let paymentModalOpen = false;
     try {
@@ -184,6 +186,7 @@ export default function CheckoutPage() {
             setOrderComplete(verifyData.order);
           } catch (verificationError) {
             setError(verificationError.message || "Payment verification failed. Please contact support if money was deducted.");
+            setVerificationPending(true);
           } finally {
             paymentModalOpen = false;
             setLoading(false);
@@ -243,11 +246,17 @@ export default function CheckoutPage() {
             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1E4620] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#2C5F31]"
           >
             <PackageCheck size={17} />
-            Download payment receipt (PDF)
+            Download order invoice / receipt (PDF)
           </a>
           <Link
-            href="/products"
+            href="/account"
             className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-[#DCE6D8] px-6 py-3.5 text-sm font-bold text-[#1E4620] transition-colors hover:bg-[#F5F9F1]"
+          >
+            View this order in My Account
+          </Link>
+          <Link
+            href="/products"
+            className="mt-3 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-bold text-[#52724A] transition-colors hover:bg-[#F5F9F1]"
           >
             Continue shopping
           </Link>
@@ -303,7 +312,18 @@ export default function CheckoutPage() {
         {error && (
           <div role="alert" className="mt-6 flex items-start gap-2 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
             <AlertCircle size={17} className="mt-0.5 shrink-0" />
-            <span>{error}</span>
+            <div>
+              <p>{error}</p>
+              {verificationPending && (
+                <p className="mt-2">
+                  Before trying payment again, check{" "}
+                  <Link href="/account" className="font-bold underline underline-offset-2">
+                    My Orders
+                  </Link>
+                  {" "}for an order update and invoice.
+                </p>
+              )}
+            </div>
           </div>
         )}
 

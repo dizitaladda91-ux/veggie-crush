@@ -20,6 +20,12 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Checkout, order history, and invoices
+
+Checkout recalculates product and combo prices on the server, creates the Razorpay payment order, and confirms a VeggieCrush order only after a captured payment is verified. Customers can view their orders in `/account`; paid, non-cancelled orders include a downloadable PDF order invoice/payment receipt.
+
+For payment recovery when a customer closes the browser before checkout can return its result, configure a Razorpay webhook with URL `https://<your-site-host>/api/checkout/webhook` and subscribe to the `payment.captured` event. Set `RAZORPAY_WEBHOOK_SECRET` in the local/deployment environment to the webhook secret configured in Razorpay. The handler verifies Razorpay's signature over the raw request body and safely ignores duplicate deliveries. The regular checkout signature flow remains enabled as well.
+
 ## Mongoose product catalog
 
 The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
