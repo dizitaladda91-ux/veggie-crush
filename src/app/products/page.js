@@ -321,7 +321,7 @@ export default function ProductsPage() {
                         fill
                         unoptimized
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className={`object-cover transition-all duration-300 group-hover:scale-105 ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
+                        className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
@@ -333,7 +333,7 @@ export default function ProductsPage() {
                         fill
                         unoptimized
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
                       />
                     )}
                   </Link>

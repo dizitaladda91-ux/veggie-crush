@@ -8,19 +8,19 @@ export default function ProductGallery({ productName, images }) {
   const [selectedImage, setSelectedImage] = useState(images[0] || "/products/beetroot_1.webp");
 
   return (
-    <section className="rounded-[28px] border p-5 shadow-sm" style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}>
-      <div className="relative h-[440px] overflow-hidden rounded-[24px] border" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
+    <section className="overflow-hidden rounded-[28px] border shadow-sm" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
+      <div className="group relative aspect-square w-full overflow-hidden bg-[#F9FAFB]">
         <Image
           src={getCloudinaryImageUrl(selectedImage, 1200)}
           alt={productName}
           fill
           unoptimized
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-contain p-8"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none"
         />
       </div>
 
-      <div className="mt-4 grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-3 p-3 sm:p-4">
         {images.map((image, index) => {
           const isSelected = image === selectedImage;
 
@@ -29,7 +29,7 @@ export default function ProductGallery({ productName, images }) {
               key={`${image}-${index}`}
               type="button"
               onClick={() => setSelectedImage(image)}
-              className="overflow-hidden rounded-2xl border transition-all duration-200"
+              className="group/thumb overflow-hidden rounded-2xl border transition-all duration-200"
               style={{
                 backgroundColor: isSelected ? "#F0FDF4" : "#FFFFFF",
                 borderColor: isSelected ? "#6FAE3E" : "#E5E7EB",
@@ -43,7 +43,7 @@ export default function ProductGallery({ productName, images }) {
                   fill
                   unoptimized
                   sizes="96px"
-                  className="object-contain p-2"
+                  className="object-cover transition-transform duration-500 ease-out group-hover/thumb:scale-110 motion-reduce:transition-none"
                 />
               </div>
             </button>

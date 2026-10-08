@@ -26,7 +26,7 @@ export default function ComboCard({ combo }) {
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 33vw"
-              className={`object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
+              className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${secondImage ? "group-hover:opacity-0" : ""}`}
             />
             {secondImage && (
               <Image
@@ -35,7 +35,7 @@ export default function ComboCard({ combo }) {
                 fill
                 unoptimized
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
               />
             )}
           </>

@@ -22,7 +22,7 @@ export default function NewArrivalProductCard({ product }) {
             fill
             unoptimized
             sizes="(max-width: 768px) 50vw, 25vw"
-            className={`object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
+            className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${secondImage ? "group-hover:opacity-0" : ""}`}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">
@@ -36,7 +36,7 @@ export default function NewArrivalProductCard({ product }) {
             fill
             unoptimized
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
           />
         )}
         <WishlistButton productId={product.id} className="absolute right-3 top-3 z-10 h-10 w-10" />

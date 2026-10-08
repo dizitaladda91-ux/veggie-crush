@@ -9,7 +9,7 @@ const REVEAL_TARGETS = "main h1, main h2, main h3, main p, main img, main articl
 export default function PageTransition({ children }) {
   const pathname = usePathname();
   const shouldReduceMotion = useReducedMotion();
-  const duration = shouldReduceMotion ? 0 : 0.48;
+  const duration = shouldReduceMotion ? 0 : 0.68;
 
   useEffect(() => {
     if (
@@ -84,14 +84,20 @@ export default function PageTransition({ children }) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={pathname}
-          initial={shouldReduceMotion ? false : { rotateY: 82, opacity: 0.7 }}
+          initial={shouldReduceMotion ? false : { rotateY: 18, x: 14, opacity: 0.88 }}
           animate={{ rotateY: 0, opacity: 1 }}
-          exit={shouldReduceMotion ? undefined : { rotateY: -82, opacity: 0.7 }}
-          transition={{ duration, ease: [0.45, 0, 0.55, 1] }}
+          exit={shouldReduceMotion ? undefined : {
+            rotateY: -18,
+            x: -14,
+            opacity: 0.88,
+            transition: { duration: 0.58, ease: [0.4, 0, 0.2, 1] },
+          }}
+          transition={{ duration, ease: [0.22, 0.61, 0.36, 1] }}
           style={{
             transformOrigin: "left center",
             transformStyle: "preserve-3d",
             backfaceVisibility: "hidden",
+            willChange: shouldReduceMotion ? "auto" : "transform, opacity",
           }}
         >
           {children}

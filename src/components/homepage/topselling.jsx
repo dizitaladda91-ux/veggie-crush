@@ -157,7 +157,7 @@ function ProductCard({ product }) {
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 33vw"
-              className={`relative z-[1] object-cover transition-all duration-300 group-hover:scale-105 ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
+              className={`relative z-[1] object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
             />
           ) : (
             <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
@@ -171,7 +171,7 @@ function ProductCard({ product }) {
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 33vw"
-              className="relative z-[2] object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              className="relative z-[2] object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
             />
           )}
         </div>
