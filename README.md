@@ -28,7 +28,7 @@ For payment recovery when a customer closes the browser before checkout can retu
 
 ## Mongoose product catalog
 
-The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
+The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`. `DATABASE_URL` must include the database name in its path (for example, `mongodb+srv://<credentials>@<cluster-host>/veggiecrush?retryWrites=true&w=majority`). If its path is empty, the app uses `DATABASE_NAME`, then the database name from `MONGO_URI`, and finally `veggiecrush`. Keep the resolved database name the same for Prisma and Mongoose so orders, accounts, reviews, and catalog records stay together.
 
 Product image uploads from Admin Portal use Cloudinary's server-side Node SDK. Set `CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>` in `.env` and deployment settings (or configure all three individual Cloudinary variables as a fallback). Never expose this credential in a `NEXT_PUBLIC_*` variable. The original single-image uploader and the bulk uploader are restricted to authenticated admins; files are size/type checked and stored as secure URLs in the catalog.
 
