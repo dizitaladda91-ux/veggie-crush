@@ -4,16 +4,7 @@ import { Check, Leaf, PackageCheck, ShieldCheck, Star, Truck } from "lucide-reac
 import ProductGallery from "@/components/products/product-gallery";
 import ProductActionButtons from "@/components/products/product-action-buttons";
 import WishlistButton from "@/components/products/wishlist-button";
-import { connectCatalog, Product } from "@/lib/catalog";
-
-const PRODUCT_IMAGES = {
-  beetroot: ["/products/beetroot_1.webp", "/products/beetroot_2.webp", "/products/beetroot_3.webp", "/products/beetroot_4.webp"],
-  gooseberry: ["/products/goosberry_1.webp", "/products/goosberry_2.webp", "/products/goosberry_3.webp", "/products/goosberry_4.webp"],
-  moringa: ["/products/moringa_1.webp", "/products/moringa_2.webp", "/products/moringa_3.webp", "/products/moringa_4.webp"],
-  neem: ["/products/neem_1.webp", "/products/neem_2.webp", "/products/neem_3.webp", "/products/neem_4.webp"],
-  everfit: ["/products/everfit_1.webp", "/products/everfit_2.webp", "/products/everfit_3.webp", "/products/everfit_4.webp"],
-  "giloy powder": ["/products/giloy_1.webp", "/products/giloy_2.webp", "/products/giloy_3.webp", "/products/giloy_4.webp"],
-};
+import { connectCatalog, getProductImages, Product } from "@/lib/catalog";
 
 export default async function ProductDetailPage({ params }) {
   const { slug } = await params;
@@ -29,10 +20,7 @@ export default async function ProductDetailPage({ params }) {
     price: Math.round(product.price * 100),
     mrp: Math.round(product.mrp * 100),
   };
-  const productImages = product.images?.filter((image) => typeof image === "string" && image) || [];
-  const images = productImages.length
-    ? productImages
-    : PRODUCT_IMAGES[product.slug] || ["/products/beetroot_1.webp"];
+  const images = getProductImages(product);
   const discount = product.mrp > 0
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;

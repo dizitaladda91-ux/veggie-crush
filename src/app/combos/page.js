@@ -1,5 +1,6 @@
-import { connectCatalog, Combo, Product } from "@/lib/catalog";
+import { connectCatalog, Combo, getProductImages, Product } from "@/lib/catalog";
 import ComboCatalog from "@/app/combos/combo-catalog";
+import { getProductComboParts, getProductComboPackSize } from "@/lib/combo-product";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,7 @@ export default async function CombosPage() {
     price: product.price,
     mrp: product.mrp,
     size: product.size,
-    images: product.images || [],
+    images: getProductImages(product),
   }));
   const combos = comboRecords.map((combo) => ({
     id: String(combo._id),
@@ -50,11 +51,29 @@ export default async function CombosPage() {
   const comboCodes = new Set(combos.map((combo) => combo.code?.trim().toUpperCase()).filter(Boolean));
   const comboSlugs = new Set(combos.map((combo) => combo.slug?.trim().toLowerCase()).filter(Boolean));
   const comboNames = new Set(combos.map((combo) => combo.name?.trim().toLowerCase()).filter(Boolean));
-  const standaloneProducts = products.filter((product) =>
-    !comboCodes.has(product.code?.trim().toUpperCase())
-      && !comboSlugs.has(product.slug?.trim().toLowerCase())
-      && !comboNames.has(product.name?.trim().toLowerCase()),
-  );
+  const standaloneProducts = [];
+  const productCombos = [];
+
+  for (const product of products) {
+    const packSize = getProductComboPackSize(product);
+    const duplicatesStoredCombo = comboCodes.has(product.code?.trim().toUpperCase())
+      || comboSlugs.has(product.slug?.trim().toLowerCase())
+      || comboNames.has(product.name?.trim().toLowerCase());
+
+    if (!packSize) {
+      if (!duplicatesStoredCombo) standaloneProducts.push(product);
+      continue;
+    }
+    if (duplicatesStoredCombo) continue;
+
+    productCombos.push({
+      ...product,
+      catalogProduct: true,
+      packSize,
+      bundlePrice: product.price,
+      products: getProductComboParts(product).map((shortName) => ({ shortName })),
+    });
+  }
 
   return (
     <main className="min-h-screen bg-white px-6 py-12 lg:px-10">
@@ -64,7 +83,7 @@ export default async function CombosPage() {
         <p className="mt-3 max-w-2xl text-[#667E6A]">
           Shop single products or explore thoughtfully paired double, triple, and quad combos.
         </p>
-        <ComboCatalog products={standaloneProducts} combos={combos} />
+        <ComboCatalog products={standaloneProducts} combos={[...combos, ...productCombos]} />
       </div>
     </main>
   );

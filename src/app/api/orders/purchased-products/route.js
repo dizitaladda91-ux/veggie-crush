@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { connectCatalog, Product } from "@/lib/catalog";
+import { connectCatalog, getProductImages, Product } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -65,7 +65,7 @@ export async function GET() {
           slug: product.slug,
           name: product.name,
           description: product.description || "",
-          images: product.images || [],
+          images: getProductImages(product),
           price: product.price,
           mrp: product.mrp,
           unit: product.size,

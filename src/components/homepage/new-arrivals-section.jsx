@@ -1,4 +1,4 @@
-import { connectCatalog, Product } from "@/lib/catalog";
+import { connectCatalog, getProductImages, Product } from "@/lib/catalog";
 import NewArrivals from "@/components/homepage/new-arrivals";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ export default async function NewArrivalsSection() {
       price: product.price,
       mrp: product.mrp,
       size: product.size,
-      images: product.images || [],
+      images: getProductImages(product),
     }));
 
   } catch (error) {

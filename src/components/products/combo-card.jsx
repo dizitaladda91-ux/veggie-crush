@@ -50,17 +50,27 @@ export default function ComboCard({ combo }) {
         <p className="mt-auto pt-4 text-xl font-extrabold text-[#173719]">₹{price}</p>
         <button
           type="button"
-          onClick={() => addToCart({
-            id: combo.id,
-            comboId: combo.id,
-            kind: "combo",
-            name: combo.name,
-            price,
-            image: firstImage || null,
-          })}
+          onClick={() => addToCart(combo.catalogProduct
+            ? {
+              id: combo.id,
+              slug: combo.slug,
+              name: combo.name,
+              price,
+              mrp: combo.mrp,
+              unit: combo.size,
+              image: firstImage || null,
+            }
+            : {
+              id: combo.id,
+              comboId: combo.id,
+              kind: "combo",
+              name: combo.name,
+              price,
+              image: firstImage || null,
+            })}
           className="mt-4 rounded-full bg-[#1E4620] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2C5F31]"
         >
-          Add combo to cart
+          {combo.catalogProduct ? "Add bundle to cart" : "Add combo to cart"}
         </button>
       </div>
     </article>

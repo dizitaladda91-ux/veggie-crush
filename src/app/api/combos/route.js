@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectCatalog, Combo } from "@/lib/catalog";
+import { connectCatalog, Combo, getProductImages } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +41,7 @@ export async function GET(request) {
           price: product.price,
           mrp: product.mrp,
           size: product.size,
-          images: product.images,
+          images: getProductImages(product),
         })),
         description: combo.description,
         keyBenefits: combo.keyBenefits,
