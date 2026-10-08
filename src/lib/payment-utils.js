@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 
 /**
  * Validates Razorpay payment signature
@@ -10,10 +10,13 @@ export function verifyRazorpaySignature({ orderId, paymentId, signature }) {
     throw new Error("RAZORPAY_KEY_SECRET is not configured");
   }
 
-  const generatedSignature = crypto
-    .createHmac("sha256", secret)
+  const generatedSignature = createHmac("sha256", secret)
     .update(`${orderId}|${paymentId}`)
     .digest("hex");
 
-  return generatedSignature === signature;
+  if (typeof signature !== "string" || !/^[a-f\d]{64}$/i.test(signature)) {
+    return false;
+  }
+
+  return timingSafeEqual(Buffer.from(generatedSignature, "hex"), Buffer.from(signature, "hex"));
 }

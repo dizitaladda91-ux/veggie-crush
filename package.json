@@ -12,6 +12,8 @@
     "db:seed": "node prisma/seed.js",
     "db:seed:products": "node seed/seedProducts.js",
     "db:seed:combos": "node seed/seedCombos.js",
+    "images:attach": "node seed/attachImages.js",
+    "test:images": "node --test test/image-matching.test.js",
     "test:combos": "node --test test/combo-generation.test.js"
   },
   "dependencies": {
@@ -20,6 +22,7 @@
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.2",
     "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "dotenv": "^16.4.7",
     "framer-motion": "^13.0.0",
     "jose": "^6.2.12",

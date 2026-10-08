@@ -6,67 +6,58 @@ import { connectCatalog, Combo, Product } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
+const FREE_DELIVERY_THRESHOLD_PAISE = 59900;
+const DELIVERY_FEE_PAISE = 4900;
+
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { items, addressId, shippingAddress } = body;
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      return NextResponse.json({ error: "Create an account or sign in before placing your order." }, { status: 401 });
+    }
+    if (currentUser.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(currentUser.id)) {
+      return NextResponse.json({ error: "A customer account is required to place an order." }, { status: 403 });
+    }
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json(
-        { error: "Cart is empty. Please add items before checking out." },
-        { status: 400 }
-      );
+    const body = await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "Checkout details must be provided." }, { status: 400 });
+    }
+    const { items, shippingAddress } = body;
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Your cart is empty. Add products before checking out." }, { status: 400 });
+    }
+
+    const requiredAddressFields = ["fullName", "phone", "line1", "city", "state", "pincode"];
+    if (!shippingAddress || requiredAddressFields.some((field) =>
+      typeof shippingAddress[field] !== "string" || !shippingAddress[field].trim())) {
+      return NextResponse.json({ error: "Please provide a complete delivery address." }, { status: 400 });
+    }
+    if (!/^\d{6}$/.test(shippingAddress.pincode.trim())) {
+      return NextResponse.json({ error: "Enter a valid 6-digit PIN code." }, { status: 400 });
+    }
+    if (!/^[0-9+\s()-]{7,20}$/.test(shippingAddress.phone.trim())) {
+      return NextResponse.json({ error: "Enter a valid contact number." }, { status: 400 });
+    }
+    if (shippingAddress.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingAddress.email.trim())) {
+      return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
+    }
+
+    const razorpay = getRazorpayClient();
+    const key = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    if (!razorpay || !key) {
+      return NextResponse.json({ error: "Online payments are temporarily unavailable. Please try again later." }, { status: 503 });
     }
 
     await connectCatalog();
 
-    // Identify user (authenticated or guest fallback)
-    const currentUser = await getCurrentUser();
-    let userId = currentUser?.id;
-
-    if (!userId) {
-      // Guest checkout: find or create a guest user account in Prisma
-      const guestEmail = shippingAddress?.email || `guest_${Date.now()}@veggiecrush.local`;
-      const guestUser = await prisma.user.upsert({
-        where: { email: guestEmail },
-        update: {},
-        create: {
-          id: `guest_${Date.now()}`,
-          email: guestEmail,
-          name: shippingAddress?.fullName || "Guest Customer",
-          phone: shippingAddress?.phone || null,
-        },
-      });
-      userId = guestUser.id;
-    }
-
-    // Resolve delivery address
-    let resolvedAddressId = addressId;
-    if (!resolvedAddressId && shippingAddress) {
-      const newAddress = await prisma.address.create({
-        data: {
-          userId,
-          fullName: shippingAddress.fullName,
-          phone: shippingAddress.phone,
-          line1: shippingAddress.line1,
-          line2: shippingAddress.line2 || null,
-          city: shippingAddress.city,
-          state: shippingAddress.state,
-          pincode: shippingAddress.pincode,
-          label: shippingAddress.label || "Home",
-        },
-      });
-      resolvedAddressId = newAddress.id;
-    }
-
-    // Calculate total on server using database values (secure from price tampering)
-    let calculatedTotalPaise = 0;
+    let subtotalPaise = 0;
     const orderItemsData = [];
 
     for (const item of items) {
       const quantity = Number(item.quantity);
-      if (!Number.isSafeInteger(quantity) || quantity < 1) {
-        return NextResponse.json({ error: "Cart item quantity must be a positive integer." }, { status: 400 });
+      if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > 99) {
+        return NextResponse.json({ error: "Each product quantity must be between 1 and 99." }, { status: 400 });
       }
 
       if (item.comboId || item.kind === "combo" || item.type === "combo") {
@@ -75,21 +66,16 @@ export async function POST(request) {
           return NextResponse.json({ error: "A selected combo is no longer available." }, { status: 400 });
         }
 
-        const unitPricePaise = Math.round(combo.bundlePrice * 100);
-        calculatedTotalPaise += unitPricePaise * quantity;
-        orderItemsData.push({
-          productId: null,
-          name: combo.name,
-          quantity,
-          unitPrice: unitPricePaise,
-        });
+        const unitPrice = Math.round(combo.bundlePrice * 100);
+        subtotalPaise += unitPrice * quantity;
+        orderItemsData.push({ productId: null, name: combo.name, quantity, unitPrice });
         continue;
       }
 
-      const productId = item.id || item.productId;
+      const requestedId = item.id || item.productId;
       let product = null;
-      if (typeof productId === "string" && /^[a-f\d]{24}$/i.test(productId)) {
-        product = await Product.findOne({ _id: productId, isActive: true });
+      if (typeof requestedId === "string" && /^[a-f\d]{24}$/i.test(requestedId)) {
+        product = await Product.findOne({ _id: requestedId, isActive: true });
       }
       if (!product && typeof item.slug === "string") {
         product = await Product.findOne({ slug: item.slug, isActive: true });
@@ -98,73 +84,72 @@ export async function POST(request) {
         return NextResponse.json({ error: "A selected product is no longer available." }, { status: 400 });
       }
 
-      const unitPricePaise = Math.round(product.price * 100);
-      calculatedTotalPaise += unitPricePaise * quantity;
-
+      const unitPrice = Math.round(product.price * 100);
+      subtotalPaise += unitPrice * quantity;
       orderItemsData.push({
         productId: String(product._id),
         name: `${product.name} (${product.size})`,
         quantity,
-        unitPrice: unitPricePaise,
+        unitPrice,
       });
     }
 
-    // Create Order in DB
+    const deliveryFeePaise = subtotalPaise >= FREE_DELIVERY_THRESHOLD_PAISE ? 0 : DELIVERY_FEE_PAISE;
+    const totalPaise = subtotalPaise + deliveryFeePaise;
+    const address = await prisma.address.create({
+      data: {
+        userId: currentUser.id,
+        fullName: shippingAddress.fullName.trim(),
+        phone: shippingAddress.phone.trim(),
+        line1: shippingAddress.line1.trim(),
+        line2: shippingAddress.line2?.trim() || null,
+        city: shippingAddress.city.trim(),
+        state: shippingAddress.state.trim(),
+        pincode: shippingAddress.pincode.trim(),
+        label: shippingAddress.label?.trim() || "Home",
+      },
+    });
     const order = await prisma.order.create({
       data: {
-        userId,
-        addressId: resolvedAddressId || null,
-        total: calculatedTotalPaise,
+        userId: currentUser.id,
+        addressId: address.id,
+        total: totalPaise,
         status: "PENDING",
         paymentStatus: "PENDING",
-        items: {
-          create: orderItemsData,
-        },
-      },
-      include: {
-        items: true,
+        items: { create: orderItemsData },
       },
     });
 
-    // Create Razorpay Order
-    let razorpayOrderId = null;
-    const razorpay = getRazorpayClient();
+    try {
+      const razorpayOrder = await razorpay.orders.create({
+        amount: totalPaise,
+        currency: "INR",
+        receipt: order.id,
+        notes: { orderId: order.id, userId: currentUser.id },
+      });
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { razorpayOrderId: razorpayOrder.id },
+      });
 
-    if (razorpay) {
-      try {
-        const rzpOrder = await razorpay.orders.create({
-          amount: calculatedTotalPaise,
-          currency: "INR",
-          receipt: order.id,
-          notes: {
-            orderId: order.id,
-            userId,
-          },
-        });
-        razorpayOrderId = rzpOrder.id;
-      } catch (rzpErr) {
-        console.error("Razorpay order creation failed:", rzpErr);
-        // Dev fallback
-        razorpayOrderId = `order_mock_${Date.now()}`;
-      }
-    } else {
-      // Mock order ID if keys are not configured in .env yet
-      razorpayOrderId = `order_mock_${Date.now()}`;
+      return NextResponse.json({
+        success: true,
+        orderId: order.id,
+        razorpayOrderId: razorpayOrder.id,
+        amount: totalPaise,
+        currency: "INR",
+        key,
+      });
+    } catch (error) {
+      console.error("Razorpay order creation failed:", error);
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { status: "CANCELLED", paymentStatus: "FAILED" },
+      });
+      return NextResponse.json({ error: "We could not start the secure payment. Please try again." }, { status: 502 });
     }
-
-    return NextResponse.json({
-      success: true,
-      orderId: order.id,
-      razorpayOrderId,
-      amount: calculatedTotalPaise,
-      currency: "INR",
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_mock",
-    });
   } catch (error) {
     console.error("Error creating order:", error);
-    return NextResponse.json(
-      { error: "Unable to process order. Please try again." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Unable to process your order. Please try again." }, { status: 500 });
   }
 }

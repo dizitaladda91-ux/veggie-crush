@@ -14,6 +14,9 @@ export async function GET() {
         { status: 401 }
       );
     }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
+    }
 
     const orders = await prisma.order.findMany({
       where: { userId: user.id },

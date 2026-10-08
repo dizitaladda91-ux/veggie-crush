@@ -5,12 +5,27 @@ import { connectCatalog, Product } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request) {
   try {
     await connectCatalog();
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ wishlist: [] });
+      return NextResponse.json({ error: "Sign in to view your wishlist." }, { status: 401 });
+    }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
+    }
+
+    const requestedProductId = new URL(request.url).searchParams.get("productId");
+    if (requestedProductId) {
+      if (!/^[a-f\d]{24}$/i.test(requestedProductId)) {
+        return NextResponse.json({ error: "Valid product ID required." }, { status: 400 });
+      }
+      const entry = await prisma.wishlist.findUnique({
+        where: { userId_productId: { userId: user.id, productId: requestedProductId } },
+        select: { id: true },
+      });
+      return NextResponse.json({ wishlisted: Boolean(entry) });
     }
 
     const entries = await prisma.wishlist.findMany({
@@ -50,8 +65,12 @@ export async function POST(request) {
     if (!user) {
       return NextResponse.json({ error: "Please log in to add to wishlist" }, { status: 401 });
     }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
+    }
 
-    const { productId } = await request.json();
+    const body = await request.json();
+    const productId = body?.productId;
     if (typeof productId !== "string" || !/^[a-f\d]{24}$/i.test(productId)) {
       return NextResponse.json({ error: "Valid product ID required" }, { status: 400 });
     }

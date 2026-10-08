@@ -24,7 +24,43 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
 
-Product image uploads use a public Supabase Storage bucket named `product-images`. Configure `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel; the first admin upload creates the bucket if needed. The service-role key must remain server-side.
+Product image uploads from Admin Portal use Cloudinary's server-side Node SDK. Set `CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>` in `.env` and deployment settings (or configure all three individual Cloudinary variables as a fallback). Never expose this credential in a `NEXT_PUBLIC_*` variable. The original single-image uploader and the bulk uploader are restricted to authenticated admins; files are size/type checked and stored as secure URLs in the catalog.
+
+### Bulk catalog image attachment
+
+Put image files in the repository's `uploads/` directory and use these names:
+
+| Item | Examples |
+| --- | --- |
+| Product slug | `beetroot.webp`, `gooseberry_2.webp`, `giloy-powder.png` |
+| Combo code, optionally followed by slug | `AB.webp`, `AB_1.webp`, `ABCD_beetroot-amla-moringa-everfit.webp` |
+| Combo slug | `beetroot-amla.webp` |
+
+Supported extensions are `.webp`, `.png`, `.jpg`, and `.jpeg`. Combo code is checked first, then product slug, then combo slug. A missing number sorts first; `_1`, `_2`, and so on follow in numeric order. Product images upload to `veggiecrush/products`; combo images upload to `veggiecrush/combos`. Each Cloudinary public ID is the filename without its extension, with `overwrite: true`. The script uploads at most five files concurrently and retries a failed upload twice. A partially failed item keeps its previous images while adding successful uploads.
+
+Install dependencies and seed the catalog before running the dry check:
+
+```bash
+npm install
+Copy-Item .env.example .env
+New-Item -ItemType Directory -Force uploads
+# Set CLOUDINARY_URL and MONGO_URI in .env; put image files inside uploads/.
+npm run test:images
+npm run images:attach -- --dry
+```
+
+Review matched, unmatched, and missing items. Then run the real upload (default replaces each matched item's image array) or append without removing existing images:
+
+```bash
+npm run images:attach
+npm run images:attach -- --append
+```
+
+Admin users can also upload up to 20 images at a time from Admin Portal → Products. The API is `POST /api/admin/images/bulk` with repeated multipart `files` fields and an optional `append=true` field. Next.js Route Handlers parse multipart data with `request.formData()`; Multer is an Express middleware and is not needed or compatible with this App Router project. The API returns `matched`, `unmatched`, and `failed` lists.
+
+Delete one managed Cloudinary image and its catalog reference using admin-authenticated `DELETE /api/admin/images` with JSON `{ "itemType": "product", "itemId": "<mongoose-id>", "imageIndex": 0 }` (use `"combo"` for combo records). The image must already be attached to that catalog item and stored under the matching VeggieCrush Cloudinary folder.
+
+`getCloudinaryImageUrl(url, width)` adds `f_auto,q_auto,w_<width>` to Cloudinary URLs. Product/combo card images use 600px; product detail gallery uses 1200px. Cards show the first image, switch to the second on hover, and use a placeholder when no image is saved.
 
 ### Importing products from a Word document
 

@@ -28,6 +28,7 @@ import {
   LogOut,
 } from "lucide-react";
 import ProductDocumentImport from "@/components/admin/product-document-import";
+import BulkImageUpload from "@/components/admin/bulk-image-upload";
 import { useAuth } from "@/components/auth/auth-context";
 
 const PRESET_IMAGES = [
@@ -152,7 +153,7 @@ export default function AdminPortal() {
       const json = await res.json();
       if (json.success && json.url) {
         setForm((prev) => ({ ...prev, imageUrl: json.url }));
-        showToast("Image uploaded successfully!");
+        showToast("Image uploaded to Cloudinary successfully!");
       } else {
         showToast(json.error || "Failed to upload image", "error");
       }
@@ -522,7 +523,7 @@ export default function AdminPortal() {
               <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h3 className="text-sm font-bold text-[#1E4620]">Product photos</h3>
-                  <p className="mt-1 text-xs text-[#6B7280]">Upload JPEG, PNG, WebP, GIF, or AVIF photos (max 5 MB each).</p>
+                  <p className="mt-1 text-xs text-[#6B7280]">Upload JPEG, PNG, WebP, GIF, or AVIF photos to Cloudinary (max 5 MB each).</p>
                 </div>
                 <input
                   ref={editFileInputRef}
@@ -795,6 +796,7 @@ export default function AdminPortal() {
         ═════════════════════════════════════════════ */}
         {activeTab === "products" && (
           <div className="space-y-6">
+            <BulkImageUpload />
             {/* Filter and Search Bar */}
             <div className="bg-white p-4 rounded-3xl border border-[#E5E7EB] shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-2 w-full md:w-80 px-4 py-2.5 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB]">
@@ -1159,7 +1161,7 @@ export default function AdminPortal() {
                 {/* Image Upload & Presets */}
                 <div>
                   <label className="block text-xs font-bold text-[#1E4620] mb-2">
-                    Product Image (Upload or Pick Preset) *
+                    Product Image (Upload to Cloudinary or Pick Preset) *
                   </label>
 
                   {/* Upload button area */}
@@ -1178,7 +1180,7 @@ export default function AdminPortal() {
                       className="w-full sm:w-auto px-5 py-3 rounded-2xl border-2 border-dashed border-[#6FAE3E] bg-[#F0FDF4] hover:bg-[#EAF4DA] text-xs font-bold text-[#1E4620] flex items-center justify-center gap-2 cursor-pointer transition-colors"
                     >
                       <Upload size={15} />
-                      <span>{uploading ? "Uploading Image..." : "Upload Photo From Device"}</span>
+                      <span>{uploading ? "Uploading to Cloudinary..." : "Upload Photo From Device"}</span>
                     </button>
 
                     <span className="text-xs text-[#9CA3AF]">or enter URL:</span>

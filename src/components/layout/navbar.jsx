@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu, LogOut, ShieldCheck } from "lucide-react";
+import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu, LogOut } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 import { useAuth } from "../auth/auth-context";
 
 const NAV_LINKS = [
   { label: "All Products", href: "/products" },
+  { label: "Combos", href: "/combos" },
   {
     label: "Shop By Category",
     href: "/category",
@@ -143,16 +144,6 @@ export default function Navbar() {
               >
                 {user.name?.split(" ")[0] || "Account"}
               </Link>
-              {user.role === "ADMIN" && (
-                <Link
-                  href="/admin"
-                  className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1 rounded-full text-white bg-[#1E4620] hover:bg-[#2C5F31] transition-all shadow-xs"
-                  title="Admin Portal"
-                >
-                  <ShieldCheck size={13} className="text-[#A8D96A]" />
-                  <span>Admin Portal</span>
-                </Link>
-              )}
               <button
                 onClick={logout}
                 title="Log out"
@@ -170,14 +161,6 @@ export default function Navbar() {
               >
                 <User size={16} color="#1E4620" />
                 <span>Sign In</span>
-              </button>
-              <button
-                onClick={openAuthModal}
-                className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border border-[#DCEBD7] text-[#1E4620] bg-[#F7FAF5] hover:bg-[#EAF4DA] transition-all cursor-pointer"
-                title="Admin Portal"
-              >
-                <ShieldCheck size={12} className="text-[#6FAE3E]" />
-                <span>Admin</span>
               </button>
             </div>
           )}
@@ -344,16 +327,6 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
-            <li className="pt-2">
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-[#1E4620] bg-[#F0FDF4] border border-[#DCFCE7]"
-                onClick={() => setMobileOpen(false)}
-              >
-                <Leaf size={13} color="#1E4620" />
-                Admin Portal
-              </Link>
-            </li>
           </ul>
         </div>
       )}

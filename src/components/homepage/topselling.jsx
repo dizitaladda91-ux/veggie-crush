@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, ShoppingCart, Heart, Check, Eye, Plus, Image as ImageIcon } from "lucide-react";
+import { Star, ShoppingCart, Check, Eye, Plus, Image as ImageIcon } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
+import WishlistButton from "@/components/products/wishlist-button";
+import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 const FALLBACK_PRODUCTS = [
   {
@@ -98,7 +101,6 @@ const cardVariants = {
 };
 
 function ProductCard({ product }) {
-  const [wishlisted, setWishlisted] = useState(false);
   const [added, setAdded] = useState(false);
   const { addToCart } = useCart();
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
@@ -144,29 +146,33 @@ function ProductCard({ product }) {
             {badgeText}
           </span>
 
-          <motion.button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setWishlisted((w) => !w); }}
-            whileTap={{ scale: 0.85 }}
-            aria-label="Toggle wishlist"
-            className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full grid place-items-center z-10 bg-white/90 hover:bg-white text-gray-600 shadow-sm transition-all"
-          >
-            <Heart
-              size={15}
-              fill={wishlisted ? "#D9483A" : "none"}
-              color={wishlisted ? "#D9483A" : "#6B7280"}
-            />
-          </motion.button>
+          {/^[a-f\d]{24}$/i.test(product.id) && (
+            <WishlistButton productId={product.id} className="absolute right-3.5 top-3.5 z-10 h-8 w-8 border-0 bg-white/90 text-gray-600 hover:bg-white" />
+          )}
 
           {product.images?.[0] ? (
-            <img
-              src={product.images[0]}
+            <Image
+              src={getCloudinaryImageUrl(product.images[0], 600)}
               alt={product.name}
-              className="relative z-[1] h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-108"
+              fill
+              unoptimized
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className={`relative z-[1] object-contain p-6 transition-all duration-300 group-hover:scale-105 ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
             />
           ) : (
             <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
               <ImageIcon size={30} strokeWidth={1.5} aria-hidden="true" />
             </div>
+          )}
+          {product.images?.[1] && (
+            <Image
+              src={getCloudinaryImageUrl(product.images[1], 600)}
+              alt={`${product.name} alternate view`}
+              fill
+              unoptimized
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="relative z-[2] object-contain p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            />
           )}
         </div>
 

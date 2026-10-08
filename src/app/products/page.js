@@ -6,6 +6,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star, ShoppingCart, Check, Filter, Search, ArrowLeft, Plus } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
+import WishlistButton from "@/components/products/wishlist-button";
+import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 const FALLBACK_PRODUCTS = [
   {
@@ -95,10 +97,13 @@ const FALLBACK_PRODUCTS = [
 ];
 
 const CATEGORIES = ["All", "Wellness", "Immunity", "Roots"];
+const PRODUCTS_PER_PAGE = 6;
+const API_PAGE_LIMIT = 50;
 
 export default function ProductsPage() {
   const { addToCart } = useCart();
   const [products, setProducts] = useState(FALLBACK_PRODUCTS);
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
@@ -108,13 +113,22 @@ export default function ProductsPage() {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch("/api/products");
-        if (!res.ok) return;
+        const res = await fetch(`/api/products?page=1&limit=${API_PAGE_LIMIT}`);
+        if (!res.ok) throw new Error("Unable to load products");
         const data = await res.json();
-        if (!cancelled && data.products && data.products.length > 0) {
-          setProducts(data.products);
+        const totalPages = data.pagination?.totalPages || 1;
+        const allProducts = [...(data.products || [])];
+        for (let page = 2; page <= totalPages; page += 1) {
+          const pageRes = await fetch(`/api/products?page=${page}&limit=${API_PAGE_LIMIT}`);
+          if (!pageRes.ok) throw new Error("Unable to load all products");
+          const pageData = await pageRes.json();
+          allProducts.push(...(pageData.products || []));
         }
-      } catch {
+        if (!cancelled && allProducts.length > 0) {
+          setProducts(allProducts);
+        }
+      } catch (error) {
+        console.error("Unable to load products:", error);
         // fallback
       }
     }
@@ -140,6 +154,12 @@ export default function ProductsPage() {
         return (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0);
       });
   }, [products, selectedCategory, searchQuery, sortBy]);
+
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+  const visibleProducts = filteredProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE,
+  );
 
   function handleAdd(product) {
     addToCart({
@@ -192,7 +212,10 @@ export default function ProductsPage() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setCurrentPage(1);
+                }}
                 className="px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer"
                 style={{
                   backgroundColor: selectedCategory === cat ? "#1E4620" : "#FFFFFF",
@@ -216,7 +239,10 @@ export default function ProductsPage() {
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="bg-transparent text-xs outline-none text-[#1E4620] w-full"
               />
             </div>
@@ -225,7 +251,10 @@ export default function ProductsPage() {
               <Filter size={14} color="#1E4620" />
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="rounded-full px-3 py-2 text-xs font-semibold bg-white border border-[#E5E7EB] text-[#1E4620] outline-none cursor-pointer"
               >
                 <option value="popular">Best Sellers</option>
@@ -244,7 +273,11 @@ export default function ProductsPage() {
               No products found matching &ldquo;{searchQuery}&rdquo;
             </p>
             <button
-              onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("All");
+                setCurrentPage(1);
+              }}
               className="mt-4 px-6 py-2.5 rounded-full text-xs font-bold text-white cursor-pointer"
               style={{ backgroundColor: "#6FAE3E" }}
             >
@@ -252,20 +285,21 @@ export default function ProductsPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {filteredProducts.map((product) => {
-              const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
-              const isAdded = !!addedMap[product.id];
-              const badgeText = product.isBestSeller
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {visibleProducts.map((product) => {
+                const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+                const isAdded = !!addedMap[product.id];
+                const badgeText = product.isBestSeller
                 ? "MOST LOVED"
                 : discount > 0
                 ? `${discount}% OFF`
                 : "100% ORGANIC";
 
-              return (
-                <div
+                return (
+                  <div
                   key={product.id}
-                  className="group rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
+                  className="group relative rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
                   style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                 >
                   {/* Top Image Container with Floating Pill */}
@@ -282,17 +316,30 @@ export default function ProductsPage() {
 
                     {product.images?.[0] ? (
                       <Image
-                        src={product.images[0]}
+                        src={getCloudinaryImageUrl(product.images[0], 600)}
                         alt={product.name}
                         fill
                         unoptimized
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-contain p-6 transition-transform duration-500 group-hover:scale-108"
+                        className={`object-contain p-6 transition-all duration-300 group-hover:scale-105 ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
                     )}
+                    {product.images?.[1] && (
+                      <Image
+                        src={getCloudinaryImageUrl(product.images[1], 600)}
+                        alt={`${product.name} alternate view`}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-contain p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      />
+                    )}
                   </Link>
+                  <div className="absolute right-3 top-3 z-20">
+                    <WishlistButton productId={product.id} className="h-10 w-10" />
+                  </div>
 
                   {/* Bottom Details Section */}
                   <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
@@ -343,10 +390,53 @@ export default function ProductsPage() {
                       </button>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                );
+              })}
+            </div>
+            {totalPages > 1 && (
+              <nav
+                aria-label="Product pagination"
+                className="mt-10 flex flex-wrap items-center justify-center gap-2"
+              >
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-full border px-4 py-2 text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                  style={{ borderColor: "#E5E7EB", color: "#1E4620" }}
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => setCurrentPage(page)}
+                    aria-label={`Go to page ${page}`}
+                    aria-current={currentPage === page ? "page" : undefined}
+                    className="h-9 min-w-9 rounded-full border px-3 text-xs font-bold transition-colors"
+                    style={{
+                      backgroundColor: currentPage === page ? "#1E4620" : "#FFFFFF",
+                      borderColor: currentPage === page ? "#1E4620" : "#E5E7EB",
+                      color: currentPage === page ? "#FFFFFF" : "#1E4620",
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+                  disabled={currentPage === totalPages}
+                  className="rounded-full border px-4 py-2 text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                  style={{ borderColor: "#E5E7EB", color: "#1E4620" }}
+                >
+                  Next
+                </button>
+              </nav>
+            )}
+          </>
         )}
       </div>
     </main>

@@ -129,6 +129,8 @@ model Order {
   items         OrderItem[]
   status        OrderStatus   @default(PENDING)
   paymentStatus PaymentStatus @default(PENDING)
+  razorpayOrderId String?
+  razorpayPaymentId String?
   total         Int
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

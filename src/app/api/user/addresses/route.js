@@ -10,6 +10,9 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
+    }
 
     const addresses = await prisma.address.findMany({
       where: { userId: user.id },
@@ -29,15 +32,27 @@ export async function POST(request) {
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
+    }
 
     const body = await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "Address details must be provided." }, { status: 400 });
+    }
     const { fullName, phone, line1, line2, city, state, pincode, label, isDefault } = body;
 
-    if (!fullName || !phone || !line1 || !city || !state || !pincode) {
+    if (![fullName, phone, line1, city, state, pincode].every((value) =>
+      typeof value === "string" && value.trim())) {
       return NextResponse.json(
         { error: "Please provide all required address fields." },
         { status: 400 }
       );
+    }
+    if (fullName.trim().length > 100 || line1.trim().length > 200 ||
+      (line2 && (typeof line2 !== "string" || line2.trim().length > 200)) ||
+      !/^[0-9+()\s-]{7,20}$/.test(phone.trim()) || !/^\d{6}$/.test(pincode.trim())) {
+      return NextResponse.json({ error: "Check the name, phone number, address, and 6-digit PIN code." }, { status: 400 });
     }
 
     // If setting as default, unmark other addresses
@@ -51,14 +66,14 @@ export async function POST(request) {
     const address = await prisma.address.create({
       data: {
         userId: user.id,
-        fullName,
-        phone,
-        line1,
-        line2: line2 || null,
-        city,
-        state,
-        pincode,
-        label: label || "Home",
+        fullName: fullName.trim(),
+        phone: phone.trim(),
+        line1: line1.trim(),
+        line2: line2?.trim() || null,
+        city: city.trim(),
+        state: state.trim(),
+        pincode: pincode.trim(),
+        label: typeof label === "string" && label.trim() ? label.trim().slice(0, 40) : "Home",
         isDefault: Boolean(isDefault),
       },
     });
@@ -75,6 +90,9 @@ export async function DELETE(request) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (user.role !== "CUSTOMER" || !/^[a-f\d]{24}$/i.test(user.id)) {
+      return NextResponse.json({ error: "A customer account is required." }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
