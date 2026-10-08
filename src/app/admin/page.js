@@ -30,7 +30,8 @@ import {
 import ProductDocumentImport from "@/components/admin/product-document-import";
 import BulkImageUpload from "@/components/admin/bulk-image-upload";
 import { useAuth } from "@/components/auth/auth-context";
-import { isImageFileTooLarge, readApiJson } from "@/lib/read-api-json";
+import { isImageFileTooLarge } from "@/lib/read-api-json";
+import { uploadProductImage } from "@/lib/cloudinary-upload";
 
 const PRESET_IMAGES = [
   { label: "Moringa Superleaf", url: "/products/moringa_1.webp" },
@@ -148,21 +149,9 @@ export default function AdminPortal() {
 
     try {
       setUploading(true);
-      const data = new FormData();
-      data.append("file", file);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      });
-
-      const json = await readApiJson(res);
-      if (json.success && json.url) {
-        setForm((prev) => ({ ...prev, imageUrl: json.url }));
-        showToast("Image uploaded to Cloudinary successfully!");
-      } else {
-        showToast(json.error || "Failed to upload image", "error");
-      }
+      const url = await uploadProductImage(file);
+      setForm((prev) => ({ ...prev, imageUrl: url }));
+      showToast("Image uploaded to Cloudinary successfully!");
     } catch (err) {
       showToast("Upload failed: " + err.message, "error");
     } finally {
@@ -291,14 +280,8 @@ export default function AdminPortal() {
         let uploadedCount = 0;
         try {
           for (const file of files) {
-            const data = new FormData();
-            data.append("file", file);
-            const response = await fetch("/api/upload", { method: "POST", body: data });
-            const result = await readApiJson(response);
-            if (!response.ok || !result.success || !result.url) {
-              throw new Error(result.error || `Could not upload ${file.name}.`);
-            }
-            setEditForm((previous) => ({ ...previous, images: [...previous.images, result.url] }));
+            const url = await uploadProductImage(file);
+            setEditForm((previous) => ({ ...previous, images: [...previous.images, url] }));
             uploadedCount += 1;
           }
           showToast(`${uploadedCount} photo${uploadedCount === 1 ? "" : "s"} uploaded.`);

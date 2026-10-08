@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Trash2, Upload } from "lucide-react";
 import { isImageBatchTooLarge, readApiJson } from "@/lib/read-api-json";
+import { uploadSignedImage } from "@/lib/cloudinary-upload";
 
 export default function BulkImageUpload() {
   const [files, setFiles] = useState([]);
@@ -53,19 +54,58 @@ export default function BulkImageUpload() {
     }
 
     setBusy(true);
-    const formData = new FormData();
-    files.forEach((file) => formData.append("files", file));
-    formData.set("append", String(append));
-
     try {
+      const signatureResponse = await fetch("/api/admin/images/bulk/sign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files: files.map((file) => ({ name: file.name, type: file.type, size: file.size })),
+        }),
+      });
+      const signatureData = await readApiJson(signatureResponse);
+      if (!signatureResponse.ok) {
+        throw new Error(signatureData.error || "Could not authorize the image uploads.");
+      }
+
+      const uploaded = [];
+      const failed = [];
+      let nextIndex = 0;
+      const workers = Array.from(
+        { length: Math.min(3, signatureData.signatures.length) },
+        async () => {
+          while (nextIndex < signatureData.signatures.length) {
+            const signatureIndex = nextIndex;
+            nextIndex += 1;
+            const signature = signatureData.signatures[signatureIndex];
+            try {
+              const url = await uploadSignedImage(files[signature.index], signature);
+              uploaded.push({ file: signature.file, url });
+            } catch (uploadError) {
+              failed.push({
+                file: signature.file,
+                error: uploadError.message || "Cloudinary upload failed.",
+              });
+            }
+          }
+        },
+      );
+      await Promise.all(workers);
+
       const response = await fetch("/api/admin/images/bulk", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          append,
+          uploaded,
+          failed,
+          unmatched: signatureData.unmatched,
+        }),
       });
       const result = await readApiJson(response);
       if (!response.ok && response.status !== 207) {
         throw new Error(result.error || "The bulk image upload failed.");
       }
+
       setReport(result);
       setFiles([]);
       form.reset();
@@ -81,7 +121,7 @@ export default function BulkImageUpload() {
       <div className="mb-4">
         <h2 className="text-lg font-bold text-[#173719]">Bulk product &amp; combo images</h2>
         <p className="mt-1 text-sm text-[#667E6A]">
-          Filenames should match a product slug or combo code/slug. Upload up to 20 images with a combined size of 50 MB or less.
+          Filenames should match a product slug or combo code/slug. Upload up to 20 images (50 MB total); files upload directly to Cloudinary.
         </p>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-4">

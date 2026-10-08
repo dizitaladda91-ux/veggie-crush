@@ -1,6 +1,11 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { parseName, resolveImageTarget, sortImagesByOrder } = require("../lib/image-matching");
+const {
+  parseName,
+  publicIdFromName,
+  resolveImageTarget,
+  sortImagesByOrder,
+} = require("../lib/image-matching");
 
 test("parses supported product and combo image names", () => {
   assert.equal(parseName("beetroot.webp").productSlug, "beetroot");
@@ -22,6 +27,12 @@ test("sorts numbered images numerically after the unnumbered image", () => {
     parsed: parseName(basename),
   })));
   assert.deepEqual(sorted.map((image) => image.parsed.order), [0, 2, 10]);
+});
+
+test("creates safe Cloudinary public IDs from image filenames", () => {
+  assert.equal(publicIdFromName("AB_beetroot-amla_2.webp"), "ab_beetroot-amla_2");
+  assert.equal(publicIdFromName("fresh leaves!.jpg"), "fresh-leaves");
+  assert.equal(publicIdFromName("../!!!.webp"), null);
 });
 
 test("resolves code before product slug before combo slug", () => {
