@@ -24,19 +24,45 @@ export async function getCurrentUser() {
     // 1. Verify via native JWT
     if (token) {
       const payload = await verifyJWT(token);
-      if (payload && payload.userId) {
-        const user = await prisma.user.findUnique({
-          where: { id: payload.userId },
-          select: {
-            id: true,
-            email: true,
-            name: true,
-            phone: true,
-            role: true,
-            createdAt: true,
-          },
-        });
-        if (user) return user;
+      if (payload) {
+        const envAdminEmail = (process.env.ADMIN_EMAIL || "admin@veggiecrush.com").toLowerCase().trim();
+        const isAdmin =
+          payload.role === "ADMIN" ||
+          (payload.email && payload.email.toLowerCase().trim() === envAdminEmail);
+
+        if (payload.userId) {
+          try {
+            const user = await prisma.user.findUnique({
+              where: { id: payload.userId },
+              select: {
+                id: true,
+                email: true,
+                name: true,
+                phone: true,
+                role: true,
+                createdAt: true,
+              },
+            });
+            if (user) {
+              if (isAdmin) user.role = "ADMIN";
+              return user;
+            }
+          } catch (dbErr) {
+            console.warn("DB lookup in getCurrentUser fallback:", dbErr.message);
+          }
+        }
+
+        // Return user from valid token payload (guarantees admin session even if DB was slow)
+        if (isAdmin || payload.userId) {
+          return {
+            id: payload.userId || "admin-root-id",
+            email: payload.email,
+            name: payload.name || (isAdmin ? "Administrator" : "User"),
+            phone: payload.phone || null,
+            role: isAdmin ? "ADMIN" : (payload.role || "USER"),
+            createdAt: new Date().toISOString(),
+          };
+        }
       }
     }
 

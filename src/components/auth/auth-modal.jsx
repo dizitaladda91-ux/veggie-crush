@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, Lock, User, Phone, AlertCircle, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "./auth-context";
 
 export default function AuthModal() {
+  const router = useRouter();
   const { isAuthModalOpen, closeAuthModal, login, register } = useAuth();
   const [tab, setTab] = useState("login"); // "login" | "register"
 
@@ -34,7 +36,16 @@ export default function AuthModal() {
 
     try {
       if (tab === "login") {
-        await login(formData.email, formData.password);
+        const loggedUser = await login(formData.email, formData.password);
+        if (loggedUser?.role === "ADMIN") {
+          setSuccess("Welcome Administrator! Opening Admin Portal...");
+          setTimeout(() => {
+            closeAuthModal();
+            router.push("/admin");
+          }, 600);
+        } else {
+          setSuccess("Logged in successfully!");
+        }
       } else {
         await register(formData);
         setSuccess("Account created successfully!");
@@ -167,16 +178,16 @@ export default function AuthModal() {
             )}
 
             <div>
-              <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Email Address</label>
+              <label className="block text-[11px] font-bold mb-1" style={{ color: "#4B5443" }}>Email or Admin ID</label>
               <div className="flex items-center gap-2 rounded-xl border px-3 py-2.5 bg-white" style={{ borderColor: "#E5E7EB" }}>
                 <Mail size={15} color="#7A8B6F" />
                 <input
-                  type="email"
+                  type="text"
                   required
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="name@example.com"
+                  placeholder="name@example.com or admin ID"
                   className="w-full text-xs outline-none text-[#1E4620]"
                 />
               </div>

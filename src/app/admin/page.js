@@ -21,8 +21,12 @@ import {
   Eye,
   RefreshCw,
   ShoppingBag,
+  ShieldCheck,
+  Lock,
+  LogOut,
 } from "lucide-react";
 import ProductDocumentImport from "@/components/admin/product-document-import";
+import { useAuth } from "@/components/auth/auth-context";
 
 const PRESET_IMAGES = [
   { label: "Moringa Superleaf", url: "/products/moringa_1.webp" },
@@ -46,6 +50,7 @@ const INITIAL_CATEGORIES = [
 ];
 
 export default function AdminPortal() {
+  const { user, loading: authLoading, openAuthModal, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("products"); // 'products' | 'add' | 'categories'
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
@@ -275,10 +280,58 @@ export default function AdminPortal() {
     return matchesSearch && matchesCategory;
   });
 
-  const discountPercent =
-    form.price && form.mrp && Number(form.mrp) > Number(form.price)
-      ? Math.round(((Number(form.mrp) - Number(form.price)) / Number(form.mrp)) * 100)
-      : 0;
+  if (authLoading) {
+    return (
+      <main className="min-h-screen bg-[#F7FAF5] flex items-center justify-center p-6">
+        <div className="flex flex-col items-center gap-3">
+          <RefreshCw size={28} className="animate-spin text-[#6FAE3E]" />
+          <p className="text-sm font-semibold text-[#1E4620]">Verifying administrator credentials...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!user || user.role !== "ADMIN") {
+    return (
+      <main className="min-h-screen bg-[#F7FAF5] flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-[#DCEBD7] p-8 sm:p-10 text-center shadow-xl">
+          <div className="w-16 h-16 rounded-2xl bg-[#EAF3E7] text-[#1E4620] mx-auto flex items-center justify-center mb-5 border border-[#CBDDC5]">
+            <Lock size={28} />
+          </div>
+
+          <span className="text-[11px] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-[#EAF3E7] text-[#2E6032]">
+            ADMIN ACCESS ONLY
+          </span>
+
+          <h1 className="text-2xl font-black text-[#173719] mt-3 mb-2">
+            Admin Portal
+          </h1>
+
+          <p className="text-xs text-[#5D7361] leading-relaxed mb-6">
+            This management console requires Administrator privileges. Please sign in with your admin credentials to add products, edit catalog, and manage inventory.
+          </p>
+
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={openAuthModal}
+              className="w-full py-3.5 px-6 rounded-full text-xs font-bold text-white shadow-sm transition-all hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
+              style={{ backgroundColor: "#1E4620" }}
+            >
+              <ShieldCheck size={16} />
+              <span>Sign In as Admin</span>
+            </button>
+
+            <Link
+              href="/"
+              className="w-full py-3 px-6 rounded-full text-xs font-semibold text-[#5D7361] hover:text-[#1E4620] hover:bg-[#F3F6F2] transition-colors"
+            >
+              Return to Store Homepage
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#F9FAFB] text-[#1E2E1C]">
@@ -319,6 +372,11 @@ export default function AdminPortal() {
           </div>
 
           <div className="flex items-center gap-3">
+            <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#EAF4DA] text-[#1E4620]">
+              <ShieldCheck size={14} className="text-[#6FAE3E]" />
+              <span>{user?.email || "Admin"}</span>
+            </span>
+
             <Link
               href="/"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-[#1E4620] bg-white border border-[#E5E7EB] hover:bg-[#F3F4F6] transition-colors"
@@ -326,6 +384,14 @@ export default function AdminPortal() {
               <ArrowLeft size={13} />
               <span>Back to Store</span>
             </Link>
+
+            <button
+              onClick={logout}
+              title="Log out"
+              className="p-2 rounded-full border border-[#E5E7EB] hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors cursor-pointer"
+            >
+              <LogOut size={15} />
+            </button>
 
             <button
               onClick={() => setActiveTab("add")}
