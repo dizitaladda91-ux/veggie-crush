@@ -1,5 +1,5 @@
-import { connectCatalog, Combo } from "@/lib/catalog";
-import ComboCard from "@/components/products/combo-card";
+import { connectCatalog, Combo, Product } from "@/lib/catalog";
+import ComboCatalog from "@/app/combos/combo-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +10,42 @@ export const metadata = {
 
 export default async function CombosPage() {
   await connectCatalog();
-  const combos = await Combo.find({
-    $or: [{ isActive: true }, { isActive: { $exists: false } }],
-  })
-    .sort({ packSize: 1, code: 1 })
-    .populate("products", "name shortName")
-    .lean();
+  const [productRecords, comboRecords] = await Promise.all([
+    Product.find({ isActive: true })
+      .sort({ createdAt: -1, code: 1 })
+      .select("_id code name shortName slug price mrp size images")
+      .lean(),
+    Combo.find({
+      $or: [{ isActive: true }, { isActive: { $exists: false } }],
+    })
+      .sort({ packSize: 1, code: 1 })
+      .populate("products", "name shortName")
+      .lean(),
+  ]);
+
+  const products = productRecords.map((product) => ({
+    id: String(product._id),
+    code: product.code,
+    name: product.name,
+    shortName: product.shortName,
+    slug: product.slug,
+    price: product.price,
+    mrp: product.mrp,
+    size: product.size,
+    images: product.images || [],
+  }));
+  const combos = comboRecords.map((combo) => ({
+    id: String(combo._id),
+    code: combo.code,
+    name: combo.name,
+    packSize: combo.packSize,
+    bundlePrice: combo.bundlePrice,
+    images: combo.images || [],
+    products: (combo.products || []).filter(Boolean).map((product) => ({
+      name: product.name,
+      shortName: product.shortName,
+    })),
+  }));
 
   return (
     <main className="min-h-screen bg-white px-6 py-12 lg:px-10">
@@ -23,30 +53,9 @@ export default async function CombosPage() {
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#5C8E42]">Curated wellness bundles</p>
         <h1 className="mt-2 text-3xl font-extrabold text-[#173719] sm:text-4xl">Shop all combos</h1>
         <p className="mt-3 max-w-2xl text-[#667E6A]">
-          Thoughtfully paired products at a bundle price. Hover over a card to see its alternate image.
+          Shop single products or explore thoughtfully paired double, triple, and quad combos.
         </p>
-        {combos.length ? (
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {combos.map((combo) => (
-              <ComboCard
-                key={String(combo._id)}
-                combo={{
-                  id: String(combo._id),
-                  code: combo.code,
-                  name: combo.name,
-                  bundlePrice: combo.bundlePrice,
-                  images: combo.images || [],
-                  products: (combo.products || []).filter(Boolean).map((product) => ({
-                    name: product.name,
-                    shortName: product.shortName,
-                  })),
-                }}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-10 text-sm text-[#667E6A]">No wellness combos are available right now.</p>
-        )}
+        <ComboCatalog products={products} combos={combos} />
       </div>
     </main>
   );
