@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Trash2, Upload } from "lucide-react";
+import { isUploadBatchTooLarge, readApiJson } from "@/lib/read-api-json";
 
 export default function BulkImageUpload() {
   const [files, setFiles] = useState([]);
@@ -21,7 +22,7 @@ export default function BulkImageUpload() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemType: item.type, itemId: item.id, imageIndex }),
       });
-      const result = await response.json();
+      const result = await readApiJson(response);
       if (!response.ok) throw new Error(result.error || "Could not delete the image.");
       setReport((previous) => ({
         ...previous,
@@ -43,10 +44,15 @@ export default function BulkImageUpload() {
     if (!files.length || busy) return;
     const form = event.currentTarget;
 
-    setBusy(true);
     setError("");
     setReport(null);
 
+    if (isUploadBatchTooLarge(files)) {
+      setError("The total image upload must be under 4 MB. Upload a smaller batch.");
+      return;
+    }
+
+    setBusy(true);
     const formData = new FormData();
     files.forEach((file) => formData.append("files", file));
     formData.set("append", String(append));
@@ -56,7 +62,7 @@ export default function BulkImageUpload() {
         method: "POST",
         body: formData,
       });
-      const result = await response.json();
+      const result = await readApiJson(response);
       if (!response.ok && response.status !== 207) {
         throw new Error(result.error || "The bulk image upload failed.");
       }
@@ -75,7 +81,7 @@ export default function BulkImageUpload() {
       <div className="mb-4">
         <h2 className="text-lg font-bold text-[#173719]">Bulk product &amp; combo images</h2>
         <p className="mt-1 text-sm text-[#667E6A]">
-          Filenames should match a product slug or combo code/slug. Upload up to 20 images, 5 MB each.
+          Filenames should match a product slug or combo code/slug. Upload up to 20 images with a total size under 4 MB.
         </p>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-4">

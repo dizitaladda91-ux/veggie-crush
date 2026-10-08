@@ -7,11 +7,10 @@ import {
   slugifyProductName,
   validateImportedProducts,
 } from "@/lib/product-document";
+import { MAX_UPLOAD_FILE_BYTES, MAX_UPLOAD_REQUEST_BYTES } from "@/lib/read-api-json";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 async function requireAdmin() {
   const user = await getCurrentUser();
@@ -125,6 +124,11 @@ export async function POST(request) {
   if (authError) return authError;
 
   try {
+    const contentLength = Number(request.headers.get("content-length"));
+    if (contentLength > MAX_UPLOAD_REQUEST_BYTES) {
+      return NextResponse.json({ error: "The request must be under 4 MB." }, { status: 413 });
+    }
+
     await connectCatalog();
 
     if (request.headers.get("content-type")?.includes("multipart/form-data")) {
@@ -137,8 +141,8 @@ export async function POST(request) {
       if (!file.name.toLowerCase().endsWith(".docx")) {
         return NextResponse.json({ error: "Only Word .docx documents are supported." }, { status: 400 });
       }
-      if (file.size === 0 || file.size > MAX_FILE_SIZE) {
-        return NextResponse.json({ error: "The .docx file must be between 1 byte and 5 MB." }, { status: 400 });
+      if (file.size === 0 || file.size > MAX_UPLOAD_FILE_BYTES) {
+        return NextResponse.json({ error: "The .docx file must be under 4 MB." }, { status: 400 });
       }
 
       const rows = await parseProductDocument(Buffer.from(await file.arrayBuffer()));

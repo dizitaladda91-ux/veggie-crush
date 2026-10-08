@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import path from "node:path";
 import { getCurrentUser } from "@/lib/auth";
 import { connectCatalog, Combo, Product } from "@/lib/catalog";
+import { MAX_UPLOAD_FILE_BYTES, MAX_UPLOAD_REQUEST_BYTES } from "@/lib/read-api-json";
 import cloudinaryConfig from "../../../../../../config/cloudinary.js";
 import imageMatching from "../../../../../../lib/image-matching.js";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_FILES = 20;
 const MAX_ATTEMPTS = 3;
 const MIME_TYPES = new Map([
@@ -39,10 +39,19 @@ export async function POST(request) {
     if (!user) return NextResponse.json({ error: "Admin login required." }, { status: 401 });
     if (user.role !== "ADMIN") return NextResponse.json({ error: "Only admins can upload images." }, { status: 403 });
 
+    const contentLength = Number(request.headers.get("content-length"));
+    if (contentLength > MAX_UPLOAD_REQUEST_BYTES) {
+      return NextResponse.json({ error: "The image upload request must be under 4 MB." }, { status: 413 });
+    }
+
     const formData = await request.formData();
     const files = formData.getAll("files");
     if (!files.length || files.length > MAX_FILES) {
       return NextResponse.json({ error: `Choose between 1 and ${MAX_FILES} images.` }, { status: 400 });
+    }
+    if (files.some((file) => typeof file !== "string" && file.size > MAX_UPLOAD_FILE_BYTES)
+      || files.reduce((total, file) => total + (typeof file === "string" ? 0 : file.size), 0) > MAX_UPLOAD_FILE_BYTES) {
+      return NextResponse.json({ error: "The total image upload must be under 4 MB." }, { status: 413 });
     }
 
     const invalid = [];
@@ -51,8 +60,8 @@ export async function POST(request) {
         invalid.push({ file: "unknown", error: "Each upload must be an image file." });
         continue;
       }
-      if (file.size < 1 || file.size > MAX_FILE_SIZE) {
-        invalid.push({ file: file.name, error: "Image size must be between 1 byte and 5 MB." });
+      if (file.size < 1 || file.size > MAX_UPLOAD_FILE_BYTES) {
+        invalid.push({ file: file.name, error: "Image size must be under 4 MB." });
       } else if (!MIME_TYPES.has(file.type)) {
         invalid.push({ file: file.name, error: "Only WebP, PNG, and JPEG images are supported." });
       } else if (!file.name.toLowerCase().endsWith(MIME_TYPES.get(file.type))

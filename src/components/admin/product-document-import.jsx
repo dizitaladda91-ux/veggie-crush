@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, FileText, LoaderCircle, LockKeyhole, LogOut, Mail, Upload } from "lucide-react";
 import { useAuth } from "@/components/auth/auth-context";
 import { isValidProductCode } from "@/lib/product-code";
+import { isUploadFileTooLarge, readApiJson } from "@/lib/read-api-json";
 
 const EDITABLE_FIELDS = [
   ["code", "Product code (SKU)"],
@@ -88,11 +89,17 @@ export default function ProductDocumentImport({ onImported }) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setBusy(true);
     setProducts([]);
     setErrors([]);
     setMessage("");
     setDocumentName(file.name);
+    if (isUploadFileTooLarge(file)) {
+      setMessage("The document is too large. Choose a .docx file under 4 MB.");
+      event.target.value = "";
+      return;
+    }
+
+    setBusy(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -100,7 +107,7 @@ export default function ProductDocumentImport({ onImported }) {
         method: "POST",
         body: formData,
       });
-      const result = await response.json();
+      const result = await readApiJson(response);
 
       if (!response.ok) {
         throw new Error(result.error || "Could not read this document.");
@@ -144,18 +151,24 @@ export default function ProductDocumentImport({ onImported }) {
     setErrors([]);
     setMessage("");
     try {
+      const body = JSON.stringify({ products: products.map((row) => ({
+        ...row.product,
+        keyBenefits: Array.isArray(row.product.keyBenefits)
+          ? row.product.keyBenefits
+          : row.product.keyBenefits.split(/[|;,\n]/).map((benefit) => benefit.trim()).filter(Boolean),
+        rowNumber: row.rowNumber,
+      })) });
+      if (new TextEncoder().encode(body).byteLength > 4 * 1024 * 1024) {
+        setMessage("The reviewed product data is too large to publish in one request.");
+        return;
+      }
+
       const response = await fetch("/api/admin/products/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: products.map((row) => ({
-          ...row.product,
-          keyBenefits: Array.isArray(row.product.keyBenefits)
-            ? row.product.keyBenefits
-            : row.product.keyBenefits.split(/[|;,\n]/).map((benefit) => benefit.trim()).filter(Boolean),
-          rowNumber: row.rowNumber,
-        })) }),
+        body,
       });
-      const result = await response.json();
+      const result = await readApiJson(response);
       if (!response.ok) {
         setErrors(result.details || []);
         throw new Error(result.error || "The products could not be published.");
@@ -265,7 +278,7 @@ export default function ProductDocumentImport({ onImported }) {
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[#6B7280]">
             Add one product per row in a Word table. Required columns: <strong>Name, Price, MRP, Size, Description.</strong>
-            Optional: Code, Short Name, Slug, Key Benefits, Rating, Reviews, Bestseller. Check the preview, then confirm to publish the full list.
+            Optional: Code, Short Name, Slug, Key Benefits, Rating, Reviews, Bestseller. Check the preview, then confirm to publish the full list. DOCX files must be under 4 MB.
           </p>
         </div>
 
