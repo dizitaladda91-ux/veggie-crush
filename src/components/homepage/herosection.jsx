@@ -137,7 +137,7 @@ export default function HeroSection() {
             <div className="relative mx-auto max-w-[480px] lg:max-w-none rounded-3xl overflow-hidden shadow-xl border border-[#DCEBD7] bg-white p-3">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#F2F7F0]">
                 <Image
-                  src="/homesection/veggiecrush.png"
+                  src="/homesection/hero-veggiecrush.png"
                   alt="Fresh farm harvest vegetables and botanical greens"
                   fill
                   priority
