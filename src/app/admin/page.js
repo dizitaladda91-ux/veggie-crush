@@ -10,6 +10,8 @@ import {
   Layers,
   Upload,
   Trash2,
+  Pencil,
+  X,
   ExternalLink,
   Check,
   AlertCircle,
@@ -61,8 +63,14 @@ export default function AdminPortal() {
   // Form states
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editForm, setEditForm] = useState(null);
+  const [editImageUrl, setEditImageUrl] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [uploadingEditImages, setUploadingEditImages] = useState(false);
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
+  const editFileInputRef = useRef(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -243,6 +251,98 @@ export default function AdminPortal() {
       } else {
         showToast(data.error || "Failed to delete product", "error");
       }
+
+      function openEditProduct(product) {
+        setEditingProduct(product);
+        setEditForm({
+          name: product.name || "",
+          shortName: product.shortName || product.name || "",
+          slug: product.slug || "",
+          price: String(product.price ?? ""),
+          mrp: String(product.mrp ?? ""),
+          size: product.size || product.unit || "",
+          description: product.description || "",
+          images: [...(product.images || [])],
+          isBestSeller: Boolean(product.isBestSeller),
+          isActive: product.isActive !== false,
+        });
+        setEditImageUrl("");
+      }
+
+      async function handleEditImageUpload(event) {
+        const files = Array.from(event.target.files || []);
+        if (files.length === 0) return;
+
+        setUploadingEditImages(true);
+        let uploadedCount = 0;
+        try {
+          for (const file of files) {
+            const data = new FormData();
+            data.append("file", file);
+            const response = await fetch("/api/upload", { method: "POST", body: data });
+            const result = await response.json();
+            if (!response.ok || !result.success || !result.url) {
+              throw new Error(result.error || `Could not upload ${file.name}.`);
+            }
+            setEditForm((previous) => ({ ...previous, images: [...previous.images, result.url] }));
+            uploadedCount += 1;
+          }
+          showToast(`${uploadedCount} photo${uploadedCount === 1 ? "" : "s"} uploaded.`);
+        } catch (error) {
+          showToast(
+            uploadedCount
+              ? `${uploadedCount} photo(s) uploaded; the next upload failed: ${error.message}`
+              : error.message,
+            "error",
+          );
+        } finally {
+          setUploadingEditImages(false);
+          event.target.value = "";
+        }
+      }
+
+      function addEditImageUrl() {
+        const url = editImageUrl.trim();
+        if (!url) return;
+        setEditForm((previous) => ({ ...previous, images: [...previous.images, url] }));
+        setEditImageUrl("");
+      }
+
+      async function handleSaveProductChanges(event) {
+        event.preventDefault();
+        if (!editingProduct || !editForm) return;
+        if (!editForm.name.trim() || !editForm.description.trim() || !editForm.size.trim()) {
+          showToast("Product name, description, and size are required.", "error");
+          return;
+        }
+
+        try {
+          setSavingEdit(true);
+          const response = await fetch(`/api/products?id=${editingProduct.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ...editForm,
+              price: Number(editForm.price),
+              mrp: Number(editForm.mrp),
+            }),
+          });
+          const result = await response.json();
+          if (!response.ok || !result.success) {
+            throw new Error(result.error || "Could not save product changes.");
+          }
+
+          setProducts((previous) => previous.map((product) =>
+            product.id === editingProduct.id ? result.product : product));
+          setEditingProduct(null);
+          setEditForm(null);
+          showToast(`"${result.product.name}" updated successfully.`);
+        } catch (error) {
+          showToast(error.message || "Could not save product changes.", "error");
+        } finally {
+          setSavingEdit(false);
+        }
+      }
     } catch (err) {
       showToast("Delete failed: " + err.message, "error");
     }
@@ -349,6 +449,188 @@ export default function AdminPortal() {
         >
           {toast.type === "error" ? <AlertCircle size={16} /> : <Check size={16} />}
           <span>{toast.message}</span>
+        </div>
+      )}
+
+      {editingProduct && editForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <form
+            onSubmit={handleSaveProductChanges}
+            className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl sm:p-8"
+          >
+            <div className="mb-6 flex items-start justify-between gap-4 border-b border-[#E5E7EB] pb-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#6FAE3E]">
+                  Product management
+                </span>
+                <h2 className="mt-1 text-2xl font-black text-[#1E4620]">Edit {editingProduct.name}</h2>
+                <p className="mt-1 text-xs text-[#6B7280]">
+                  Changes and photos are saved to your product after you press Save.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setEditingProduct(null); setEditForm(null); }}
+                aria-label="Close product editor"
+                className="rounded-full border border-[#E5E7EB] p-2 text-[#4B5443] hover:bg-[#F3F4F6]"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {[
+                ["name", "Product name"],
+                ["shortName", "Short name"],
+                ["slug", "Store URL slug"],
+                ["size", "Unit / size"],
+                ["price", "Selling price (₹)"],
+                ["mrp", "MRP (₹)"],
+              ].map(([field, label]) => (
+                <label key={field} className="text-xs font-bold text-[#1E4620]">
+                  {label} *
+                  <input
+                    type={field === "price" || field === "mrp" ? "number" : "text"}
+                    min={field === "price" || field === "mrp" ? "0" : undefined}
+                    step={field === "price" || field === "mrp" ? "0.01" : undefined}
+                    required
+                    value={editForm[field]}
+                    onChange={(event) => setEditForm((previous) => ({
+                      ...previous,
+                      [field]: event.target.value,
+                    }))}
+                    className="mt-1.5 w-full rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2.5 font-normal outline-none focus:border-[#6FAE3E]"
+                  />
+                </label>
+              ))}
+              <label className="text-xs font-bold text-[#1E4620] sm:col-span-2">
+                Description *
+                <textarea
+                  rows={3}
+                  required
+                  value={editForm.description}
+                  onChange={(event) => setEditForm((previous) => ({
+                    ...previous,
+                    description: event.target.value,
+                  }))}
+                  className="mt-1.5 w-full rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2.5 font-normal outline-none focus:border-[#6FAE3E]"
+                />
+              </label>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-[#E5E7EB] p-4">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-bold text-[#1E4620]">Product photos</h3>
+                  <p className="mt-1 text-xs text-[#6B7280]">Upload JPEG, PNG, WebP, GIF, or AVIF photos (max 5 MB each).</p>
+                </div>
+                <input
+                  ref={editFileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                  multiple
+                  onChange={handleEditImageUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  disabled={uploadingEditImages}
+                  onClick={() => editFileInputRef.current?.click()}
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#1E4620] px-4 py-2.5 text-xs font-bold text-white disabled:opacity-60"
+                >
+                  <Upload size={14} />
+                  {uploadingEditImages ? "Uploading..." : "Upload photos"}
+                </button>
+              </div>
+
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  placeholder="Or paste an image URL"
+                  value={editImageUrl}
+                  onChange={(event) => setEditImageUrl(event.target.value)}
+                  className="min-w-0 flex-1 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2.5 text-xs outline-none focus:border-[#6FAE3E]"
+                />
+                <button
+                  type="button"
+                  disabled={!editImageUrl.trim()}
+                  onClick={addEditImageUrl}
+                  className="rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-xs font-bold text-[#1E4620] disabled:opacity-50"
+                >
+                  Add URL
+                </button>
+              </div>
+
+              {editForm.images.length > 0 ? (
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {editForm.images.map((image, index) => (
+                    <div key={`${image}-${index}`} className="overflow-hidden rounded-xl border border-[#E5E7EB]">
+                      <div
+                        role="img"
+                        aria-label={`Product photo ${index + 1}`}
+                        className="aspect-square bg-cover bg-center bg-no-repeat"
+                        style={{ backgroundImage: `url("${image.replaceAll('"', "%22")}")` }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setEditForm((previous) => ({
+                          ...previous,
+                          images: previous.images.filter((_, imageIndex) => imageIndex !== index),
+                        }))}
+                        className="w-full bg-red-50 px-2 py-2 text-xs font-semibold text-red-700 hover:bg-red-100"
+                      >
+                        Remove photo
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-4 text-xs text-[#6B7280]">No photos added yet.</p>
+              )}
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-5">
+              <label className="flex items-center gap-2 text-xs font-semibold text-[#1E4620]">
+                <input
+                  type="checkbox"
+                  checked={editForm.isBestSeller}
+                  onChange={(event) => setEditForm((previous) => ({
+                    ...previous,
+                    isBestSeller: event.target.checked,
+                  }))}
+                />
+                Bestseller
+              </label>
+              <label className="flex items-center gap-2 text-xs font-semibold text-[#1E4620]">
+                <input
+                  type="checkbox"
+                  checked={editForm.isActive}
+                  onChange={(event) => setEditForm((previous) => ({
+                    ...previous,
+                    isActive: event.target.checked,
+                  }))}
+                />
+                Visible in store
+              </label>
+            </div>
+
+            <div className="mt-7 flex justify-end gap-3 border-t border-[#E5E7EB] pt-5">
+              <button
+                type="button"
+                onClick={() => { setEditingProduct(null); setEditForm(null); }}
+                className="rounded-full border border-[#E5E7EB] px-5 py-2.5 text-xs font-bold text-[#4B5443]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={savingEdit || uploadingEditImages}
+                className="rounded-full bg-[#1E4620] px-6 py-2.5 text-xs font-bold text-white disabled:opacity-60"
+              >
+                {savingEdit ? "Saving..." : "Save changes"}
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
@@ -611,6 +893,7 @@ export default function AdminPortal() {
                                       src={p.images[0]}
                                       alt={p.name}
                                       fill
+                                      unoptimized
                                       className="object-contain p-1"
                                     />
                                   ) : (
@@ -672,6 +955,13 @@ export default function AdminPortal() {
                             {/* Actions */}
                             <td className="py-4 px-6 text-right">
                               <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => openEditProduct(p)}
+                                  title="Edit product and photos"
+                                  className="p-2 rounded-xl border border-[#DCEBD7] bg-[#F0FDF4] text-[#1E4620] transition-colors hover:bg-[#EAF4DA] cursor-pointer"
+                                >
+                                  <Pencil size={13} />
+                                </button>
                                 <Link
                                   href={`/products/${p.slug}`}
                                   target="_blank"
@@ -1006,6 +1296,7 @@ export default function AdminPortal() {
                         src={form.imageUrl}
                         alt={form.name || "Preview"}
                         fill
+                        unoptimized
                         className="object-contain p-6"
                       />
                     ) : (

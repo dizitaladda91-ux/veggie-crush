@@ -285,6 +285,7 @@ export default function ProductsPage() {
                         src={product.images[0]}
                         alt={product.name}
                         fill
+                        unoptimized
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-contain p-6 transition-transform duration-500 group-hover:scale-108"
                       />

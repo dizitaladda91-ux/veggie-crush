@@ -24,6 +24,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
 
+Product image uploads use a public Supabase Storage bucket named `product-images`. Configure `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel; the first admin upload creates the bucket if needed. The service-role key must remain server-side.
+
 ### Importing products from a Word document
 
 In Admin Portal → Add New Product, upload a `.docx` document containing a table with one product per row. Use these column headers:
