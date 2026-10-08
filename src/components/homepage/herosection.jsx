@@ -22,7 +22,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Wix-style Editorial Copy */}
-          <div className="lg:col-span-7 flex flex-col justify-center text-left">
+          <div className="lg:col-span-7 flex flex-col justify-center text-left lg:-translate-y-8">
             {/* Wix Eyebrow / Question */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
