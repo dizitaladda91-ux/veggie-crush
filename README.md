@@ -31,7 +31,7 @@ In Admin Portal → Add New Product, upload a `.docx` document containing a tabl
 | Name | Short Name | Slug | Description | Key Benefits | Price | MRP | Size | Rating | Reviews | Bestseller | Code |
 | --- | --- | --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- | --- |
 
-`Name`, `Price`, `MRP`, `Size`, and `Description` are required. Other columns are optional; omit `Code` to reuse the product's existing code by slug or have one assigned automatically. Separate benefits with commas, semicolons, or `|`; use Yes/No for Bestseller. Uploading parses a preview without publishing. Review/edit it, then explicitly confirm to publish every listed product. Matching slugs update existing products and keep their current images. The import endpoint is restricted to authenticated users with the `ADMIN` role.
+`Name`, `Price`, `MRP`, `Size`, and `Description` are required. Product codes are optional unique SKUs of up to 64 letters, numbers, hyphens, or underscores; codes are normalized to uppercase. Omit `Code` to reuse the product's existing SKU by slug or have one generated from its slug. Separate benefits with commas, semicolons, or `|`; use Yes/No for Bestseller. Uploading parses a preview without publishing. Review/edit it, then explicitly confirm to publish every listed product. Matching slugs update existing products and keep their current images. The import endpoint is restricted to authenticated users with the `ADMIN` role.
 
 Install dependencies, then seed products before combos:
 

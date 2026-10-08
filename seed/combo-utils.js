@@ -37,7 +37,9 @@ function generateCombos(products) {
       const orderedProducts = [...comboProducts].sort((left, right) =>
         left.code.localeCompare(right.code),
       );
-      const code = orderedProducts.map((product) => product.code).join("");
+      const code = orderedProducts.map((product) => product.code).join(
+        orderedProducts.every((product) => product.code.length === 1) ? "" : "~",
+      );
       const shortNames = orderedProducts.map((product) => product.shortName);
       const descriptors = orderedProducts.map((product) =>
         product.comboDescriptor || COMBO_DESCRIPTORS[product.code] || product.description,

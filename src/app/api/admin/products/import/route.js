@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { connectCatalog, Product } from "@/lib/catalog";
+import { createProductCode, isValidProductCode } from "@/lib/product-code";
 import {
   parseProductDocument,
   slugifyProductName,
@@ -94,6 +95,10 @@ async function assignProductCodes(rows) {
     const existing = productsBySlug.get(product.slug);
     product.images = existing?.images || [];
 
+    if (product.code && !isValidProductCode(product.code)) {
+      product.code = "";
+    }
+
     if (!product.code && existing?.code) {
       product.code = existing.code;
     }
@@ -104,17 +109,9 @@ async function assignProductCodes(rows) {
     }
 
     if (!product.code) {
-      const availableCode = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].find((code) => !codesInUse.has(code));
-      if (!availableCode) {
-        errors.push("No unused product code remains. Include a valid existing code or free an A-Z code.");
-        continue;
-      }
-      product.code = availableCode;
+      product.code = createProductCode(product.slug, codesInUse);
     }
 
-    if (codesInUse.has(product.code) && existing?.code !== product.code) {
-      errors.push(`Code ${product.code} is assigned more than once.`);
-    }
     codesInUse.add(product.code);
   }
 
@@ -145,8 +142,8 @@ export async function POST(request) {
       }
 
       const rows = await parseProductDocument(Buffer.from(await file.arrayBuffer()));
-      const errors = validateRows(rows);
-      errors.push(...await assignProductCodes(rows));
+      const errors = await assignProductCodes(rows);
+      errors.push(...validateRows(rows));
       return NextResponse.json({ products: rows, errors });
     }
 
@@ -159,8 +156,8 @@ export async function POST(request) {
     }
 
     const rows = body.products.map(normalizeReviewedProduct);
-    const errors = validateRows(rows);
-    errors.push(...await assignProductCodes(rows));
+    const errors = await assignProductCodes(rows);
+    errors.push(...validateRows(rows));
     if (errors.length) {
       return NextResponse.json({ error: "Fix the product errors before importing.", details: errors }, { status: 400 });
     }

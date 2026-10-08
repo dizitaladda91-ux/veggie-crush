@@ -1,7 +1,8 @@
 import mammoth from "mammoth";
+import { isValidProductCode } from "@/lib/product-code";
 
 const HEADER_ALIASES = {
-  code: ["code", "product code", "sku code"],
+  code: ["code", "product code", "sku", "sku code"],
   name: ["name", "product", "product name"],
   shortName: ["short name", "shortname", "display name"],
   slug: ["slug", "url slug"],
@@ -166,7 +167,9 @@ export function validateImportedProducts(rows) {
     }
 
     if (product.code) {
-      if (!/^[A-Z]$/.test(product.code)) rowErrors.push("Code must be one uppercase letter A-Z.");
+      if (!isValidProductCode(product.code)) {
+        rowErrors.push("Code must use up to 64 uppercase letters, numbers, hyphens, or underscores.");
+      }
       if (seenCodes.has(product.code)) rowErrors.push("Duplicate product code in this document.");
       seenCodes.add(product.code);
     }

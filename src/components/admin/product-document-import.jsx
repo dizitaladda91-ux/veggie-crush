@@ -3,9 +3,10 @@
 import { useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, FileText, LoaderCircle, LockKeyhole, LogOut, Mail, Upload } from "lucide-react";
 import { useAuth } from "@/components/auth/auth-context";
+import { isValidProductCode } from "@/lib/product-code";
 
 const EDITABLE_FIELDS = [
-  ["code", "Product code (A-Z)"],
+  ["code", "Product code (SKU)"],
   ["name", "Product name"],
   ["shortName", "Short name"],
   ["slug", "Slug"],
@@ -45,7 +46,9 @@ function previewErrors(products) {
     }
     if (slugs.has(product.slug)) errors.push(`${prefix}: slug is duplicated in this document.`);
     slugs.add(product.slug);
-    if (!/^[A-Z]$/.test(product.code)) errors.push(`${prefix}: code must be a single letter A-Z.`);
+    if (!isValidProductCode(product.code)) {
+      errors.push(`${prefix}: code must use up to 64 uppercase letters, numbers, hyphens, or underscores.`);
+    }
     if (codes.has(product.code)) errors.push(`${prefix}: code is duplicated in this document.`);
     codes.add(product.code);
   });

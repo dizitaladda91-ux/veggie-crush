@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectCatalog, formatProduct, Product } from "@/lib/catalog";
+import { createProductCode, isValidProductCode } from "@/lib/product-code";
 
 export const dynamic = "force-dynamic";
 
@@ -70,15 +71,18 @@ export async function POST(request) {
       );
     }
 
-    const usedCodes = new Set(await Product.distinct("code"));
-    const code = body.code || [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].find((candidate) => !usedCodes.has(candidate));
-    if (!code) {
-      return NextResponse.json({ error: "All single-letter product codes are in use." }, { status: 409 });
-    }
-
     const slug = typeof body.slug === "string" && body.slug.trim()
       ? slugify(body.slug)
       : slugify(name);
+    const requestedCode = typeof body.code === "string" ? body.code.trim().toUpperCase() : "";
+    if (requestedCode && !isValidProductCode(requestedCode)) {
+      return NextResponse.json(
+        { error: "Product code must use up to 64 letters, numbers, hyphens, or underscores." },
+        { status: 400 },
+      );
+    }
+    const code = requestedCode || createProductCode(slug, new Set(await Product.distinct("code")));
+
     const product = new Product({
       code,
       name,
