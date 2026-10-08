@@ -21,7 +21,7 @@ export default function NewArrivalProductCard({ product }) {
             alt={product.name}
             fill
             unoptimized
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes="(max-width: 768px) 50vw, 25vw"
             className={`object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
           />
         ) : (
@@ -35,7 +35,7 @@ export default function NewArrivalProductCard({ product }) {
             alt={`${product.name} alternate view`}
             fill
             unoptimized
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes="(max-width: 768px) 50vw, 25vw"
             className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           />
         )}
