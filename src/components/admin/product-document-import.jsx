@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { AlertCircle, CheckCircle2, FileText, LoaderCircle, Upload } from "lucide-react";
+import { AlertCircle, CheckCircle2, FileText, LoaderCircle, LockKeyhole, LogOut, Mail, Upload } from "lucide-react";
+import { useAuth } from "@/components/auth/auth-context";
 
 const EDITABLE_FIELDS = [
   ["code", "Product code (A-Z)"],
@@ -53,13 +54,32 @@ function previewErrors(products) {
 }
 
 export default function ProductDocumentImport({ onImported }) {
+  const { user, loading: authLoading, login, logout } = useAuth();
   const inputRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [documentName, setDocumentName] = useState("");
   const [errors, setErrors] = useState([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const rowErrors = previewErrors(products);
+
+  async function handleAdminLogin(event) {
+    event.preventDefault();
+    setBusy(true);
+    setAuthError("");
+    try {
+      const signedInUser = await login(credentials.email, credentials.password);
+      if (signedInUser.role !== "ADMIN") {
+        setAuthError("This account does not have the ADMIN role. Sign out and use an admin account.");
+      }
+    } catch (error) {
+      setAuthError(error.message || "Could not sign in.");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function handleFileChange(event) {
     const file = event.target.files?.[0];
@@ -151,6 +171,86 @@ export default function ProductDocumentImport({ onImported }) {
 
   return (
     <section className="lg:col-span-12 rounded-3xl border border-[#DCEBD7] bg-white p-6 sm:p-8 shadow-xs">
+      {authLoading ? (
+        <p className="flex items-center gap-2 text-sm font-semibold text-[#5D7361]">
+          <LoaderCircle size={16} className="animate-spin" />
+          Checking admin session…
+        </p>
+      ) : user?.role !== "ADMIN" ? (
+        user ? (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#6FAE3E]">
+                <LockKeyhole size={15} />
+                Admin access required
+              </span>
+              <p className="mt-2 text-sm leading-relaxed text-[#6B7280]">
+                Signed in as {user.email}, but this account has the {user.role || "CUSTOMER"} role. Product imports are restricted to ADMIN accounts.
+              </p>
+              {authError && <p role="alert" className="mt-2 text-sm font-semibold text-red-700">{authError}</p>}
+            </div>
+            <button
+              type="button"
+              onClick={logout}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-[#E5E7EB] px-5 py-3 text-sm font-bold text-[#1E4620] hover:bg-[#F3F8F1]"
+            >
+              <LogOut size={16} />
+              Sign out to switch account
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleAdminLogin} className="mx-auto max-w-xl">
+            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#6FAE3E]">
+              <LockKeyhole size={15} />
+              Admin sign-in required
+            </span>
+            <h2 className="mt-2 text-xl font-black text-[#1E4620]">Sign in to import products</h2>
+            <p className="mt-2 text-sm leading-relaxed text-[#6B7280]">
+              Use an existing account with the ADMIN role. Regular customer accounts cannot publish catalog products.
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <label className="text-xs font-semibold text-[#4B5443]">
+                Email
+                <span className="mt-1.5 flex items-center gap-2 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3">
+                  <Mail size={15} className="text-[#79947D]" />
+                  <input
+                    type="email"
+                    autoComplete="username"
+                    required
+                    value={credentials.email}
+                    onChange={(event) => setCredentials((current) => ({ ...current, email: event.target.value }))}
+                    className="w-full bg-transparent py-3 text-sm font-normal text-[#1E2E1C] outline-none"
+                  />
+                </span>
+              </label>
+              <label className="text-xs font-semibold text-[#4B5443]">
+                Password
+                <span className="mt-1.5 flex items-center gap-2 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3">
+                  <LockKeyhole size={15} className="text-[#79947D]" />
+                  <input
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={credentials.password}
+                    onChange={(event) => setCredentials((current) => ({ ...current, password: event.target.value }))}
+                    className="w-full bg-transparent py-3 text-sm font-normal text-[#1E2E1C] outline-none"
+                  />
+                </span>
+              </label>
+            </div>
+            {authError && <p role="alert" className="mt-3 text-sm font-semibold text-red-700">{authError}</p>}
+            <button
+              type="submit"
+              disabled={busy}
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E4620] px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {busy ? <LoaderCircle size={16} className="animate-spin" /> : <LockKeyhole size={16} />}
+              {busy ? "Signing in…" : "Sign in as admin"}
+            </button>
+          </form>
+        )
+      ) : (
+        <>
       <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#6FAE3E]">
@@ -285,6 +385,8 @@ export default function ProductDocumentImport({ onImported }) {
             {errors.map((error, index) => <li key={`${index}-${error}`}>{error}</li>)}
           </ul>
         </div>
+      )}
+        </>
       )}
     </section>
   );
