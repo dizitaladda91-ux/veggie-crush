@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Sun, CloudRain, Snowflake, Leaf, Check, ShoppingCart, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sun, CloudRain, Snowflake, Leaf, Check, ShoppingCart, Star, Plus } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
 
 const SEASONS = [
@@ -176,55 +176,74 @@ export default function SeasonPage() {
             {activeSeason.produce.map((item) => {
               const discount = Math.round(((item.mrp - item.price) / item.mrp) * 100);
               const isAdded = !!addedMap[item.id];
+              const badgeText = discount > 0 ? `${discount}% OFF` : "SEASONAL PICK";
 
               return (
                 <div
                   key={item.id}
-                  className="rounded-3xl border p-5 flex flex-col justify-between bg-white border-[#E5E7EB] shadow-sm hover:shadow-md transition-shadow"
+                  className="group rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
+                  style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                 >
-                  <div className="relative aspect-square rounded-2xl overflow-hidden mb-4 bg-[#F9FAFB] border border-[#E5E7EB]">
-                    {discount > 0 && (
-                      <span className="absolute top-3 left-3 text-[10px] font-bold text-white px-2.5 py-1 rounded-full z-10 bg-[#D9483A]">
-                        {discount}% OFF
-                      </span>
-                    )}
+                  {/* Top Image Container with Floating Pill */}
+                  <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-[#F9FAFB]">
+                    <span
+                      className="absolute top-3.5 left-3.5 text-[10px] font-bold tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full z-10 bg-white/95 text-[#1E4620] shadow-sm border border-black/5 backdrop-blur-sm"
+                    >
+                      {badgeText}
+                    </span>
+
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-contain p-6"
+                      className="object-contain p-6 transition-transform duration-500 group-hover:scale-108"
                     />
                   </div>
 
-                  <div>
-                    <div className="flex items-center gap-1 mb-1.5 text-xs font-bold text-[#1E4620]">
-                      <Star size={12} fill="#F0B429" color="#F0B429" />
-                      <span>{item.rating}</span>
-                      <span className="text-[#6B7280] font-normal">• {item.unit}</span>
+                  {/* Bottom Details Section */}
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
+                        {item.name}
+                      </h4>
+                      <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-5">
+                        Harvest fresh · {item.unit}
+                      </p>
                     </div>
 
-                    <h4 className="text-sm font-bold leading-snug" style={{ color: "#1E4620" }}>
-                      {item.name}
-                    </h4>
-
-                    <div className="mt-4 pt-3 border-t border-[#E5E7EB] flex items-center justify-between">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-base font-extrabold" style={{ color: "#1E4620" }}>
+                    <div className="flex items-center justify-between pt-2 mt-auto">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
                           ₹{item.price}
                         </span>
-                        <span className="text-xs line-through text-[#9CA3AF]">
-                          ₹{item.mrp}
-                        </span>
+                        {item.unit && (
+                          <span className="text-xs text-[#6B7280] font-normal">
+                            / {item.unit}
+                          </span>
+                        )}
+                        {discount > 0 && (
+                          <span className="text-xs line-through text-[#9CA3AF] ml-1.5 font-medium">
+                            ₹{item.mrp}
+                          </span>
+                        )}
                       </div>
 
+                      {/* Circular outline button with '+' icon (Exact match to reference image button) */}
                       <button
                         onClick={() => handleAdd(item)}
-                        className="px-4 py-2 rounded-full text-xs font-bold text-white flex items-center gap-1.5 transition-transform hover:scale-105 cursor-pointer shadow-sm"
-                        style={{ backgroundColor: isAdded ? "#1E4620" : "#6FAE3E" }}
+                        aria-label={`Add ${item.name} to cart`}
+                        className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${
+                          isAdded
+                            ? "bg-[#1E4620] border-[#1E4620] text-white"
+                            : "border-[#D1D5DB] text-[#1E4620] hover:border-[#1E4620] hover:bg-[#1E4620] hover:text-white bg-white"
+                        }`}
                       >
-                        {isAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
-                        <span>{isAdded ? "Added!" : "Add"}</span>
+                        {isAdded ? (
+                          <Check size={18} strokeWidth={2.5} />
+                        ) : (
+                          <Plus size={20} strokeWidth={1.6} />
+                        )}
                       </button>
                     </div>
                   </div>

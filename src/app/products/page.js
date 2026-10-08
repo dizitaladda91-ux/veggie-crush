@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Star, ShoppingCart, Check, Filter, Search, ArrowLeft } from "lucide-react";
+import { Star, ShoppingCart, Check, Filter, Search, ArrowLeft, Plus } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
 
 const FALLBACK_PRODUCTS = [
@@ -255,31 +255,29 @@ export default function ProductsPage() {
             {filteredProducts.map((product) => {
               const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
               const isAdded = !!addedMap[product.id];
+              const badgeText = product.isBestSeller
+                ? "MOST LOVED"
+                : discount > 0
+                ? `${discount}% OFF`
+                : "100% ORGANIC";
 
               return (
                 <div
                   key={product.id}
-                  className="rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
+                  className="group rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
                   style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                 >
-                  <Link href={`/products/${product.slug}`} className="block relative aspect-square p-8" style={{ backgroundColor: "#F9FAFB" }}>
-                    {discount > 0 && (
-                      <span
-                        className="absolute top-4 left-4 text-[10px] font-bold text-white px-3 py-1 rounded-full z-10"
-                        style={{ backgroundColor: "#D9483A" }}
-                      >
-                        {discount}% OFF
-                      </span>
-                    )}
-
-                    {product.isBestSeller && (
-                      <span
-                        className="absolute top-4 right-4 text-[10px] font-bold text-white px-3 py-1 rounded-full z-10"
-                        style={{ backgroundColor: "#1E4620" }}
-                      >
-                        Bestseller
-                      </span>
-                    )}
+                  {/* Top Image Container with Floating Pill */}
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="block relative aspect-[4/3] sm:aspect-square overflow-hidden bg-[#F9FAFB]"
+                  >
+                    {/* Floating Pill Badge matching reference "MOST LOVED" pill */}
+                    <span
+                      className="absolute top-3.5 left-3.5 text-[10px] font-bold tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full z-10 bg-white/95 text-[#1E4620] shadow-sm border border-black/5 backdrop-blur-sm"
+                    >
+                      {badgeText}
+                    </span>
 
                     {product.images?.[0] ? (
                       <Image
@@ -287,58 +285,59 @@ export default function ProductsPage() {
                         alt={product.name}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-contain p-6 transition-transform duration-300 hover:scale-105"
+                        className="object-contain p-6 transition-transform duration-500 group-hover:scale-108"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
                     )}
                   </Link>
 
-                  <div className="p-6 flex-1 flex flex-col justify-between">
+                  {/* Bottom Details Section */}
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <Star size={13} fill="#F0B429" color="#F0B429" />
-                        <span className="text-xs font-bold" style={{ color: "#1E4620" }}>
-                          {product.rating}
-                        </span>
-                        <span className="text-xs" style={{ color: "#6B7280" }}>
-                          ({product.reviews} reviews)
-                        </span>
-                      </div>
-
                       <Link href={`/products/${product.slug}`}>
-                        <h3 className="text-base font-extrabold hover:underline" style={{ color: "#1E4620" }}>
+                        <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
                           {product.name}
                         </h3>
                       </Link>
 
-                      <p className="text-xs mt-1.5 line-clamp-2" style={{ color: "#7A8B6F" }}>
-                        {product.description}
+                      <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-5">
+                        {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
                       </p>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: "#F3F4F6" }}>
-                      <div>
-                        <span className="text-lg font-black" style={{ color: "#1E4620" }}>
+                    <div className="flex items-center justify-between pt-2 mt-auto">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
                           ₹{product.price}
                         </span>
-                        {product.mrp > product.price && (
-                          <span className="text-xs line-through ml-2" style={{ color: "#6B7280" }}>
+                        {product.unit && (
+                          <span className="text-xs text-[#6B7280] font-normal">
+                            / {product.unit}
+                          </span>
+                        )}
+                        {discount > 0 && (
+                          <span className="text-xs line-through text-[#9CA3AF] ml-1.5 font-medium">
                             ₹{product.mrp}
                           </span>
                         )}
-                        <span className="block text-[11px]" style={{ color: "#6B7280" }}>
-                          {product.unit}
-                        </span>
                       </div>
 
+                      {/* Circular outline button with '+' icon (Exact match to reference image button) */}
                       <button
                         onClick={() => handleAdd(product)}
-                        className="flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all hover:scale-105 cursor-pointer shadow-sm"
-                        style={{ backgroundColor: isAdded ? "#1E4620" : "#6FAE3E" }}
+                        aria-label={`Add ${product.name} to cart`}
+                        className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${
+                          isAdded
+                            ? "bg-[#1E4620] border-[#1E4620] text-white"
+                            : "border-[#D1D5DB] text-[#1E4620] hover:border-[#1E4620] hover:bg-[#1E4620] hover:text-white bg-white"
+                        }`}
                       >
-                        {isAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
-                        <span>{isAdded ? "Added!" : "Add to Cart"}</span>
+                        {isAdded ? (
+                          <Check size={18} strokeWidth={2.5} />
+                        ) : (
+                          <Plus size={20} strokeWidth={1.6} />
+                        )}
                       </button>
                     </div>
                   </div>

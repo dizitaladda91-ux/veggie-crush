@@ -57,6 +57,7 @@ const LINK_GROUPS = [
       { label: "Our Farms", href: "/about" },
       { label: "Certifications", href: "/about" },
       { label: "Farm Journal", href: "/blog" },
+      { label: "Admin Portal", href: "/admin" },
     ],
   },
   {

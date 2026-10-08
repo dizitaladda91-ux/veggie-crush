@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, ShoppingCart, Heart, Check, Eye, Image as ImageIcon } from "lucide-react";
+import { Star, ShoppingCart, Heart, Check, Eye, Plus, Image as ImageIcon } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 
 const FALLBACK_PRODUCTS = [
@@ -117,137 +117,122 @@ function ProductCard({ product }) {
     setTimeout(() => setAdded(false), 1500);
   }
 
+  // Determine pill text: "MOST LOVED" if top rated / bestseller, or "25% OFF" or "FARM FRESH"
+  const badgeText = product.isBestSeller
+    ? "MOST LOVED"
+    : discount > 0
+    ? `${discount}% OFF`
+    : "100% ORGANIC";
+
   return (
-    <Link href={`/products/${productSlug}`} className="block">
+    <Link href={`/products/${productSlug}`} className="block h-full">
       <motion.div
         variants={cardVariants}
         whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="group relative rounded-3xl overflow-hidden border shadow-sm hover:shadow-md transition-shadow"
+        className="group relative rounded-3xl overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
         style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
       >
-      <div
-        className="relative aspect-square flex items-center justify-center overflow-hidden"
-        style={{ backgroundColor: "#F9FAFB" }}
-      >
-        <motion.div
-          className="absolute -right-10 -top-10 w-32 h-32 rounded-full"
-          style={{ backgroundColor: "#6FAE3E22" }}
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {discount > 0 && (
-          <motion.span
-            initial={{ scale: 0, rotate: -8 }}
-            animate={{ scale: 1, rotate: -8 }}
-            transition={{ type: "spring", stiffness: 400, damping: 12, delay: 0.2 }}
-            className="absolute top-3 left-3 text-[10px] font-bold text-white px-2.5 py-1 rounded-full z-10"
-            style={{ backgroundColor: "#D9483A" }}
+        {/* Top Image Container with Floating Pill */}
+        <div
+          className="relative aspect-square flex items-center justify-center overflow-hidden bg-[#F9FAFB]"
+        >
+          {/* Floating Pill Badge matching reference "MOST LOVED" pill */}
+          <span
+            className="absolute top-3.5 left-3.5 text-[10px] font-bold tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full z-10 bg-white/95 text-[#1E4620] shadow-sm border border-black/5 backdrop-blur-sm"
           >
-            {discount}% OFF
-          </motion.span>
-        )}
-
-        <motion.button
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setWishlisted((w) => !w); }}
-          whileTap={{ scale: 0.8 }}
-          aria-label="Toggle wishlist"
-          className="absolute top-3 right-3 w-8 h-8 rounded-full grid place-items-center z-10 backdrop-blur-sm"
-          style={{ backgroundColor: "#FFFFFFcc" }}
-        >
-          <Heart
-            size={15}
-            fill={wishlisted ? "#D9483A" : "none"}
-            color={wishlisted ? "#D9483A" : "#4B5443"}
-          />
-        </motion.button>
-
-        {product.images?.[0] ? (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="relative z-[1] h-full w-full object-contain p-8 transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
-            <ImageIcon size={30} strokeWidth={1.5} aria-hidden="true" />
-          </div>
-        )}
-
-        <motion.div
-          initial={{ y: "100%" }}
-          whileHover={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 260, damping: 26 }}
-          className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 py-2.5"
-          style={{ backgroundColor: "#1E4620dd" }}
-        >
-          <Eye size={13} color="#ffffff" />
-          <span className="text-[11px] font-semibold text-white">Quick View</span>
-        </motion.div>
-      </div>
-
-      <div className="p-4">
-        <h3 className="text-sm font-bold mb-1" style={{ color: "#1E4620" }}>
-          {product.name}
-        </h3>
-        <p className="text-xs mb-2" style={{ color: "#6B7280" }}>
-          {product.unit}
-        </p>
-
-        <div className="flex items-center gap-1 mb-3">
-          <Star size={13} fill="#F0B429" color="#F0B429" />
-          <span className="text-xs font-semibold" style={{ color: "#4B5443" }}>
-            {product.rating}
+            {badgeText}
           </span>
-          <span className="text-xs" style={{ color: "#6B7280" }}>
-            ({product.reviews})
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="text-base font-extrabold" style={{ color: "#1E4620" }}>
-              ₹{product.price}
-            </span>
-            {discount > 0 && (
-              <span className="text-xs line-through" style={{ color: "#9CA3AF" }}>
-                ₹{product.mrp}
-              </span>
-            )}
-          </div>
 
           <motion.button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAdd(); }}
-            whileTap={{ scale: 0.88 }}
-            aria-label={`Add ${product.name} to cart`}
-            className="relative w-9 h-9 rounded-full grid place-items-center text-white shrink-0 overflow-hidden"
-            style={{ backgroundColor: added ? "#1E4620" : "#6FAE3E" }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setWishlisted((w) => !w); }}
+            whileTap={{ scale: 0.85 }}
+            aria-label="Toggle wishlist"
+            className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full grid place-items-center z-10 bg-white/90 hover:bg-white text-gray-600 shadow-sm transition-all"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              {added ? (
-                <motion.span
-                  key="check"
-                  initial={{ scale: 0, rotate: -90 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  exit={{ scale: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                >
-                  <Check size={15} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="cart"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0 }}
-                >
-                  <ShoppingCart size={15} />
-                </motion.span>
-              )}
-            </AnimatePresence>
+            <Heart
+              size={15}
+              fill={wishlisted ? "#D9483A" : "none"}
+              color={wishlisted ? "#D9483A" : "#6B7280"}
+            />
           </motion.button>
+
+          {product.images?.[0] ? (
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="relative z-[1] h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-108"
+            />
+          ) : (
+            <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
+              <ImageIcon size={30} strokeWidth={1.5} aria-hidden="true" />
+            </div>
+          )}
         </div>
+
+        {/* Bottom Details Section */}
+        <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
+              {product.name}
+            </h3>
+            <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-4">
+              {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between pt-2 mt-auto">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
+                ₹{product.price}
+              </span>
+              {product.unit && (
+                <span className="text-xs text-[#6B7280] font-normal">
+                  / {product.unit}
+                </span>
+              )}
+              {discount > 0 && (
+                <span className="text-xs line-through text-[#9CA3AF] ml-1.5 font-medium">
+                  ₹{product.mrp}
+                </span>
+              )}
+            </div>
+
+            {/* Circular outline button with '+' icon (Exact match to reference image button) */}
+            <motion.button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAdd(); }}
+              whileTap={{ scale: 0.9 }}
+              aria-label={`Add ${product.name} to cart`}
+              className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${
+                added
+                  ? "bg-[#1E4620] border-[#1E4620] text-white"
+                  : "border-[#D1D5DB] text-[#1E4620] hover:border-[#1E4620] hover:bg-[#1E4620] hover:text-white bg-white"
+              }`}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {added ? (
+                  <motion.span
+                    key="check"
+                    initial={{ scale: 0, rotate: -90 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    exit={{ scale: 0 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  >
+                    <Check size={18} strokeWidth={2.5} />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="plus"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0.8 }}
+                  >
+                    <Plus size={20} strokeWidth={1.6} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
         </div>
       </motion.div>
     </Link>

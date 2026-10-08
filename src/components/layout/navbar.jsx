@@ -163,6 +163,14 @@ export default function Navbar() {
           )}
 
           <Link
+            href="/admin"
+            className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-full border border-[#6FAE3E] text-[#1E4620] bg-[#F0FDF4] hover:bg-[#EAF4DA] transition-all"
+            title="Admin Portal"
+          >
+            Admin
+          </Link>
+
+          <Link
             href="/track-order"
             aria-label="Track delivery"
             className="hidden sm:flex items-center p-2 rounded-xl hover:bg-[#F3F4F6] transition-colors group"
@@ -324,6 +332,16 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
+            <li className="pt-2">
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-[#1E4620] bg-[#F0FDF4] border border-[#DCFCE7]"
+                onClick={() => setMobileOpen(false)}
+              >
+                <Leaf size={13} color="#1E4620" />
+                Admin Portal
+              </Link>
+            </li>
           </ul>
         </div>
       )}
