@@ -10,7 +10,9 @@ export const metadata = {
 
 export default async function CombosPage() {
   await connectCatalog();
-  const combos = await Combo.find({ isActive: true })
+  const combos = await Combo.find({
+    $or: [{ isActive: true }, { isActive: { $exists: false } }],
+  })
     .sort({ packSize: 1, code: 1 })
     .populate("products", "name shortName")
     .lean();
@@ -34,7 +36,7 @@ export default async function CombosPage() {
                   name: combo.name,
                   bundlePrice: combo.bundlePrice,
                   images: combo.images || [],
-                  products: combo.products.map((product) => ({
+                  products: (combo.products || []).filter(Boolean).map((product) => ({
                     name: product.name,
                     shortName: product.shortName,
                   })),

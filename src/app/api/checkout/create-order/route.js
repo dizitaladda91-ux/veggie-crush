@@ -62,7 +62,7 @@ export async function POST(request) {
 
       if (item.comboId || item.kind === "combo" || item.type === "combo") {
         const combo = await Combo.findById(item.comboId || item.id);
-        if (!combo || !combo.isActive) {
+        if (!combo || combo.isActive === false) {
           return NextResponse.json({ error: "A selected combo is no longer available." }, { status: 400 });
         }
 

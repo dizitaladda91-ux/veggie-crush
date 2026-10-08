@@ -8,7 +8,9 @@ export async function GET(request) {
     await connectCatalog();
     const { searchParams } = new URL(request.url);
     const packSizeValue = searchParams.get("packSize");
-    const filter = { isActive: true };
+    const filter = {
+      $or: [{ isActive: true }, { isActive: { $exists: false } }],
+    };
 
     if (packSizeValue) {
       const packSize = Number(packSizeValue);
@@ -30,7 +32,7 @@ export async function GET(request) {
         name: combo.name,
         slug: combo.slug,
         packSize: combo.packSize,
-        products: combo.products.map((product) => ({
+        products: (combo.products || []).filter(Boolean).map((product) => ({
           id: String(product._id),
           code: product.code,
           name: product.name,
