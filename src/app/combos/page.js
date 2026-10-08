@@ -38,6 +38,7 @@ export default async function CombosPage() {
     id: String(combo._id),
     code: combo.code,
     name: combo.name,
+    slug: combo.slug,
     packSize: combo.packSize,
     bundlePrice: combo.bundlePrice,
     images: combo.images || [],
@@ -46,6 +47,14 @@ export default async function CombosPage() {
       shortName: product.shortName,
     })),
   }));
+  const comboCodes = new Set(combos.map((combo) => combo.code?.trim().toUpperCase()).filter(Boolean));
+  const comboSlugs = new Set(combos.map((combo) => combo.slug?.trim().toLowerCase()).filter(Boolean));
+  const comboNames = new Set(combos.map((combo) => combo.name?.trim().toLowerCase()).filter(Boolean));
+  const standaloneProducts = products.filter((product) =>
+    !comboCodes.has(product.code?.trim().toUpperCase())
+      && !comboSlugs.has(product.slug?.trim().toLowerCase())
+      && !comboNames.has(product.name?.trim().toLowerCase()),
+  );
 
   return (
     <main className="min-h-screen bg-white px-6 py-12 lg:px-10">
@@ -55,7 +64,7 @@ export default async function CombosPage() {
         <p className="mt-3 max-w-2xl text-[#667E6A]">
           Shop single products or explore thoughtfully paired double, triple, and quad combos.
         </p>
-        <ComboCatalog products={products} combos={combos} />
+        <ComboCatalog products={standaloneProducts} combos={combos} />
       </div>
     </main>
   );

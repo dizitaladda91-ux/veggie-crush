@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Trash2, Upload } from "lucide-react";
-import { isUploadBatchTooLarge, readApiJson } from "@/lib/read-api-json";
+import { isImageBatchTooLarge, readApiJson } from "@/lib/read-api-json";
 
 export default function BulkImageUpload() {
   const [files, setFiles] = useState([]);
@@ -47,8 +47,8 @@ export default function BulkImageUpload() {
     setError("");
     setReport(null);
 
-    if (isUploadBatchTooLarge(files)) {
-      setError("The total image upload must be under 4 MB. Upload a smaller batch.");
+    if (isImageBatchTooLarge(files)) {
+      setError("The total image upload must be 50 MB or smaller. Upload a smaller batch.");
       return;
     }
 
@@ -81,7 +81,7 @@ export default function BulkImageUpload() {
       <div className="mb-4">
         <h2 className="text-lg font-bold text-[#173719]">Bulk product &amp; combo images</h2>
         <p className="mt-1 text-sm text-[#667E6A]">
-          Filenames should match a product slug or combo code/slug. Upload up to 20 images with a total size under 4 MB.
+          Filenames should match a product slug or combo code/slug. Upload up to 20 images with a combined size of 50 MB or less.
         </p>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-4">

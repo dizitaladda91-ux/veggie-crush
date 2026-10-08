@@ -30,7 +30,7 @@ import {
 import ProductDocumentImport from "@/components/admin/product-document-import";
 import BulkImageUpload from "@/components/admin/bulk-image-upload";
 import { useAuth } from "@/components/auth/auth-context";
-import { isUploadFileTooLarge, readApiJson } from "@/lib/read-api-json";
+import { isImageFileTooLarge, readApiJson } from "@/lib/read-api-json";
 
 const PRESET_IMAGES = [
   { label: "Moringa Superleaf", url: "/products/moringa_1.webp" },
@@ -140,8 +140,8 @@ export default function AdminPortal() {
   async function handleFileUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (isUploadFileTooLarge(file)) {
-      showToast("Image must be under 4 MB. Choose a smaller image.", "error");
+    if (isImageFileTooLarge(file)) {
+      showToast("Images can be up to 50 MB. Choose a smaller image.", "error");
       e.target.value = "";
       return;
     }
@@ -280,9 +280,9 @@ export default function AdminPortal() {
         const files = Array.from(event.target.files || []);
         if (files.length === 0) return;
 
-        const oversizedFile = files.find(isUploadFileTooLarge);
+        const oversizedFile = files.find(isImageFileTooLarge);
         if (oversizedFile) {
-          showToast(`${oversizedFile.name} is too large. Each image must be under 4 MB.`, "error");
+          showToast(`${oversizedFile.name} is too large. Each image can be up to 50 MB.`, "error");
           event.target.value = "";
           return;
         }
@@ -536,7 +536,7 @@ export default function AdminPortal() {
               <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h3 className="text-sm font-bold text-[#1E4620]">Product photos</h3>
-                  <p className="mt-1 text-xs text-[#6B7280]">Upload JPEG, PNG, WebP, GIF, or AVIF photos to Cloudinary (under 4 MB each).</p>
+                  <p className="mt-1 text-xs text-[#6B7280]">Upload JPEG, PNG, WebP, GIF, or AVIF photos to Cloudinary (up to 50 MB each).</p>
                 </div>
                 <input
                   ref={editFileInputRef}

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, FileText, LoaderCircle, LockKeyhole, LogOut, Mail, Upload } from "lucide-react";
 import { useAuth } from "@/components/auth/auth-context";
 import { isValidProductCode } from "@/lib/product-code";
-import { isUploadFileTooLarge, readApiJson } from "@/lib/read-api-json";
+import { MAX_DOCUMENT_UPLOAD_BYTES, readApiJson } from "@/lib/read-api-json";
 
 const EDITABLE_FIELDS = [
   ["code", "Product code (SKU)"],
@@ -93,7 +93,7 @@ export default function ProductDocumentImport({ onImported }) {
     setErrors([]);
     setMessage("");
     setDocumentName(file.name);
-    if (isUploadFileTooLarge(file)) {
+    if (file.size > MAX_DOCUMENT_UPLOAD_BYTES) {
       setMessage("The document is too large. Choose a .docx file under 4 MB.");
       event.target.value = "";
       return;

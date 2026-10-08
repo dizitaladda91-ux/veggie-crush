@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
-import { MAX_UPLOAD_FILE_BYTES, MAX_UPLOAD_REQUEST_BYTES } from "@/lib/read-api-json";
+import { MAX_IMAGE_REQUEST_BYTES, MAX_IMAGE_UPLOAD_BYTES } from "@/lib/read-api-json";
 import cloudinaryConfig from "../../../../config/cloudinary.js";
 
 export const dynamic = "force-dynamic";
@@ -22,8 +22,8 @@ export async function POST(request) {
     }
 
     const contentLength = Number(request.headers.get("content-length"));
-    if (contentLength > MAX_UPLOAD_REQUEST_BYTES) {
-      return NextResponse.json({ error: "The image upload request must be under 4 MB." }, { status: 413 });
+    if (contentLength > MAX_IMAGE_REQUEST_BYTES) {
+      return NextResponse.json({ error: "The image upload request must be under 51 MB." }, { status: 413 });
     }
 
     const formData = await request.formData();
@@ -34,8 +34,8 @@ export async function POST(request) {
     if (!IMAGE_TYPES.has(file.type)) {
       return NextResponse.json({ error: "Upload a JPEG, PNG, WebP, GIF, or AVIF image." }, { status: 400 });
     }
-    if (!file.size || file.size > MAX_UPLOAD_FILE_BYTES) {
-      return NextResponse.json({ error: "Image must be under 4 MB." }, { status: 400 });
+    if (!file.size || file.size > MAX_IMAGE_UPLOAD_BYTES) {
+      return NextResponse.json({ error: "Image must be 50 MB or smaller." }, { status: 400 });
     }
 
     const result = await cloudinaryConfig.uploadBuffer(
