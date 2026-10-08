@@ -59,12 +59,13 @@ export async function POST(request) {
     await connectCatalog();
     const body = await request.json();
     const name = typeof body.name === "string" ? body.name.trim() : "";
+    const description = typeof body.description === "string" ? body.description.trim() : "";
     const price = Number(body.price);
     const mrp = body.mrp === undefined || body.mrp === "" ? price : Number(body.mrp);
 
-    if (!name || !Number.isFinite(price) || !Number.isFinite(mrp) || price < 0 || mrp < price) {
+    if (!name || !description || !Number.isFinite(price) || !Number.isFinite(mrp) || price < 0 || mrp < price) {
       return NextResponse.json(
-        { error: "Valid product name, price, and MRP are required." },
+        { error: "Product name, description, a valid price, and an MRP at least equal to the price are required." },
         { status: 400 },
       );
     }
@@ -85,7 +86,7 @@ export async function POST(request) {
         ? body.shortName.trim()
         : name,
       slug,
-      description: typeof body.description === "string" ? body.description : "",
+      description,
       keyBenefits: Array.isArray(body.keyBenefits) ? body.keyBenefits : [],
       price,
       mrp,

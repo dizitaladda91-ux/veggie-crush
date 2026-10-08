@@ -167,8 +167,8 @@ export default function AdminPortal() {
 
   async function handleCreateProduct(e) {
     e.preventDefault();
-    if (!form.name || !form.price) {
-      showToast("Please enter product name and price", "error");
+    if (!form.name.trim() || !form.price || !form.description.trim()) {
+      showToast("Please enter product name, price, and description", "error");
       return;
     }
 
@@ -849,10 +849,11 @@ export default function AdminPortal() {
                 {/* Description */}
                 <div>
                   <label className="block text-xs font-bold text-[#1E4620] mb-1.5">
-                    Description & Health Highlights
+                    Description & Health Highlights *
                   </label>
                   <textarea
                     rows={3}
+                    required
                     placeholder="Enter short farm description, e.g. Naturally rich in iron and chlorophyll, tender organic leaves picked fresh at dawn."
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
