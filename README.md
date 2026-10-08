@@ -24,6 +24,15 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
 
+### Importing products from a Word document
+
+In Admin Portal → Add New Product, upload a `.docx` document containing a table with one product per row. Use these column headers:
+
+| Name | Short Name | Slug | Description | Key Benefits | Price | MRP | Size | Rating | Reviews | Bestseller | Code |
+| --- | --- | --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- | --- |
+
+`Name`, `Price`, `MRP`, `Size`, and `Description` are required. Other columns are optional; omit `Code` to reuse the product's existing code by slug or have one assigned automatically. Separate benefits with commas, semicolons, or `|`; use Yes/No for Bestseller. Uploading parses a preview without publishing. Review/edit it, then explicitly confirm to publish every listed product. Matching slugs update existing products and keep their current images. The import endpoint is restricted to authenticated users with the `ADMIN` role.
+
 Install dependencies, then seed products before combos:
 
 ```bash

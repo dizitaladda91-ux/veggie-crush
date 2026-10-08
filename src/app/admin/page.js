@@ -22,6 +22,7 @@ import {
   RefreshCw,
   ShoppingBag,
 } from "lucide-react";
+import ProductDocumentImport from "@/components/admin/product-document-import";
 
 const PRESET_IMAGES = [
   { label: "Moringa Superleaf", url: "/products/moringa_1.webp" },
@@ -634,6 +635,14 @@ export default function AdminPortal() {
         ═════════════════════════════════════════════ */}
         {activeTab === "add" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <ProductDocumentImport
+              onImported={async () => {
+                await fetchProducts();
+                showToast("Products imported and published successfully!");
+                setActiveTab("products");
+              }}
+            />
+
             {/* Form Column */}
             <div className="lg:col-span-8 bg-white p-6 sm:p-10 rounded-3xl border border-[#E5E7EB] shadow-xs">
               <div className="mb-6 pb-4 border-b border-[#E5E7EB]">
