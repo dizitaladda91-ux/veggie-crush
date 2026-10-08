@@ -1,5 +1,5 @@
 import Herosection from "../components/homepage/herosection";
-import TopSellingProducts from "@/components/homepage/topselling";
+import NewArrivals from "@/components/homepage/new-arrivals";
 import CategoriesSection from "../components/homepage/categories-section";
 import FromSeedToTable from "../components/homepage/from-seed-to-table";
 import SubscriptionBoxes from "../components/homepage/subscription-boxes";
@@ -13,7 +13,7 @@ export default function Home() {
       <Herosection />
 
       {/* 2. New Arrivals matching Wix comp-ml7u8bz8 */}
-      <TopSellingProducts />
+      <NewArrivals />
 
       {/* 3. Shop by Category matching Wix comp-ml7ubq9z */}
       <CategoriesSection />

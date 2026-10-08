@@ -21,7 +21,7 @@ export default function ComboCard({ combo }) {
             fill
             unoptimized
             sizes="(max-width: 768px) 100vw, 33vw"
-            className={`object-contain p-6 transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
+            className={`object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">
@@ -35,7 +35,7 @@ export default function ComboCard({ combo }) {
             fill
             unoptimized
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-contain p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           />
         )}
       </div>

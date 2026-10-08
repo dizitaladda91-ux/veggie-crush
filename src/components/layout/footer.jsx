@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Leaf, MapPin, Phone, Mail, Clock } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 function InstagramIcon(props) {
   return (
@@ -35,18 +36,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
           {/* Column 1: Brand & Logo (lg: 4 cols) */}
           <div className="lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-2.5 mb-5 group">
-              <span className="grid place-items-center w-10 h-10 rounded-xl border-2 border-[#6FAE3E] bg-[#EAF4DA] shadow-xs transition-transform group-hover:scale-105">
-                <Leaf size={18} color="#1E4620" strokeWidth={2.3} />
-              </span>
-              <span className="leading-none text-[#1E4620]">
-                <span className="block text-[20px] font-black tracking-tight">
-                  Veggie<span className="text-[#6FAE3E]">Crush</span>
-                </span>
-                <span className="block text-[9px] font-bold tracking-[0.22em] uppercase text-[#7A8B6F] mt-0.5">
-                  Farm to Door
-                </span>
-              </span>
+            <Link href="/" className="mb-5 inline-flex items-center transition-transform hover:scale-[1.02]">
+              <Image
+                src="/brand/veggiecrush-logo-transparent.png"
+                alt="VeggieCrush — Farm to Door"
+                width={358}
+                height={149}
+                className="h-[58px] w-[140px] object-contain"
+              />
             </Link>
 
             <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed mb-6 max-w-sm">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu, LogOut } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 import { useAuth } from "../auth/auth-context";
@@ -96,31 +97,14 @@ export default function Navbar() {
 
         {/* ── CENTER: Logo (always centered) ── */}
         <div className="flex justify-center">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <span
-              className="grid place-items-center w-10 h-10 rounded-xl border-2 transition-all duration-300 group-hover:scale-105 group-hover:shadow-md"
-              style={{
-                borderColor: "#6FAE3E",
-                backgroundColor: "#EAF4DA",
-                boxShadow: "0 2px 8px rgba(111,174,62,0.20)",
-              }}
-            >
-              <Leaf size={18} color="#1E4620" strokeWidth={2.3} />
-            </span>
-            <span
-              style={{ color: "#1E4620" }}
-              className="leading-none"
-            >
-              <span className="block text-[19px] font-extrabold tracking-tight">
-                Veggie<span style={{ color: "#6FAE3E" }}>Crush</span>
-              </span>
-              <span
-                className="block text-[9px] font-bold tracking-[0.22em] uppercase mt-0.5"
-                style={{ color: "#7A8B6F" }}
-              >
-                Farm to Door
-              </span>
-            </span>
+          <Link href="/" className="group flex items-center justify-center">
+            <Image
+              src="/brand/veggiecrush-logo-transparent.png"
+              alt="VeggieCrush — Farm to Door"
+              width={358}
+              height={149}
+              className="h-[46px] w-[110px] object-contain transition-transform group-hover:scale-[1.03] sm:h-[56px] sm:w-[135px]"
+            />
           </Link>
         </div>
 

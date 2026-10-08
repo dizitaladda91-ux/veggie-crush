@@ -197,7 +197,7 @@ export default function SeasonPage() {
                       alt={item.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-contain p-6 transition-transform duration-500 group-hover:scale-108"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
 

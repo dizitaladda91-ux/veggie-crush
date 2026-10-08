@@ -38,14 +38,6 @@ const CATEGORIES = [
     href: "/products?category=gourds",
     itemCount: "9 Varieties",
   },
-  {
-    number: "05",
-    title: "Farm Subscription Boxes",
-    description: "Hand-curated weekly family boxes packed with dawn-picked produce & seasonal greens.",
-    image: "/products/beetroot_1.webp",
-    href: "/farm-boxes",
-    itemCount: "3 Curated Plans",
-  },
 ];
 
 export default function CategoriesSection() {
