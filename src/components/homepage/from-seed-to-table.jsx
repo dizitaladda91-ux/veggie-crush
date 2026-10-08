@@ -21,7 +21,7 @@ export default function FromSeedToTable() {
           >
             <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-3xl overflow-hidden border border-[#DCEBD7] shadow-lg bg-[#F2F7F0]">
               <Image
-                src="/homesection/banner.png"
+                src="/homesection/hero-veggiecrush.png"
                 alt="Organic farm harvesting in the morning"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

@@ -12,6 +12,13 @@ const FILTERS = [
   { id: "4", label: "Quad Combos" },
 ];
 
+function getComboPackSize(combo) {
+  const storedPackSize = Number(combo.packSize);
+  return [2, 3, 4].includes(storedPackSize)
+    ? storedPackSize
+    : combo.products?.length || 0;
+}
+
 export default function ComboCatalog({ products, combos }) {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const visibleProducts = selectedFilter === "all" || selectedFilter === "single"
@@ -21,7 +28,7 @@ export default function ComboCatalog({ products, combos }) {
     ? []
     : selectedFilter === "all"
       ? combos
-      : combos.filter((combo) => String(combo.packSize) === selectedFilter);
+      : combos.filter((combo) => String(getComboPackSize(combo)) === selectedFilter);
   const itemCount = visibleProducts.length + visibleCombos.length;
 
   return (
@@ -33,7 +40,7 @@ export default function ComboCatalog({ products, combos }) {
               ? products.length + combos.length
               : filter.id === "single"
                 ? products.length
-                : combos.filter((combo) => String(combo.packSize) === filter.id).length;
+                : combos.filter((combo) => String(getComboPackSize(combo)) === filter.id).length;
 
             return (
               <button

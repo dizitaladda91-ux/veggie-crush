@@ -91,7 +91,7 @@ export default function SocialGram() {
                       alt={copy === 1 ? "" : "VeggieCrush community harvest"}
                       fill
                       sizes="(max-width: 640px) 72vw, 280px"
-                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
 
                     <div
