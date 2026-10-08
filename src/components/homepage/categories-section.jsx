@@ -72,14 +72,19 @@ export default function CategoriesSection() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 sm:gap-10">
-          {CATEGORIES.map((cat) => (
+        <div className="flex flex-col gap-5">
+          {CATEGORIES.map((cat, idx) => (
             <motion.div
               key={cat.title}
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
+              className="lg:sticky"
+              style={{
+                top: `calc(7rem + ${idx * 14}px)`,
+                zIndex: idx + 1,
+              }}
             >
               <Link
                 href={cat.href}
@@ -89,7 +94,7 @@ export default function CategoriesSection() {
                   borderColor: "#E2ECE0",
                 }}
               >
-                <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-[#F2F7F0]">
+                <div className="relative h-56 sm:h-64 lg:h-[280px] w-full overflow-hidden bg-[#F2F7F0]">
                   <Image
                     src={cat.image}
                     alt={cat.title}
@@ -104,18 +109,18 @@ export default function CategoriesSection() {
                   <div className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm grid place-items-center transition-all group-hover:bg-[#1E4620] group-hover:text-white shadow-sm text-[#1E4620]">
                     <ArrowUpRight size={18} />
                   </div>
-                  <div className="absolute bottom-6 left-6 right-6 text-white sm:bottom-8 sm:left-8">
+                  <div className="absolute bottom-5 left-5 right-5 text-white sm:bottom-6 sm:left-6">
                     <span className="text-xs font-semibold tracking-wider text-white/80">
                       {cat.itemCount}
                     </span>
-                    <h3 className="mt-2 text-2xl sm:text-3xl font-bold leading-tight">
+                    <h3 className="mt-1.5 text-xl sm:text-2xl font-bold leading-tight">
                       {cat.title}
                     </h3>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-4 p-5 sm:px-8 sm:py-6">
-                  <p className="max-w-xl text-sm sm:text-base text-[#5D7361] leading-relaxed">
+                <div className="flex items-center justify-between gap-4 p-4 sm:px-6 sm:py-4">
+                  <p className="max-w-xl text-xs sm:text-sm text-[#5D7361] leading-relaxed">
                     {cat.description}
                   </p>
                   <span className="shrink-0 text-sm font-bold text-[#1E4620] group-hover:underline">
