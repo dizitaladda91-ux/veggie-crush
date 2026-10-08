@@ -1,67 +1,86 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Check, ArrowRight } from "lucide-react";
+import { Mail, Check, ArrowRight, Sparkles } from "lucide-react";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [agreed, setAgreed] = useState(true);
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (email.trim()) {
+    if (email.trim() && agreed) {
       setSubscribed(true);
       setEmail("");
     }
   }
 
   return (
-    <section className="w-full py-14 px-6 lg:px-10 border-t" style={{ backgroundColor: "#1E4620" }}>
-      <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="max-w-xl text-center md:text-left">
-          <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#A8D96A]">
-            Join The VeggieCrush Club
-          </span>
-          <h2
-            className="text-2xl sm:text-3xl font-black text-white mt-1 leading-snug"
-          >
-            Get ₹100 OFF Your First Farm Order
-          </h2>
-          <p className="text-xs sm:text-sm text-[#D7E8BD] mt-2">
-            Subscribe for seasonal harvest alerts, healthy smoothie recipes, and member-only farm discounts.
-          </p>
-        </div>
+    <section className="w-full py-16 sm:py-20 px-6 lg:px-12 border-b border-[#E6EFE3]" style={{ backgroundColor: "#F7FAF5" }}>
+      <div className="max-w-[1000px] mx-auto text-center">
+        
+        {/* Wix-style Eyebrow */}
+        <p className="text-xs sm:text-sm font-semibold tracking-wide text-[#556F59] mb-3">
+          Everything You Need to Know About Organic Living and More. No Spam, We Promise.
+        </p>
 
-        <div className="w-full max-w-md">
+        {/* Wix H2 Heading */}
+        <h2
+          className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6"
+          style={{ color: "#173719" }}
+        >
+          Subscribe now and get 15% off your first harvest
+        </h2>
+
+        {/* Form Container */}
+        <div className="max-w-xl mx-auto mt-8">
           {subscribed ? (
-            <div className="flex items-center gap-2 text-white bg-[#2E5830] px-5 py-3 rounded-full text-xs font-bold border border-[#447647]">
-              <Check size={16} color="#A8D96A" />
-              <span>Thank you! Check your inbox for your ₹100 discount coupon.</span>
+            <div className="flex items-center justify-center gap-2 text-[#1E4620] bg-[#EAF4DA] px-6 py-4 rounded-full text-sm font-bold border border-[#CBDDC5]">
+              <Check size={18} className="text-[#5C8E42]" />
+              <span>Thank you! Your 15% discount code (VEGGIE15) has been sent to your email.</span>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex items-center rounded-full bg-white p-1.5 shadow-lg border border-[#3E7042]">
-              <div className="pl-3.5 pr-2 text-[#7A8B6F]">
-                <Mail size={16} />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex flex-col sm:flex-row items-center gap-2 p-1.5 rounded-full bg-white border border-[#CBDDC5] shadow-sm focus-within:ring-2 focus-within:ring-[#6FAE3E44]">
+                <div className="pl-4 pr-2 text-[#7A8B6F] hidden sm:block">
+                  <Mail size={18} />
+                </div>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  className="w-full bg-transparent px-4 sm:px-0 py-3 text-sm text-[#1E4620] outline-none placeholder:text-[#8D9F91]"
+                />
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto shrink-0 flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-xs font-bold text-white transition-all shadow-sm hover:shadow-md hover:bg-[#2C5F31] cursor-pointer"
+                  style={{ backgroundColor: "#1E4620" }}
+                >
+                  <span>Subscribe</span>
+                  <ArrowRight size={14} />
+                </button>
               </div>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
-                className="w-full bg-transparent text-xs text-[#1E4620] outline-none placeholder:text-[#A89B7D]"
-              />
-              <button
-                type="submit"
-                className="shrink-0 flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold text-white transition-transform hover:scale-105"
-                style={{ backgroundColor: "#6FAE3E" }}
-              >
-                <span>Subscribe</span>
-                <ArrowRight size={14} />
-              </button>
+
+              {/* Wix-style Checkbox */}
+              <div className="flex items-center justify-center gap-2 pt-2 text-xs text-[#5D7361]">
+                <input
+                  type="checkbox"
+                  id="newsletter-check"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  className="rounded border-[#CBDDC5] text-[#1E4620] focus:ring-[#6FAE3E] cursor-pointer"
+                />
+                <label htmlFor="newsletter-check" className="cursor-pointer select-none">
+                  Yes, subscribe me to your seasonal harvest newsletter. *
+                </label>
+              </div>
             </form>
           )}
         </div>
+
       </div>
     </section>
   );

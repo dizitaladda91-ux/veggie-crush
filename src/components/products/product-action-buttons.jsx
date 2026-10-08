@@ -16,6 +16,7 @@ export default function ProductActionButtons({ product, mainVariant, image }) {
   function handleAddToCart() {
     addToCart({
       id: product.id,
+      slug: product.slug,
       variantId: mainVariant?.id,
       name: product.name,
       price,
@@ -31,6 +32,7 @@ export default function ProductActionButtons({ product, mainVariant, image }) {
   function handleBuyNow() {
     addToCart({
       id: product.id,
+      slug: product.slug,
       variantId: mainVariant?.id,
       name: product.name,
       price,

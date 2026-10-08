@@ -1,4 +1,3 @@
-import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/layout/navbar";
 import Footer from "../components/layout/footer";
@@ -8,25 +7,18 @@ import CartDrawer from "../components/cart/cart-drawer";
 import { AuthProvider } from "../components/auth/auth-context";
 import AuthModal from "../components/auth/auth-modal";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
 export const metadata = {
-  title: "VeggieCrush — Farm to Door",
-  description: "Fresh farm-picked vegetables, wellness herbs, and curated boxes delivered from our farms to your kitchen.",
+  title: "VeggieCrush — Farm Fresh Organic Harvest & Wellness",
+  description: "Fresh farm-picked organic vegetables, wellness herbs, and curated farm boxes delivered directly from local pesticide-free farms.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${manrope.className} h-full antialiased`}
+      className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-[#1E3821]">
         <AuthProvider>
           <CartProvider>
             <AnnouncementBar />

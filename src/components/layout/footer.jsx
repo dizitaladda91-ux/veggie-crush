@@ -1,21 +1,5 @@
 import Link from "next/link";
-import { Leaf, ShieldCheck } from "lucide-react";
-
-function FacebookIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H16.7V3.7C16.4 3.66 15.4 3.6 14.3 3.6c-2.3 0-3.9 1.4-3.9 4v2.3H7.7V13H10.4v8h3.1z" />
-    </svg>
-  );
-}
-
-function XIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M18.9 3H21l-6.6 7.6L22.3 21h-6.4l-5-6.5L4.9 21H2.8l7-8.1L2 3h6.5l4.6 6 5.8-6zm-1.1 16.1h1.2L7.3 4.8H6l11.8 14.3z" />
-    </svg>
-  );
-}
+import { Leaf, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 function InstagramIcon(props) {
   return (
@@ -27,214 +11,214 @@ function InstagramIcon(props) {
   );
 }
 
-function YoutubeIcon(props) {
+function FacebookIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M21.6 7.2a3 3 0 00-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5A3 3 0 002.4 7.2 31 31 0 002 12a31 31 0 00.4 4.8 3 3 0 002.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 002.1-2.1A31 31 0 0022 12a31 31 0 00-.4-4.8zM10 15.2V8.8L15.6 12 10 15.2z" />
+      <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H16.7V3.7C16.4 3.66 15.4 3.6 14.3 3.6c-2.3 0-3.9 1.4-3.9 4v2.3H7.7V13H10.4v8h3.1z" />
     </svg>
   );
 }
 
-function LinkedinIcon(props) {
+function PinterestIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M6.9 8.4H3.6V20h3.3V8.4zM5.3 3.4a1.9 1.9 0 100 3.8 1.9 1.9 0 000-3.8zM20.4 20h-3.3v-6c0-1.4 0-3.2-2-3.2s-2.3 1.6-2.3 3.1V20H9.5V8.4h3.2v1.6h.05c.45-.85 1.55-1.75 3.2-1.75 3.4 0 4.05 2.25 4.05 5.2V20z" />
+      <path d="M12 0a12 12 0 0 0-4.37 23.18c-.06-.98-.12-2.48.02-3.55l.89-3.79s-.23-.46-.23-1.14c0-1.07.62-1.87 1.4-1.87.66 0 .98.5 1 .98 0 .67-.43 1.66-.65 2.58-.18.78.39 1.41 1.16 1.41 1.39 0 2.46-1.47 2.46-3.59 0-1.88-1.35-3.19-3.28-3.19-2.39 0-3.79 1.8-3.79 3.65 0 .72.28 1.5.63 1.92a.26.26 0 0 1 .06.25c-.07.28-.22.9-.25 1.03-.04.17-.14.21-.32.13-1.2-.56-1.95-2.31-1.95-3.72 0-3.03 2.2-5.81 6.35-5.81 3.33 0 5.92 2.38 5.92 5.56 0 3.32-2.09 5.98-5 5.98-.98 0-1.9-.51-2.21-1.11l-.6 2.3c-.22.84-.81 1.9-1.21 2.54A12 12 0 1 0 12 0z" />
     </svg>
   );
 }
-
-const CATEGORIES = [
-  { label: "Leafy Greens", href: "/category" },
-  { label: "Root Vegetables", href: "/category" },
-  { label: "Herbs & Spices", href: "/category" },
-];
-
-const LINK_GROUPS = [
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Farms", href: "/about" },
-      { label: "Certifications", href: "/about" },
-      { label: "Farm Journal", href: "/blog" },
-      { label: "Admin Portal", href: "/admin" },
-    ],
-  },
-  {
-    title: "Orders",
-    links: [
-      { label: "Track Order", href: "/track-order" },
-      { label: "Farm Boxes", href: "/farm-boxes" },
-      { label: "Account Details", href: "/account" },
-      { label: "Delivery Options", href: "/faqs" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { label: "FAQs", href: "/faqs" },
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Data Security", href: "/privacy-policy" },
-      { label: "Recipes", href: "/recipe" },
-    ],
-  },
-  {
-    title: "Account",
-    links: [
-      { label: "My Profile", href: "/account" },
-      { label: "Order History", href: "/account" },
-      { label: "Seasonal Harvest", href: "/season" },
-      { label: "Help Center", href: "/faqs" },
-    ],
-  },
-];
-
-const SOCIALS = [FacebookIcon, XIcon, InstagramIcon, YoutubeIcon, LinkedinIcon];
 
 export default function Footer() {
   return (
-    <footer className="w-full px-6 lg:px-10 pb-8 bg-white">
-      <div className="max-w-[1440px] mx-auto">
-        <div
-          className="relative overflow-hidden rounded-3xl px-8 lg:px-12 py-10 lg:py-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
-          style={{ background: "linear-gradient(120deg, #2A5A2E 0%, #6FAE3E 100%)" }}
-        >
-          <Leaf
-            size={180}
-            color="#ffffff"
-            strokeWidth={0.6}
-            className="absolute -right-8 -bottom-10 opacity-15 rotate-12"
-          />
-
-          <div className="relative z-10 max-w-md">
-            <h2
-              className="text-3xl lg:text-4xl font-extrabold text-white mb-2"
-            >
-              Subscribe to our newsletter
-            </h2>
-            <p className="text-sm text-white/85">
-              Get farm-fresh drops, seasonal picks, and offers straight to your inbox.
-            </p>
-          </div>
-
-          <div className="relative z-10 w-full lg:w-auto lg:min-w-[420px]">
-            <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 rounded-full px-5 py-3 text-sm outline-none"
-                style={{ backgroundColor: "#FFFFFF", color: "#24321F" }}
-              />
-              <button
-                className="px-6 py-3 rounded-full text-sm font-bold text-white shrink-0"
-                style={{ backgroundColor: "#1E4620" }}
-              >
-                Subscribe
-              </button>
-            </div>
-            <label className="flex items-center gap-2 mt-3 text-xs text-white/80">
-              <input type="checkbox" className="accent-[#1E4620]" />
-              I agree to have my data processed per the{" "}
-              <a href="#" className="underline">
-                Privacy Policy
-              </a>
-              .
-            </label>
-          </div>
-        </div>
-
-        <div
-          className="rounded-3xl px-8 lg:px-12 py-10 lg:py-12 border"
-          style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            <div>
-              <h3 className="text-sm font-bold mb-4" style={{ color: "#1E4620" }}>
-                Categories
-              </h3>
-              <ul className="space-y-2">
-                {CATEGORIES.map((item) => (
-                  <li key={item.label}>
-                    <Link href={item.href} className="text-sm hover:underline hover:text-[#1E4620] transition-colors" style={{ color: "#4B5443" }}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {LINK_GROUPS.map((group) => (
-              <div key={group.title}>
-                <h3 className="text-sm font-bold mb-4" style={{ color: "#1E4620" }}>
-                  {group.title}
-                </h3>
-                <ul className="space-y-2">
-                  {group.links.map((item) => (
-                    <li key={item.label}>
-                      <Link href={item.href} className="text-sm hover:underline hover:text-[#1E4620] transition-colors" style={{ color: "#4B5443" }}>
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div className="flex flex-col items-start gap-3">
-              <div
-                className="flex items-center gap-2 rounded-xl px-3 py-2 border"
-                style={{ borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }}
-              >
-                <ShieldCheck size={20} color="#1E4620" />
-                <span className="text-xs font-semibold" style={{ color: "#1E4620" }}>
-                  Trust
-                  <br />
-                  Verified
+    <footer className="w-full bg-[#FAFBF9] border-t border-[#E5E7EB] pt-16 pb-10 text-[#24321F]">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+        {/* ── 4-COLUMN MAIN FOOTER ROW ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
+          {/* Column 1: Brand & Logo (lg: 4 cols) */}
+          <div className="lg:col-span-4">
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-5 group">
+              <span className="grid place-items-center w-10 h-10 rounded-xl border-2 border-[#6FAE3E] bg-[#EAF4DA] shadow-xs transition-transform group-hover:scale-105">
+                <Leaf size={18} color="#1E4620" strokeWidth={2.3} />
+              </span>
+              <span className="leading-none text-[#1E4620]">
+                <span className="block text-[20px] font-black tracking-tight">
+                  Veggie<span className="text-[#6FAE3E]">Crush</span>
                 </span>
-              </div>
-              <div
-                className="w-16 h-16 rounded-lg border grid place-items-center text-[9px] text-center font-semibold"
-                style={{ borderColor: "#E5E7EB", backgroundColor: "#FFFFFF", color: "#4B5443" }}
+                <span className="block text-[9px] font-bold tracking-[0.22em] uppercase text-[#7A8B6F] mt-0.5">
+                  Farm to Door
+                </span>
+              </span>
+            </Link>
+
+            <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed mb-6 max-w-sm">
+              A neighbourhood farm-to-door studio. Harvested fresh every morning,
+              hand-selected organic produce delivered across the city in three hours.
+            </p>
+
+            {/* Circular outline social icon buttons matching reference image */}
+            <div className="flex items-center gap-2.5">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="w-10 h-10 rounded-full border border-[#D1D5DB] flex items-center justify-center text-[#4B5563] hover:text-[#1E4620] hover:border-[#1E4620] hover:bg-[#F0FDF4] transition-all"
               >
-                QR
-                <br />
-                Code
-              </div>
+                <InstagramIcon className="w-4 h-4" />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+                className="w-10 h-10 rounded-full border border-[#D1D5DB] flex items-center justify-center text-[#4B5563] hover:text-[#1E4620] hover:border-[#1E4620] hover:bg-[#F0FDF4] transition-all"
+              >
+                <FacebookIcon className="w-4 h-4" />
+              </a>
+              <a
+                href="https://pinterest.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Pinterest"
+                className="w-10 h-10 rounded-full border border-[#D1D5DB] flex items-center justify-center text-[#4B5563] hover:text-[#1E4620] hover:border-[#1E4620] hover:bg-[#F0FDF4] transition-all"
+              >
+                <PinterestIcon className="w-4 h-4" />
+              </a>
             </div>
+          </div>
+
+          {/* Column 2: Shop Links (lg: 2.5 cols) */}
+          <div className="lg:col-span-2 lg:col-start-6">
+            <h3 className="text-base font-bold text-[#1E2E1C] mb-4 tracking-tight">
+              Shop
+            </h3>
+            <ul className="space-y-3 text-xs sm:text-sm text-[#4B5563]">
+              <li>
+                <Link href="/farm-boxes" className="hover:text-[#1E4620] transition-colors">
+                  Signature bouquets & boxes
+                </Link>
+              </li>
+              <li>
+                <Link href="/season" className="hover:text-[#1E4620] transition-colors">
+                  By occasion & season
+                </Link>
+              </li>
+              <li>
+                <Link href="/farm-boxes" className="hover:text-[#1E4620] transition-colors">
+                  Subscriptions
+                </Link>
+              </li>
+              <li>
+                <Link href="/category" className="hover:text-[#1E4620] transition-colors">
+                  Custom orders
+                </Link>
+              </li>
+              <li>
+                <Link href="/recipe" className="hover:text-[#1E4620] transition-colors">
+                  Care guide & recipes
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="hover:text-[#1E4620] transition-colors">
+                  All produce items
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Studio / About (lg: 2.5 cols) */}
+          <div className="lg:col-span-2">
+            <h3 className="text-base font-bold text-[#1E2E1C] mb-4 tracking-tight">
+              Studio
+            </h3>
+            <ul className="space-y-3 text-xs sm:text-sm text-[#4B5563]">
+              <li>
+                <Link href="/about" className="hover:text-[#1E4620] transition-colors">
+                  About us
+                </Link>
+              </li>
+              <li>
+                <Link href="/track-order" className="hover:text-[#1E4620] transition-colors">
+                  Delivery zones
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-[#1E4620] transition-colors">
+                  Reviews
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-[#1E4620] transition-colors">
+                  Weddings & events
+                </Link>
+              </li>
+              <li>
+                <Link href="/faqs" className="hover:text-[#1E4620] transition-colors">
+                  Corporate orders
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin" className="hover:text-[#1E4620] font-semibold transition-colors">
+                  Admin portal
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Visit or call (lg: 3 cols) */}
+          <div className="lg:col-span-3">
+            <h3 className="text-base font-bold text-[#1E2E1C] mb-4 tracking-tight">
+              Visit or call
+            </h3>
+            <ul className="space-y-4 text-xs sm:text-sm text-[#4B5563]">
+              <li className="flex items-start gap-3">
+                <MapPin size={17} className="text-[#6FAE3E] shrink-0 mt-0.5" />
+                <span className="leading-snug">
+                  123 Maplewood Lane Apartment 4B, Springfield, IL 62704 USA
+                </span>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <Phone size={17} className="text-[#6FAE3E] shrink-0" />
+                <a
+                  href="tel:+1000555555"
+                  className="hover:text-[#1E4620] font-medium transition-colors"
+                >
+                  +1 (000) 555-555
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <Mail size={17} className="text-[#6FAE3E] shrink-0" />
+                <a
+                  href="mailto:contact@example.com"
+                  className="hover:text-[#1E4620] font-medium transition-colors"
+                >
+                  contact@example.com
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <Clock size={17} className="text-[#6FAE3E] shrink-0" />
+                <span>Open daily, 8:00 – 20:00</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div
-          className="rounded-2xl mt-3 px-8 lg:px-12 py-4 flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ backgroundColor: "#1E4620" }}
-        >
-          <p className="text-xs text-white/80">
-            Copyright © 2026 <span className="font-bold">VEGGIECRUSH</span>. All rights reserved.
-          </p>
+        {/* ── SUB-FOOTER BOTTOM ROW ── */}
+        <div className="border-t border-[#E5E7EB] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B7280]">
+          <p>© 2026 VeggieCrush. All rights reserved.</p>
 
-          <div className="flex items-center gap-3">
-            {SOCIALS.map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-8 h-8 rounded-full grid place-items-center"
-                style={{ backgroundColor: "#2A5A2E" }}
-              >
-                <Icon width={14} height={14} className="text-white" />
-              </a>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1.5 rounded-md text-[10px] font-bold text-white" style={{ backgroundColor: "#2A5A2E" }}>
-              Mastercard
-            </span>
-            <span className="px-3 py-1.5 rounded-md text-[10px] font-bold text-white" style={{ backgroundColor: "#2A5A2E" }}>
-              VISA
-            </span>
-            <span className="px-3 py-1.5 rounded-md text-[10px] font-bold text-white" style={{ backgroundColor: "#2A5A2E" }}>
-              256-Bit SSL
-            </span>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy-policy" className="hover:text-[#1E4620] transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/privacy-policy" className="hover:text-[#1E4620] transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/faqs" className="hover:text-[#1E4620] transition-colors">
+              Data Security
+            </Link>
           </div>
         </div>
       </div>

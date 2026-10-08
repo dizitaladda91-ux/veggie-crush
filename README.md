@@ -20,6 +20,43 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Mongoose product catalog
+
+The product and combo catalog uses Mongoose. Set `MONGO_URI` to the same MongoDB database used by `DATABASE_URL`, so existing Prisma review, wishlist, and order references remain valid. If `MONGO_URI` is unset, the catalog uses `DATABASE_URL` when it is a MongoDB URI; otherwise it uses `mongodb://127.0.0.1:27017/veggiecrush`.
+
+Install dependencies, then seed products before combos:
+
+```bash
+npm install
+node seed/seedProducts.js
+node seed/seedCombos.js
+npm run test:combos
+```
+
+Product images can later be updated by slug without rerunning the seed:
+
+```js
+require("dotenv").config();
+const mongoose = require("mongoose");
+const Product = require("./models/Product");
+const { getMongoUri } = require("./lib/mongoose");
+
+async function updateProductImages() {
+  await mongoose.connect(getMongoUri());
+  const product = await Product.findOne({ slug: "beetroot" });
+  if (!product) throw new Error("Product with slug 'beetroot' was not found.");
+  product.images = ["/products/beetroot_1.webp", "/products/beetroot_2.webp"];
+  await product.save();
+}
+
+updateProductImages()
+  .catch((error) => {
+    console.error("Could not update product images:", error);
+    process.exitCode = 1;
+  })
+  .finally(() => mongoose.disconnect());
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

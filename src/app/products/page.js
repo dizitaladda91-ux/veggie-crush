@@ -144,6 +144,7 @@ export default function ProductsPage() {
   function handleAdd(product) {
     addToCart({
       id: product.id,
+      slug: product.slug,
       name: product.name,
       price: product.price,
       mrp: product.mrp,

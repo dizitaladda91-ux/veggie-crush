@@ -298,57 +298,38 @@ export default function TopSellingProducts() {
   }, []);
 
   return (
-    <section style={{ backgroundColor: "#FFFFFF" }} className="relative w-full px-6 lg:px-10 py-16 overflow-hidden">
-      <motion.div
-        className="absolute -top-24 -left-24 w-72 h-72 rounded-full pointer-events-none"
-        style={{ backgroundColor: "#6FAE3E14" }}
-        animate={{ y: [0, 24, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -bottom-24 -right-16 w-96 h-96 rounded-full pointer-events-none"
-        style={{ backgroundColor: "#D9483A0f" }}
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-      />
-
+    <section style={{ backgroundColor: "#FFFFFF" }} className="relative w-full px-6 lg:px-12 py-16 sm:py-20 border-b border-[#E6EFE3]">
       <div className="relative max-w-[1440px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5 }}
-          className="flex items-end justify-between mb-10"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
         >
           <div>
-            <p className="text-xs font-bold tracking-[0.25em] mb-2" style={{ color: "#6FAE3E" }}>
-              CUSTOMER FAVOURITES
-            </p>
+            <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full mb-3" style={{ backgroundColor: "#EAF3E7", color: "#2E5D31" }}>
+              FRESH DAILY HARVEST
+            </span>
             <h2
-              style={{ color: "#1E4620" }}
-              className="text-3xl lg:text-4xl font-extrabold"
+              style={{ color: "#173719" }}
+              className="text-3xl sm:text-4xl font-extrabold tracking-tight"
             >
-              Top Selling Products
+              New Arrivals
             </h2>
-            <motion.div
-              className="h-1 rounded-full mt-3"
-              style={{ backgroundColor: "#6FAE3E" }}
-              initial={{ width: 0 }}
-              whileInView={{ width: 64 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            />
+            <p className="text-sm text-[#556F59] mt-2 max-w-lg">
+              Explore freshly harvested organic veggies, cold-ground botanicals, and Ayurvedic wellness superfoods straight from morning fields.
+            </p>
           </div>
-          <motion.a
+          <Link
             href="/products"
-            whileHover={{ x: 4 }}
-            className="text-sm font-semibold hidden sm:block"
-            style={{ color: "#1E4620" }}
+            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-300 border hover:bg-[#1E4620] hover:text-white"
+            style={{ borderColor: "#CBDDC5", color: "#1E4620", backgroundColor: "#F7FAF5" }}
           >
-            View All →
-          </motion.a>
+            <span>Shop All Products</span>
+            <span>→</span>
+          </Link>
         </motion.div>
-
 
         <motion.div
           variants={gridVariants}

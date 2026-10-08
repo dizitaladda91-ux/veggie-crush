@@ -19,21 +19,13 @@ export default function AnnouncementBar() {
 
   return (
     <div
-      className="w-full overflow-hidden relative"
+      className="w-full overflow-hidden relative border-b"
       style={{
-        background: "linear-gradient(90deg, #1E4620 0%, #2D6A30 40%, #6FAE3E 80%, #1E4620 100%)",
+        backgroundColor: "#EAF3E7",
+        borderColor: "#DCE8D9",
         height: "36px",
       }}
     >
-      {/* Shimmer overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 z-10"
-        style={{
-          background:
-            "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
-        }}
-      />
-
       {/* Scrolling track */}
       <div
         ref={trackRef}
@@ -44,12 +36,12 @@ export default function AnnouncementBar() {
         {[...ANNOUNCEMENTS, ...ANNOUNCEMENTS].map((item, i) => (
           <span
             key={i}
-            className="inline-flex items-center gap-2 px-8 text-[12px] font-semibold tracking-wide"
-            style={{ color: "#E8F5D0" }}
+            className="inline-flex items-center gap-2 px-8 text-[12px] font-medium tracking-wide"
+            style={{ color: "#1E4620" }}
           >
-            <span style={{ color: "#A8D96A" }}>{item.icon}</span>
+            <span style={{ color: "#5C8E42" }}>{item.icon}</span>
             {item.text}
-            <span style={{ color: "#6FAE3E", opacity: 0.5, margin: "0 4px" }}>✦</span>
+            <span style={{ color: "#7CA964", opacity: 0.7, margin: "0 6px" }}>✦</span>
           </span>
         ))}
       </div>

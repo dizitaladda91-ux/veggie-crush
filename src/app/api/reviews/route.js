@@ -1,16 +1,23 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
+import { connectCatalog, Product } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request) {
   try {
+    await connectCatalog();
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get("productId");
 
     if (!productId) {
       return NextResponse.json({ error: "Product ID required" }, { status: 400 });
+    }
+
+    const product = await Product.findById(productId).select("_id");
+    if (!product) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
     const reviews = await prisma.review.findMany({
@@ -32,12 +39,13 @@ export async function GET(request) {
     });
   } catch (error) {
     console.error("Reviews GET error:", error);
-    return NextResponse.json({ reviews: [] });
+    return NextResponse.json({ error: "Unable to load reviews" }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
+    await connectCatalog();
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Please log in to submit a review" }, { status: 401 });
@@ -50,6 +58,11 @@ export async function POST(request) {
         { error: "Valid product ID and rating (between 1 and 5) required" },
         { status: 400 }
       );
+    }
+
+    const product = await Product.findById(productId).select("_id");
+    if (!product) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
     const review = await prisma.review.upsert({

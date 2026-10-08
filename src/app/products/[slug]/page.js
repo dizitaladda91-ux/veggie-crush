@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductGallery from "@/components/products/product-gallery";
 import ProductActionButtons from "@/components/products/product-action-buttons";
-import { prisma } from "@/lib/prisma";
+import { connectCatalog, Product } from "@/lib/catalog";
 
 const PRODUCT_IMAGES = {
   beetroot: ["/products/beetroot_1.webp", "/products/beetroot_2.webp", "/products/beetroot_3.webp", "/products/beetroot_4.webp"],
@@ -16,24 +16,25 @@ const PRODUCT_IMAGES = {
 export default async function ProductDetailPage({ params }) {
   const { slug } = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { slug },
-    include: {
-      variants: {
-        where: { isActive: true },
-        orderBy: { price: "asc" },
-      },
-    },
-  });
+  await connectCatalog();
+  const product = await Product.findOne({ slug, isActive: true }).lean();
 
   if (!product) {
     notFound();
   }
 
-  const mainVariant = product.variants[0];
-  const images = product.images?.length ? product.images : PRODUCT_IMAGES[product.name.toLowerCase()] || ["/products/beetroot_1.webp"];
-  const price = mainVariant ? mainVariant.price / 100 : 0;
-  const mrp = mainVariant ? mainVariant.mrp / 100 : 0;
+  const productId = String(product._id);
+  const mainVariant = {
+    id: `${productId}-standard`,
+    label: product.size,
+    price: Math.round(product.price * 100),
+    mrp: Math.round(product.mrp * 100),
+  };
+  const images = product.images?.length
+    ? product.images
+    : PRODUCT_IMAGES[product.slug] || ["/products/beetroot_1.webp"];
+  const price = product.price;
+  const mrp = product.mrp;
   const discount = mrp > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0;
 
   return (
@@ -82,7 +83,7 @@ export default async function ProductDetailPage({ params }) {
             </div>
 
             <ProductActionButtons
-              product={{ id: product.id, name: product.name, startingAt: product.startingAt }}
+              product={{ id: productId, slug: product.slug, name: product.name, startingAt: product.price }}
               mainVariant={mainVariant}
               image={images[0]}
             />

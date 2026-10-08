@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { getRazorpayClient } from "@/lib/razorpay";
+import { connectCatalog, Combo, Product } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,8 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+
+    await connectCatalog();
 
     // Identify user (authenticated or guest fallback)
     const currentUser = await getCurrentUser();
@@ -61,38 +64,48 @@ export async function POST(request) {
     const orderItemsData = [];
 
     for (const item of items) {
-      const product = await prisma.product.findUnique({
-        where: { id: item.id || item.productId },
-        include: { variants: true },
-      });
+      const quantity = Number(item.quantity);
+      if (!Number.isSafeInteger(quantity) || quantity < 1) {
+        return NextResponse.json({ error: "Cart item quantity must be a positive integer." }, { status: 400 });
+      }
 
-      if (!product) {
-        // Fallback calculation if item not in DB yet (dev mode)
-        const unitPricePaise = Math.round((item.price || 0) * 100);
-        const qty = item.quantity || 1;
-        calculatedTotalPaise += unitPricePaise * qty;
+      if (item.comboId || item.kind === "combo" || item.type === "combo") {
+        const combo = await Combo.findById(item.comboId || item.id);
+        if (!combo || !combo.isActive) {
+          return NextResponse.json({ error: "A selected combo is no longer available." }, { status: 400 });
+        }
+
+        const unitPricePaise = Math.round(combo.bundlePrice * 100);
+        calculatedTotalPaise += unitPricePaise * quantity;
         orderItemsData.push({
-          productId: item.id || item.productId,
-          name: item.name || "Veggie Item",
-          quantity: qty,
+          productId: null,
+          name: combo.name,
+          quantity,
           unitPrice: unitPricePaise,
         });
         continue;
       }
 
-      const variant =
-        product.variants.find((v) => v.id === item.variantId) ||
-        product.variants[0];
+      const productId = item.id || item.productId;
+      let product = null;
+      if (typeof productId === "string" && /^[a-f\d]{24}$/i.test(productId)) {
+        product = await Product.findOne({ _id: productId, isActive: true });
+      }
+      if (!product && typeof item.slug === "string") {
+        product = await Product.findOne({ slug: item.slug, isActive: true });
+      }
+      if (!product) {
+        return NextResponse.json({ error: "A selected product is no longer available." }, { status: 400 });
+      }
 
-      const unitPrice = variant ? variant.price : product.startingAt;
-      const quantity = Math.max(1, item.quantity || 1);
-      calculatedTotalPaise += unitPrice * quantity;
+      const unitPricePaise = Math.round(product.price * 100);
+      calculatedTotalPaise += unitPricePaise * quantity;
 
       orderItemsData.push({
-        productId: product.id,
-        name: `${product.name}${variant?.label ? ` (${variant.label})` : ""}`,
+        productId: String(product._id),
+        name: `${product.name} (${product.size})`,
         quantity,
-        unitPrice,
+        unitPrice: unitPricePaise,
       });
     }
 
