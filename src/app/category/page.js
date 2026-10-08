@@ -12,6 +12,7 @@ const CATEGORIES_DATA = [
     name: "Leafy Greens",
     subtitle: "Spinach, Methi, Mint, Coriander & Superleaves",
     icon: "🥬",
+    image: "/categories/leafy-greens.jpg",
     color: "#EAF4DA",
     items: [
       { id: "c1", name: "Organic Baby Spinach", price: 69, mrp: 89, unit: "250g", rating: 4.8, image: "/products/moringa_1.webp" },
@@ -24,6 +25,7 @@ const CATEGORIES_DATA = [
     name: "Root Vegetables",
     subtitle: "Beetroot, Carrots, Sweet Potatoes & Ginger",
     icon: "🥕",
+    image: "/categories/root-vegetables.jpg",
     color: "#F0FDF4",
     items: [
       { id: "1", name: "Organic Beetroot", price: 299, mrp: 399, unit: "200g", rating: 4.7, image: "/products/beetroot_1.webp" },
@@ -36,6 +38,7 @@ const CATEGORIES_DATA = [
     name: "Herbs & Superfoods",
     subtitle: "Moringa, Giloy, Gooseberry & Vitality",
     icon: "🌱",
+    image: "/categories/herbs-superfoods.jpg",
     color: "#ECFDF5",
     items: [
       { id: "3", name: "Moringa Superleaf Powder", price: 399, mrp: 499, unit: "200g", rating: 4.7, image: "/products/moringa_1.webp" },
@@ -49,6 +52,7 @@ const CATEGORIES_DATA = [
     name: "Gourds & Squash",
     subtitle: "Bottle Gourd, Ridge Gourd & Bitter Gourd",
     icon: "🥒",
+    image: "/categories/gourds-squash.jpg",
     color: "#F3F4F6",
     items: [
       { id: "c11", name: "Fresh Bottle Gourd (Lauki)", price: 59, mrp: 79, unit: "1 pc (~800g)", rating: 4.6, image: "/products/neem_1.webp" },
@@ -109,28 +113,37 @@ export default function CategoryPage() {
           </p>
         </div>
 
-        {/* Category Pills Slider */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+        {/* 4 Category Image Containers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
           {CATEGORIES_DATA.map((cat) => {
             const isSelected = cat.id === activeCat;
             return (
               <button
                 key={cat.id}
+                type="button"
                 onClick={() => setActiveCat(cat.id)}
-                className={`p-5 rounded-3xl border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                aria-label={cat.name}
+                className={`group relative rounded-3xl overflow-hidden border-2 text-left transition-all duration-300 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 ${
                   isSelected
-                    ? "border-[#1E4620] ring-2 ring-[#1E4620] shadow-md bg-[#F0FDF4]"
-                    : "border-[#E5E7EB] bg-white hover:border-[#6FAE3E]"
+                    ? "border-[#1E4620] ring-4 ring-[#1E4620]/25 shadow-lg scale-[1.02]"
+                    : "border-[#E5E7EB] hover:border-[#6FAE3E] opacity-90 hover:opacity-100"
                 }`}
               >
-                <div className="text-3xl mb-3">{cat.icon}</div>
-                <div>
-                  <h3 className="text-base font-bold" style={{ color: "#1E4620" }}>
-                    {cat.name}
-                  </h3>
-                  <p className="text-xs text-[#6B7280] line-clamp-1 mt-0.5">
-                    {cat.subtitle}
-                  </p>
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#F9FAFB]">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    priority
+                  />
+                  {isSelected && (
+                    <div className="absolute top-3 right-3 bg-[#1E4620] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 z-10">
+                      <Check size={12} strokeWidth={3} />
+                      <span>Active</span>
+                    </div>
+                  )}
                 </div>
               </button>
             );
