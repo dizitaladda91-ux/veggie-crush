@@ -30,15 +30,17 @@ export default async function BlogIndexPage() {
           </p>
         </div>
 
-        <div className="mb-10 rounded-[28px] border border-[#E4EDE0] bg-[#F9FBF8] p-4 sm:p-5">
-          <div className="flex flex-wrap items-center gap-2">
-            {Array.from(new Set(posts.map((post) => post.category))).map((category) => (
-              <span key={category} className="rounded-full border border-[#DCE9D6] bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1E4620]">
-                {category}
-              </span>
-            ))}
+        {posts.length > 0 && (
+          <div className="mb-10 rounded-[28px] border border-[#E4EDE0] bg-[#F9FBF8] p-4 sm:p-5">
+            <div className="flex flex-wrap items-center gap-2">
+              {Array.from(new Set(posts.map((post) => post.category))).map((category) => (
+                <span key={category} className="rounded-full border border-[#DCE9D6] bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1E4620]">
+                  {category}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {featured && (
           <Link href={`/blog/${featured.id}`} className="group mb-12 block">
@@ -112,7 +114,17 @@ export default async function BlogIndexPage() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-[28px] border border-[#E4EDE0] bg-[#F9FBF8] p-6 sm:p-8">
+        {posts.length === 0 && (
+          <div className="rounded-[28px] border border-[#E4EDE0] bg-[#F9FBF8] p-8 text-center sm:p-12">
+            <span className="text-4xl" aria-hidden="true">🌱</span>
+            <h2 className="mt-4 text-2xl font-black text-[#1E4620]">Our journal is getting ready</h2>
+            <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-[#5C705D]">
+              We’re preparing fresh stories for you. Please check back soon.
+            </p>
+          </div>
+        )}
+
+        {posts.length > 0 && <div className="mt-12 rounded-[28px] border border-[#E4EDE0] bg-[#F9FBF8] p-6 sm:p-8">
           <div className="flex items-center gap-2 text-[#1E4620]">
             <Sparkles size={16} />
             <span className="text-xs font-bold uppercase tracking-[0.2em]">Fresh thinking</span>
@@ -121,7 +133,7 @@ export default async function BlogIndexPage() {
           <Link href="/seo-admin" className="mt-4 inline-flex items-center rounded-full bg-[#1E4620] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#234a23]">
             Open SEO portal
           </Link>
-        </div>
+        </div>}
       </div>
     </main>
   );

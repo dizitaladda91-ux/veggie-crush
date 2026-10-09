@@ -4,49 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Leaf } from "lucide-react";
 
-const FALLBACK_POSTS = [
-  {
-    id: "1",
-    title: "5 Seasonal Vegetables You Should Be Eating This Month",
-    excerpt: "Eating with the seasons means better flavour, better prices, and better nutrition. Here's what's at its peak right now.",
-    category: "Seasonal Guide",
-    readTime: "6 min read",
-    date: "Aug 3, 2026",
-    emoji: "🥕",
-    accent: "#6FAE3E",
-  },
-  {
-    id: "2",
-    title: "How We Keep Vegetables Fresh From Farm to Door",
-    excerpt: "A look inside our cold-chain logistics.",
-    category: "Behind the Scenes",
-    readTime: "4 min read",
-    date: "Jul 28, 2026",
-    emoji: "🚚",
-    accent: "#D9483A",
-  },
-  {
-    id: "3",
-    title: "3 Simple Recipes for Weeknight Dinners",
-    excerpt: "Quick, veggie-forward meals for busy people.",
-    category: "Recipes",
-    readTime: "5 min read",
-    date: "Jul 20, 2026",
-    emoji: "🍲",
-    accent: "#E3A72E",
-  },
-  {
-    id: "4",
-    title: "Why We Went 100% Pesticide-Free",
-    excerpt: "The story behind our organic certification.",
-    category: "Our Story",
-    readTime: "7 min read",
-    date: "Jul 12, 2026",
-    emoji: "🌱",
-    accent: "#3F7A56",
-  },
-];
-
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
@@ -174,6 +131,7 @@ function CardSkeleton({ tall }) {
 export default function BlogSection() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -185,7 +143,7 @@ export default function BlogSection() {
         const data = await res.json();
         if (!cancelled) setPosts(data.posts);
       } catch (err) {
-        if (!cancelled) setPosts(FALLBACK_POSTS);
+        if (!cancelled) setLoadError(true);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -246,7 +204,21 @@ export default function BlogSection() {
           className="grid lg:grid-cols-5 gap-5"
         >
           <div className="lg:col-span-3">
-            {loading ? <CardSkeleton tall /> : featured && <FeaturedCard post={featured} />}
+            {loading ? (
+              <CardSkeleton tall />
+            ) : featured ? (
+              <FeaturedCard post={featured} />
+            ) : (
+              <div className="flex min-h-[260px] flex-col items-center justify-center rounded-3xl border border-[#E4EDE0] bg-[#F9FBF8] p-8 text-center lg:min-h-[420px]">
+                <span className="text-4xl" aria-hidden="true">🌱</span>
+                <h3 className="mt-4 text-xl font-bold text-[#1E4620]">
+                  {loadError ? "Stories are temporarily unavailable" : "New stories coming soon"}
+                </h3>
+                <p className="mt-2 max-w-sm text-sm text-[#5C705D]">
+                  {loadError ? "Please try again later." : "We’re preparing fresh reads for you."}
+                </p>
+              </div>
+            )}
           </div>
           <div className="lg:col-span-2 flex flex-col gap-4">
             {loading

@@ -30,10 +30,10 @@ export default function WelcomeLoader() {
       <div className="relative z-10 flex w-full max-w-6xl flex-col items-center justify-center px-6 text-center sm:px-10">
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-end sm:justify-center sm:gap-8 md:gap-10">
           <div className="text-left text-[#F5FFF2] drop-shadow-[0_10px_30px_rgba(36,68,31,0.55)]">
-            <p className="welcome-word welcome-word-left text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "-0.06em" }}>
+            <p className="welcome-word welcome-word-left text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ letterSpacing: "-0.06em" }}>
               Welcome
             </p>
-            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm" style={{ fontFamily: "'Manrope', sans-serif" }}>
+            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm">
               to the freshness
             </p>
           </div>
@@ -41,10 +41,10 @@ export default function WelcomeLoader() {
           <div className="hidden h-16 w-px bg-white/45 sm:block" aria-hidden="true" />
 
           <div className="text-center text-[#F5FFF2] drop-shadow-[0_12px_36px_rgba(34,65,32,0.62)] sm:text-right">
-            <p className="welcome-word welcome-word-right text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "-0.06em", fontStyle: "italic" }}>
+            <p className="welcome-word welcome-word-right text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ letterSpacing: "-0.06em", fontStyle: "italic" }}>
               VeggieCrush
             </p>
-            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm" style={{ fontFamily: "'Manrope', sans-serif" }}>
+            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm">
               Store
             </p>
           </div>
