@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import ComboCard from "@/components/products/combo-card";
 import NewArrivalProductCard from "@/components/products/new-arrival-product-card";
 
 const containerVariants = {
@@ -22,7 +23,7 @@ const cardVariants = {
   },
 };
 
-export default function NewArrivals({ products, error }) {
+export default function NewArrivals({ products, combos, error }) {
   const shouldReduceMotion = useReducedMotion();
 
   const motionProps = shouldReduceMotion
@@ -54,14 +55,14 @@ export default function NewArrivals({ products, error }) {
               New Arrivals
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[#556F59]">
-              Discover our latest products, freshly added to the collection.
+              Two singles and two picks each from our double, triple, and quad combos.
             </p>
           </div>
           <Link
-            href="/products"
+            href="/combos"
             className="inline-flex items-center justify-center gap-2 self-start rounded-full border border-[#CBDDC5] bg-white px-5 py-2.5 text-sm font-semibold text-[#1E4620] transition hover:border-[#1E4620] hover:bg-[#1E4620] hover:text-white sm:self-auto"
           >
-            Shop all products
+            Shop all products & combos
             <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </motion.div>
@@ -71,22 +72,38 @@ export default function NewArrivals({ products, error }) {
             {error}
           </p>
         ) : (
-          <motion.div
-            {...motionProps}
-            className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4"
-          >
-            {products.map((product) => (
-              <motion.div
-                key={product.id}
-                variants={shouldReduceMotion ? undefined : cardVariants}
-                whileHover={shouldReduceMotion ? undefined : { y: -7, scale: 1.012 }}
-                transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4"
-              >
-                <NewArrivalProductCard product={product} />
-              </motion.div>
+          <div className="space-y-10">
+            {[
+              { id: "single", title: "Single Products", items: products },
+              { id: "2", title: "Double Combos", items: combos.filter((combo) => combo.packSize === 2) },
+              { id: "3", title: "Triple Combos", items: combos.filter((combo) => combo.packSize === 3) },
+              { id: "4", title: "Quad Combos", items: combos.filter((combo) => combo.packSize === 4) },
+            ].filter((group) => group.items.length > 0).map((group) => (
+              <section key={group.id} aria-labelledby={`new-arrivals-${group.id}`}>
+                <h3 id={`new-arrivals-${group.id}`} className="mb-4 text-lg font-bold text-[#1E4620]">
+                  {group.title}
+                </h3>
+                <motion.div
+                  {...motionProps}
+                  className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
+                >
+                  {group.items.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      variants={shouldReduceMotion ? undefined : cardVariants}
+                      whileHover={shouldReduceMotion ? undefined : { y: -7, scale: 1.012 }}
+                      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                      className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4 lg:col-span-2"
+                    >
+                      {group.id === "single"
+                        ? <NewArrivalProductCard product={item} />
+                        : <ComboCard combo={item} />}
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </section>
             ))}
-          </motion.div>
+          </div>
         )}
 
       </div>
