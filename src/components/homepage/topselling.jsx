@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShoppingCart, Check, Eye, Plus, Image as ImageIcon } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 import WishlistButton from "@/components/products/wishlist-button";
+import ImageZoom from "@/components/products/image-zoom";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 const FALLBACK_PRODUCTS = [
@@ -127,21 +128,39 @@ function ProductCard({ product }) {
     : "100% ORGANIC";
 
   return (
-    <Link href={`/products/${productSlug}`} className="block h-full">
-      <motion.div
-        variants={cardVariants}
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="group relative rounded-3xl overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-        style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
-      >
+    <motion.div
+      variants={cardVariants}
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border shadow-sm transition-all duration-300 hover:shadow-xl"
+      style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
+    >
         {/* Top Image Container with Floating Pill */}
         <div
           className="relative aspect-square flex items-center justify-center overflow-hidden bg-[#F9FAFB]"
         >
+          {product.images?.[0] ? (
+            <ImageZoom
+              src={getCloudinaryImageUrl(product.images[0], 1600)}
+              alt={product.name}
+              className="h-full w-full"
+            >
+              <Image
+                src={getCloudinaryImageUrl(product.images[0], 600)}
+                alt={product.name}
+                fill
+                unoptimized
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover"
+              />
+            </ImageZoom>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-3xl">🌱</div>
+          )}
+
           {/* Floating Pill Badge matching reference "MOST LOVED" pill */}
           <span
-            className="absolute top-3.5 left-3.5 text-[10px] font-bold tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full z-10 bg-white/95 text-[#1E4620] shadow-sm border border-black/5 backdrop-blur-sm"
+            className="pointer-events-none absolute left-3.5 top-3.5 z-10 rounded-full border border-black/5 bg-white/95 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1E4620] shadow-sm backdrop-blur-sm"
           >
             {badgeText}
           </span>
@@ -150,63 +169,43 @@ function ProductCard({ product }) {
             <WishlistButton productId={product.id} className="absolute right-3.5 top-3.5 z-10 h-8 w-8 border-0 bg-white/90 text-gray-600 hover:bg-white" />
           )}
 
-          {product.images?.[0] ? (
-            <Image
-              src={getCloudinaryImageUrl(product.images[0], 600)}
-              alt={product.name}
-              fill
-              unoptimized
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className={`relative z-[1] object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
-            />
-          ) : (
-            <div className="relative z-[1] mx-8 flex h-[calc(100%-4rem)] w-full items-center justify-center border-2 border-dashed rounded-2xl" style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}>
-              <ImageIcon size={30} strokeWidth={1.5} aria-hidden="true" />
-            </div>
-          )}
-          {product.images?.[1] && (
-            <Image
-              src={getCloudinaryImageUrl(product.images[1], 600)}
-              alt={`${product.name} alternate view`}
-              fill
-              unoptimized
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="relative z-[2] object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
-            />
-          )}
         </div>
 
-        {/* Bottom Details Section */}
-        <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
-              {product.name}
-            </h3>
-            <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-4">
-              {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between pt-2 mt-auto">
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
-                ₹{product.price}
-              </span>
-              {product.unit && (
-                <span className="text-xs text-[#6B7280] font-normal">
-                  / {product.unit}
-                </span>
-              )}
-              {discount > 0 && (
-                <span className="text-xs line-through text-[#9CA3AF] ml-1.5 font-medium">
-                  ₹{product.mrp}
-                </span>
-              )}
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
+          {/* Bottom Details Section */}
+          <Link href={`/products/${productSlug}`} className="flex flex-1 flex-col">
+            <div>
+              <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
+                {product.name}
+              </h3>
+              <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-4">
+                {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
+              </p>
             </div>
 
+            <div className="mt-auto flex items-center justify-between pt-2">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
+                  ₹{product.price}
+                </span>
+                {product.unit && (
+                  <span className="text-xs text-[#6B7280] font-normal">
+                    / {product.unit}
+                  </span>
+                )}
+                {discount > 0 && (
+                  <span className="ml-1.5 text-xs font-medium text-[#9CA3AF] line-through">
+                    ₹{product.mrp}
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+
+          <div className="flex justify-end pt-2">
             {/* Circular outline button with '+' icon (Exact match to reference image button) */}
             <motion.button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAdd(); }}
+              onClick={handleAdd}
               whileTap={{ scale: 0.9 }}
               aria-label={`Add ${product.name} to cart`}
               className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${
@@ -240,8 +239,7 @@ function ProductCard({ product }) {
             </motion.button>
           </div>
         </div>
-      </motion.div>
-    </Link>
+    </motion.div>
   );
 }
 

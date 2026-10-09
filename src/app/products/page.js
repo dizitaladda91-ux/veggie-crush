@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Star, ShoppingCart, Check, Filter, Search, ArrowLeft, Plus } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
 import WishlistButton from "@/components/products/wishlist-button";
+import ImageZoom from "@/components/products/image-zoom";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 const FALLBACK_PRODUCTS = [
@@ -303,42 +304,35 @@ export default function ProductsPage() {
                   style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
                 >
                   {/* Top Image Container with Floating Pill */}
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="block relative aspect-[4/3] sm:aspect-square overflow-hidden bg-[#F9FAFB]"
-                  >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F9FAFB] sm:aspect-square">
                     {/* Floating Pill Badge matching reference "MOST LOVED" pill */}
                     <span
-                      className="absolute top-3.5 left-3.5 text-[10px] font-bold tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full z-10 bg-white/95 text-[#1E4620] shadow-sm border border-black/5 backdrop-blur-sm"
+                      className="pointer-events-none absolute left-3.5 top-3.5 z-10 rounded-full border border-black/5 bg-white/95 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1E4620] shadow-sm backdrop-blur-sm"
                     >
                       {badgeText}
                     </span>
 
                     {product.images?.[0] ? (
-                      <Image
-                        src={getCloudinaryImageUrl(product.images[0], 600)}
+                      <ImageZoom
+                        src={getCloudinaryImageUrl(product.images[0], 1600)}
                         alt={product.name}
-                        fill
-                        unoptimized
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${product.images?.[1] ? "group-hover:opacity-0" : ""}`}
-                      />
+                        className="h-full w-full"
+                      >
+                        <Image
+                          src={getCloudinaryImageUrl(product.images[0], 600)}
+                          alt={product.name}
+                          fill
+                          unoptimized
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover"
+                        />
+                      </ImageZoom>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
                     )}
-                    {product.images?.[1] && (
-                      <Image
-                        src={getCloudinaryImageUrl(product.images[1], 600)}
-                        alt={`${product.name} alternate view`}
-                        fill
-                        unoptimized
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
-                      />
-                    )}
-                  </Link>
-                  <div className="absolute right-3 top-3 z-20">
-                    <WishlistButton productId={product.id} className="h-10 w-10" />
+                    <div className="absolute right-3 top-3 z-20">
+                      <WishlistButton productId={product.id} className="h-10 w-10" />
+                    </div>
                   </div>
 
                   {/* Bottom Details Section */}

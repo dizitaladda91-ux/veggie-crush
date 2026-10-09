@@ -5,42 +5,38 @@ import Link from "next/link";
 import { Image as ImageIcon } from "lucide-react";
 import { useCart } from "@/components/cart/cart-provider";
 import WishlistButton from "@/components/products/wishlist-button";
+import ImageZoom from "@/components/products/image-zoom";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 export default function NewArrivalProductCard({ product }) {
   const { addToCart } = useCart();
   const firstImage = product.images?.[0];
-  const secondImage = product.images?.[1];
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#E5E7EB] bg-white shadow-sm transition hover:shadow-xl">
-      <Link href={`/products/${product.slug}`} className="relative block aspect-square overflow-hidden bg-[#F9FAFB]">
+      <div className="relative aspect-square overflow-hidden bg-[#F9FAFB]">
         {firstImage ? (
+          <ImageZoom
+            src={getCloudinaryImageUrl(firstImage, 1600)}
+            alt={product.name}
+            className="h-full w-full"
+          >
           <Image
             src={getCloudinaryImageUrl(firstImage, 600)}
             alt={product.name}
             fill
             unoptimized
             sizes="(max-width: 768px) 50vw, 25vw"
-            className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${secondImage ? "group-hover:opacity-0" : ""}`}
+            className="object-cover"
           />
+          </ImageZoom>
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">
             <ImageIcon size={32} aria-hidden="true" />
           </div>
         )}
-        {secondImage && (
-          <Image
-            src={getCloudinaryImageUrl(secondImage, 600)}
-            alt={`${product.name} alternate view`}
-            fill
-            unoptimized
-            sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
-          />
-        )}
         <WishlistButton productId={product.id} className="absolute right-3 top-3 z-10 h-10 w-10" />
-      </Link>
+      </div>
       <div className="flex flex-1 flex-col p-5">
         <Link
           href={`/products/${product.slug}`}

@@ -3,13 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Image as ImageIcon } from "lucide-react";
+import ImageZoom from "@/components/products/image-zoom";
 import { useCart } from "@/components/cart/cart-provider";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 export default function ComboCard({ combo }) {
   const { addToCart } = useCart();
   const firstImage = combo.images?.[0];
-  const secondImage = combo.images?.[1];
   const price = combo.bundlePrice ?? combo.price ?? 0;
   const detailsHref = combo.catalogProduct
     ? `/products/${combo.slug}`
@@ -17,34 +17,28 @@ export default function ComboCard({ combo }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#E5E7EB] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-      <Link href={detailsHref} aria-label={`View details for ${combo.name}`} className="relative block aspect-square overflow-hidden bg-[#F9FAFB]">
-        {firstImage ? (
-          <>
+      <div className="relative aspect-square overflow-hidden bg-[#F9FAFB]">
+        <ImageZoom
+          src={firstImage ? getCloudinaryImageUrl(firstImage, 1600) : null}
+          alt={combo.name}
+          className="h-full w-full"
+        >
+          {firstImage ? (
             <Image
               src={getCloudinaryImageUrl(firstImage, 600)}
               alt={combo.name}
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 33vw"
-              className={`object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none ${secondImage ? "group-hover:opacity-0" : ""}`}
+              className="object-cover"
             />
-            {secondImage && (
-              <Image
-                src={getCloudinaryImageUrl(secondImage, 600)}
-                alt={`${combo.name} alternate view`}
-                fill
-                unoptimized
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover opacity-0 transition-[transform,opacity] duration-500 ease-out group-hover:scale-110 group-hover:opacity-100 motion-reduce:transition-none"
-              />
-            )}
-          </>
-        ) : (
-          <div className="flex h-full items-center justify-center text-gray-400">
-            <ImageIcon size={32} aria-hidden="true" />
-          </div>
-        )}
-      </Link>
+          ) : (
+            <span className="absolute inset-0 grid place-items-center text-gray-400">
+              <ImageIcon size={32} aria-hidden="true" />
+            </span>
+          )}
+          </ImageZoom>
+      </div>
       <div className="flex flex-1 flex-col p-5">
         <Link href={detailsHref} aria-label={`View details for ${combo.name}`} className="flex flex-1 flex-col">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-[#5C8E42]">{combo.code}</p>

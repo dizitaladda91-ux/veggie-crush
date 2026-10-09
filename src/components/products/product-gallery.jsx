@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import ImageZoom from "@/components/products/image-zoom";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
 
 export default function ProductGallery({ productName, images }) {
@@ -9,15 +10,21 @@ export default function ProductGallery({ productName, images }) {
 
   return (
     <section className="overflow-hidden rounded-[28px] border shadow-sm" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
-      <div className="group relative aspect-square w-full overflow-hidden bg-[#F9FAFB]">
-        <Image
-          src={getCloudinaryImageUrl(selectedImage, 1200)}
+      <div className="relative aspect-square w-full overflow-hidden bg-white">
+        <ImageZoom
+          src={getCloudinaryImageUrl(selectedImage, 2000)}
           alt={productName}
-          fill
-          unoptimized
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none"
-        />
+          className="h-full w-full"
+        >
+          <Image
+            src={getCloudinaryImageUrl(selectedImage, 1200)}
+            alt={productName}
+            fill
+            unoptimized
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-contain"
+          />
+        </ImageZoom>
       </div>
 
       <div className="grid grid-cols-4 gap-3 p-3 sm:p-4">
@@ -29,7 +36,7 @@ export default function ProductGallery({ productName, images }) {
               key={`${image}-${index}`}
               type="button"
               onClick={() => setSelectedImage(image)}
-              className="group/thumb overflow-hidden rounded-2xl border transition-all duration-200"
+              className="overflow-hidden rounded-2xl border transition-all duration-200"
               style={{
                 backgroundColor: isSelected ? "#F0FDF4" : "#FFFFFF",
                 borderColor: isSelected ? "#6FAE3E" : "#E5E7EB",
@@ -43,7 +50,7 @@ export default function ProductGallery({ productName, images }) {
                   fill
                   unoptimized
                   sizes="96px"
-                  className="object-cover transition-transform duration-500 ease-out group-hover/thumb:scale-110 motion-reduce:transition-none"
+                  className="object-contain"
                 />
               </div>
             </button>
