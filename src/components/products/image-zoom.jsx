@@ -6,12 +6,19 @@ import Image from "next/image";
 import { Minus, Plus, X, ZoomIn } from "lucide-react";
 
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 3;
+const DEFAULT_MAX_ZOOM = 6;
 const ZOOM_STEP = 0.5;
 
-export default function ImageZoom({ src, alt, children, className = "" }) {
+export default function ImageZoom({
+  src,
+  alt,
+  children,
+  className = "",
+  initialZoom = MIN_ZOOM,
+  maxZoom = DEFAULT_MAX_ZOOM,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [zoom, setZoom] = useState(MIN_ZOOM);
+  const [zoom, setZoom] = useState(initialZoom);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -19,7 +26,7 @@ export default function ImageZoom({ src, alt, children, className = "" }) {
     function handleKeyDown(event) {
       if (event.key === "Escape") setIsOpen(false);
       if (event.key === "+" || event.key === "=") {
-        setZoom((current) => Math.min(MAX_ZOOM, current + ZOOM_STEP));
+        setZoom((current) => Math.min(maxZoom, current + ZOOM_STEP));
       }
       if (event.key === "-") {
         setZoom((current) => Math.max(MIN_ZOOM, current - ZOOM_STEP));
@@ -34,11 +41,11 @@ export default function ImageZoom({ src, alt, children, className = "" }) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, maxZoom]);
 
   function closeViewer() {
     setIsOpen(false);
-    setZoom(MIN_ZOOM);
+    setZoom(initialZoom);
   }
 
   return (
@@ -47,7 +54,7 @@ export default function ImageZoom({ src, alt, children, className = "" }) {
         <button
           type="button"
           onClick={() => {
-            setZoom(MIN_ZOOM);
+            setZoom(initialZoom);
             setIsOpen(true);
           }}
           aria-label={`Zoom image: ${alt}`}
@@ -84,8 +91,8 @@ export default function ImageZoom({ src, alt, children, className = "" }) {
               <button
                 type="button"
                 aria-label="Zoom in"
-                onClick={() => setZoom((current) => Math.min(MAX_ZOOM, current + ZOOM_STEP))}
-                disabled={zoom === MAX_ZOOM}
+                onClick={() => setZoom((current) => Math.min(maxZoom, current + ZOOM_STEP))}
+                disabled={zoom === maxZoom}
                 className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition hover:bg-white/20 disabled:opacity-40"
               >
                 <Plus size={18} />

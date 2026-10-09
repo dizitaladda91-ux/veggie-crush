@@ -12,9 +12,11 @@ export default function ProductGallery({ productName, images }) {
     <section className="overflow-hidden rounded-[28px] border shadow-sm" style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}>
       <div className="relative aspect-square w-full overflow-hidden bg-white">
         <ImageZoom
-          src={getCloudinaryImageUrl(selectedImage, 2000)}
+          src={getCloudinaryImageUrl(selectedImage, 3000)}
           alt={productName}
           className="h-full w-full"
+          initialZoom={2}
+          maxZoom={6}
         >
           <Image
             src={getCloudinaryImageUrl(selectedImage, 1200)}
