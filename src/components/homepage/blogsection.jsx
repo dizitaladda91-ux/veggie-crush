@@ -12,19 +12,30 @@ const fadeUp = {
 function FeaturedCard({ post }) {
   return (
     <motion.a
-      href={`/blog/${post.id}`}
+      href={`/blog/${post.slug || post.id}`}
       variants={fadeUp}
       whileHover="hover"
       className="group relative flex flex-col justify-end overflow-hidden rounded-3xl border p-6 sm:p-8 min-h-[420px] lg:min-h-full"
       style={{ backgroundColor: "#F9FAFB", borderColor: "#E5E7EB" }}
     >
-      <motion.div
-        variants={{ hover: { scale: 1.08, rotate: 4 } }}
-        transition={{ type: "spring", stiffness: 200, damping: 18 }}
-        className="absolute -right-6 -top-6 text-[10rem] leading-none opacity-90 select-none"
-      >
-        {post.emoji}
-      </motion.div>
+      {post.coverImg ? (
+        <motion.div
+          variants={{ hover: { scale: 1.04 } }}
+          transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          role="img"
+          aria-label={post.title}
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: `url("${post.coverImg.replaceAll('"', "%22")}")` }}
+        />
+      ) : (
+        <motion.div
+          variants={{ hover: { scale: 1.08, rotate: 4 } }}
+          transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          className="absolute -right-6 -top-6 text-[10rem] leading-none opacity-90 select-none"
+        >
+          {post.emoji}
+        </motion.div>
+      )}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background: `linear-gradient(180deg, transparent 30%, ${post.accent}22 100%)` }}
@@ -69,7 +80,7 @@ function FeaturedCard({ post }) {
 function CompactCard({ post }) {
   return (
     <motion.a
-      href={`/blog/${post.id}`}
+      href={`/blog/${post.slug || post.id}`}
       variants={fadeUp}
       whileHover="hover"
       className="group flex gap-4 rounded-2xl border p-3 sm:p-4 shadow-sm"
@@ -79,15 +90,17 @@ function CompactCard({ post }) {
         variants={{ hover: { scale: 1.08 } }}
         transition={{ type: "spring", stiffness: 250, damping: 16 }}
         className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl grid place-items-center overflow-hidden"
-        style={{ backgroundColor: "#F3F4F6" }}
+        style={{
+          backgroundColor: "#F3F4F6",
+          ...(post.coverImg ? { backgroundImage: `url("${post.coverImg.replaceAll('"', "%22")}")`, backgroundPosition: "center", backgroundSize: "cover" } : {}),
+        }}
       >
-        <span className="text-4xl">{post.emoji}</span>
-        <Leaf
-          size={60}
-          color={post.accent}
-          strokeWidth={0.6}
-          className="absolute -right-3 -bottom-3 opacity-15"
-        />
+        {!post.coverImg && (
+          <>
+            <span className="text-4xl">{post.emoji}</span>
+            <Leaf size={60} color={post.accent} strokeWidth={0.6} className="absolute -right-3 -bottom-3 opacity-15" />
+          </>
+        )}
       </motion.div>
 
       <div className="flex-1 min-w-0 flex flex-col justify-center">

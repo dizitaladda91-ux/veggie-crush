@@ -43,9 +43,13 @@ export default async function BlogIndexPage() {
         )}
 
         {featured && (
-          <Link href={`/blog/${featured.id}`} className="group mb-12 block">
+          <Link href={`/blog/${featured.slug || featured.id}`} className="group mb-12 block">
             <article className="relative overflow-hidden rounded-[32px] border border-[#E5E7EB] bg-[#F9FAFB] p-8 transition-all hover:shadow-xl sm:p-12">
-              <span className="pointer-events-none absolute -bottom-6 -right-4 text-[10rem] opacity-20 select-none">{featured.emoji}</span>
+              {featured.coverImg ? (
+                <div role="img" aria-label={featured.title} className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url("${featured.coverImg.replaceAll('"', "%22")}")` }} />
+              ) : (
+                <span className="pointer-events-none absolute -bottom-6 -right-4 text-[10rem] opacity-20 select-none">{featured.emoji}</span>
+              )}
               <div className="relative z-10 max-w-2xl">
                 <div className="mb-4 flex items-center gap-2">
                   <span className="rounded-full bg-[#1E4620] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
@@ -85,13 +89,17 @@ export default async function BlogIndexPage() {
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {listPosts.map((post) => (
-            <Link key={post.id} href={`/blog/${post.id}`} className="group block">
+            <Link key={post.id} href={`/blog/${post.slug || post.id}`} className="group block">
               <article className="h-full rounded-[28px] border border-[#E5E7EB] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <span className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: post.accent || "#1E4620" }}>
                     {post.category}
                   </span>
-                  <span className="text-2xl" aria-label="Blog category icon">{post.emoji || "🌿"}</span>
+                  {post.coverImg ? (
+                    <span role="img" aria-label={post.title} className="h-12 w-16 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url("${post.coverImg.replaceAll('"', "%22")}")` }} />
+                  ) : (
+                    <span className="text-2xl" aria-label="Blog category icon">{post.emoji || "🌿"}</span>
+                  )}
                 </div>
 
                 <h3 className="text-xl font-black leading-snug text-[#1E4620]">{post.title}</h3>

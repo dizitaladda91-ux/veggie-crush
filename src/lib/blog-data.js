@@ -55,15 +55,28 @@ export async function upsertBlogPost(input) {
     readTime: input.readTime?.trim() || "4 min read",
     date: input.date?.trim() || new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
     author: input.author?.trim() || "VeggieCrush Editorial Team",
+    publisher: input.publisher?.trim() || input.author?.trim() || "VeggieCrush",
     emoji: input.emoji?.trim() || "🌿",
     accent: input.accent?.trim() || "#1E4620",
+    coverImg: input.coverImg?.trim() || "",
+    ogImage: input.ogImage?.trim() || input.coverImg?.trim() || "",
     featured: Boolean(input.featured),
     content: input.content?.trim() || "",
     seoTitle: input.seoTitle?.trim() || input.title?.trim(),
     seoDescription: input.seoDescription?.trim() || input.excerpt?.trim(),
     focusKeyword: input.focusKeyword?.trim() || "veggiecrush",
     tags: Array.isArray(input.tags) ? input.tags.map((tag) => String(tag).trim()).filter(Boolean) : [],
+    keywords: Array.isArray(input.keywords) && input.keywords.length
+      ? input.keywords.map((keyword) => String(keyword).trim()).filter(Boolean)
+      : Array.isArray(input.tags) ? input.tags.map((tag) => String(tag).trim()).filter(Boolean) : [],
+    schemas: Array.isArray(input.schemas) ? input.schemas : [],
   };
+
+  if (payload.featured) {
+    for (const post of posts) {
+      if (String(post.id) !== payload.id) post.featured = false;
+    }
+  }
 
   const existingIndex = posts.findIndex((post) => String(post.id) === String(payload.id));
 
