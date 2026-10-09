@@ -3,21 +3,19 @@
 import { useEffect, useState } from "react";
 
 const vegetableItems = [
-  { emoji: "🥬", left: "8%", drift: "-40px", delay: 0, duration: 2.4, size: 42 },
-  { emoji: "🍅", left: "18%", drift: "30px", delay: 200, duration: 2.7, size: 36 },
-  { emoji: "🥕", left: "29%", drift: "-28px", delay: 400, duration: 2.5, size: 44 },
-  { emoji: "🥦", left: "42%", drift: "24px", delay: 120, duration: 2.8, size: 40 },
-  { emoji: "🌶️", left: "55%", drift: "-35px", delay: 300, duration: 2.6, size: 38 },
-  { emoji: "🥑", left: "68%", drift: "26px", delay: 150, duration: 2.9, size: 42 },
-  { emoji: "🍋", left: "81%", drift: "-30px", delay: 260, duration: 2.7, size: 34 },
-  { emoji: "🫑", left: "90%", drift: "22px", delay: 500, duration: 2.5, size: 36 },
+  { emoji: "🥬", left: "10%", drift: "-28px", delay: 0, duration: 1.9, size: 38 },
+  { emoji: "🍅", left: "24%", drift: "24px", delay: 180, duration: 2.1, size: 32 },
+  { emoji: "🥕", left: "40%", drift: "-22px", delay: 260, duration: 2.0, size: 40 },
+  { emoji: "🥦", left: "58%", drift: "18px", delay: 120, duration: 2.2, size: 36 },
+  { emoji: "🌶️", left: "72%", drift: "-20px", delay: 300, duration: 2.1, size: 34 },
+  { emoji: "🥑", left: "86%", drift: "20px", delay: 240, duration: 2.3, size: 38 },
 ];
 
 export default function WelcomeLoader() {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowLoader(false), 4200);
+    const timer = setTimeout(() => setShowLoader(false), 1800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,8 +24,8 @@ export default function WelcomeLoader() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#142a1c]/60 backdrop-blur-[12px]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(186,238,140,0.18),_rgba(18,37,23,0.1)_38%,_rgba(8,15,11,0.4)_100%)]" />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#142a1c]/55 backdrop-blur-[6px]" style={{ WebkitBackdropFilter: "blur(6px)" }}>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(186,238,140,0.12),_rgba(18,37,23,0.12)_38%,_rgba(8,15,11,0.32)_100%)]" />
 
       <div className="relative z-10 flex w-full max-w-6xl flex-col items-center justify-center px-6 text-center sm:px-10">
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-end sm:justify-center sm:gap-8 md:gap-10">
