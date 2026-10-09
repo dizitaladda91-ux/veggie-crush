@@ -28,6 +28,7 @@ const NAV_LINKS = [
     dropdown: ["Monsoon Picks", "Winter Harvest", "Summer Fresh", "Year Round"],
   },
   { label: "Farm Boxes", href: "/farm-boxes" },
+  { label: "Blog", href: "/blog" },
   { label: "Shop By Recipe", href: "/recipe" },
 ];
 
