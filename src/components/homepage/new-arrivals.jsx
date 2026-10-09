@@ -85,7 +85,7 @@ export default function NewArrivals({ products, combos, error }) {
                 </h3>
                 <motion.div
                   {...motionProps}
-                  className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
+                  className="mx-auto grid max-w-3xl grid-cols-2 gap-4 sm:gap-6"
                 >
                   {group.items.map((item) => (
                     <motion.div
@@ -93,7 +93,7 @@ export default function NewArrivals({ products, combos, error }) {
                       variants={shouldReduceMotion ? undefined : cardVariants}
                       whileHover={shouldReduceMotion ? undefined : { y: -7, scale: 1.012 }}
                       transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                      className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4 lg:col-span-2"
+                      className="rounded-3xl focus-within:ring-2 focus-within:ring-[#6FAE3E] focus-within:ring-offset-4"
                     >
                       {group.id === "single"
                         ? <NewArrivalProductCard product={item} />
