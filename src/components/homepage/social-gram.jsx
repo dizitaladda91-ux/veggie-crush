@@ -66,14 +66,14 @@ export default function SocialGram() {
         </div>
 
         <div
-          className={`min-w-0 ${shouldReduceMotion ? "overflow-x-auto" : "overflow-hidden"}`}
+          className="min-w-0 overflow-hidden"
           role="region"
           aria-label="VeggieCrush community stories"
         >
           <motion.div
             className="flex w-max"
             animate={shouldReduceMotion ? undefined : { x: ["-50%", "0%"] }}
-            transition={shouldReduceMotion ? undefined : { duration: 36, ease: "linear", repeat: Infinity }}
+            transition={shouldReduceMotion ? undefined : { duration: 30, ease: "linear", repeat: Infinity }}
           >
             {(shouldReduceMotion ? [0] : [0, 1]).map((copy) => (
               <div key={copy} aria-hidden={copy === 1} className="flex shrink-0 gap-4 pr-4">
@@ -91,7 +91,7 @@ export default function SocialGram() {
                       alt={copy === 1 ? "" : "VeggieCrush community harvest"}
                       fill
                       sizes="(max-width: 640px) 72vw, 280px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-2"
                     />
 
                     <div
