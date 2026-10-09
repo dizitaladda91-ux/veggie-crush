@@ -14,21 +14,7 @@ export async function generateMetadata({ params }) {
   return {
     title: post.seoTitle || post.title,
     description: post.seoDescription || post.excerpt,
-    keywords: post.keywords?.length
-      ? post.keywords
-      : post.tags?.length
-        ? post.tags
-        : post.focusKeyword,
-    openGraph: {
-      title: post.seoTitle || post.title,
-      description: post.seoDescription || post.excerpt,
-      type: "article",
-      images: post.ogImage || post.coverImg ? [post.ogImage || post.coverImg] : [],
-    },
-    twitter: {
-      card: post.ogImage || post.coverImg ? "summary_large_image" : "summary",
-      images: post.ogImage || post.coverImg ? [post.ogImage || post.coverImg] : [],
-    },
+    keywords: post.tags?.length ? post.tags.join(", ") : post.focusKeyword,
   };
 }
 
@@ -40,29 +26,8 @@ export default async function BlogPostPage({ params }) {
     notFound();
   }
 
-  const blogPostingSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.seoDescription || post.excerpt,
-    author: { "@type": "Person", name: post.author || post.publisher || "VeggieCrush" },
-    publisher: { "@type": "Organization", name: post.publisher || "VeggieCrush" },
-    datePublished: post.date,
-    mainEntityOfPage: `/blog/${post.slug || post.id}`,
-    ...(post.coverImg ? { image: post.coverImg } : {}),
-    ...(post.keywords?.length ? { keywords: post.keywords.join(", ") } : {}),
-  };
-  const schemas = [blogPostingSchema, ...(Array.isArray(post.schemas) ? post.schemas : [])];
-
   return (
     <main className="min-h-screen bg-white px-6 py-10 lg:px-10">
-      {schemas.map((schema, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
-        />
-      ))}
       <div className="mx-auto max-w-4xl">
         <Link href="/blog" className="mb-6 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E4620] transition-opacity hover:opacity-75">
           <ArrowLeft size={14} />
@@ -91,12 +56,8 @@ export default async function BlogPostPage({ params }) {
           </div>
         </div>
 
-        <div className="mb-10 flex min-h-[220px] items-center justify-center overflow-hidden rounded-[28px] border border-[#E5E7EB] bg-[#F9FAFB]">
-          {post.coverImg ? (
-            <div role="img" aria-label={post.title} className="min-h-[220px] w-full bg-cover bg-center sm:min-h-[420px]" style={{ backgroundImage: `url("${post.coverImg.replaceAll('"', "%22")}")` }} />
-          ) : (
-            <span className="p-10 text-8xl select-none">{post.emoji || "🌿"}</span>
-          )}
+        <div className="mb-10 flex min-h-[220px] items-center justify-center rounded-[28px] border border-[#E5E7EB] bg-[#F9FAFB] p-10">
+          <span className="text-8xl select-none">{post.emoji || "🌿"}</span>
         </div>
 
         <article className="mb-16 space-y-6 text-sm leading-8 text-[#374151] sm:text-base">
