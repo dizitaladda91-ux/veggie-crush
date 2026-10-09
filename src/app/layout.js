@@ -7,6 +7,7 @@ import CartDrawer from "../components/cart/cart-drawer";
 import { AuthProvider } from "../components/auth/auth-context";
 import AuthModal from "../components/auth/auth-modal";
 import PageTransition from "../components/layout/page-transition";
+import WelcomeLoader from "../components/homepage/welcome-loader";
 
 export const metadata = {
   title: "VeggieCrush — Farm Fresh Organic Harvest & Wellness",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-white text-[#1E3821]">
         <AuthProvider>
           <CartProvider>
+            <WelcomeLoader />
             <AnnouncementBar />
             <Navbar />
             <PageTransition>{children}</PageTransition>

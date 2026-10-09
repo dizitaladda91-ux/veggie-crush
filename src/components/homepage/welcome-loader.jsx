@@ -17,7 +17,7 @@ export default function WelcomeLoader() {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowLoader(false), 2600);
+    const timer = setTimeout(() => setShowLoader(false), 4200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,34 +26,34 @@ export default function WelcomeLoader() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#1b2f1d]/35 backdrop-blur-[8px]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(216,247,190,0.44),_rgba(27,47,29,0.12)_38%,_rgba(10,18,15,0.14)_100%)]" />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#142a1c]/60 backdrop-blur-[12px]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(186,238,140,0.18),_rgba(18,37,23,0.1)_38%,_rgba(8,15,11,0.4)_100%)]" />
 
       <div className="relative z-10 flex w-full max-w-6xl flex-col items-center justify-center px-6 text-center sm:px-10">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-center sm:gap-8 md:gap-10">
-          <div className="text-left text-[#F7FFF5] drop-shadow-[0_10px_30px_rgba(36,68,31,0.35)]">
-            <p className="welcome-word welcome-word-left text-4xl font-black uppercase tracking-[-0.08em] sm:text-5xl md:text-7xl">
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-end sm:justify-center sm:gap-8 md:gap-10">
+          <div className="text-left text-[#F5FFF2] drop-shadow-[0_10px_30px_rgba(36,68,31,0.55)]">
+            <p className="welcome-word welcome-word-left text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "-0.06em" }}>
               Welcome
             </p>
-            <p className="mt-2 text-sm font-medium uppercase tracking-[0.28em] text-[#DDECD8] sm:text-base">
+            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm" style={{ fontFamily: "'Manrope', sans-serif" }}>
               to the freshness
             </p>
           </div>
 
-          <div className="hidden h-20 w-px bg-white/40 sm:block" aria-hidden="true" />
+          <div className="hidden h-16 w-px bg-white/45 sm:block" aria-hidden="true" />
 
-          <div className="text-center text-[#F7FFF5] drop-shadow-[0_12px_36px_rgba(34,65,32,0.42)] sm:text-right">
-            <p className="welcome-word welcome-word-right text-4xl font-black uppercase tracking-[-0.08em] sm:text-5xl md:text-7xl">
+          <div className="text-center text-[#F5FFF2] drop-shadow-[0_12px_36px_rgba(34,65,32,0.62)] sm:text-right">
+            <p className="welcome-word welcome-word-right text-[3rem] font-black uppercase tracking-[-0.08em] sm:text-[4.2rem] md:text-[7rem]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "-0.06em", fontStyle: "italic" }}>
               VeggieCrush
             </p>
-            <p className="mt-2 text-sm font-medium uppercase tracking-[0.28em] text-[#DDECD8] sm:text-base">
+            <p className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#DDECD8] sm:text-sm" style={{ fontFamily: "'Manrope', sans-serif" }}>
               Store
             </p>
           </div>
         </div>
 
-        <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#ECF9E4] shadow-[0_18px_45px_rgba(36,68,31,0.2)] backdrop-blur-sm sm:text-sm">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#B6EA6F] shadow-[0_0_12px_rgba(182,234,111,0.8)]" />
+        <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#ECF9E4] shadow-[0_18px_45px_rgba(36,68,31,0.2)] backdrop-blur-md sm:text-xs">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#B6EA6F] shadow-[0_0_12px_rgba(182,234,111,0.9)]" />
           Fresh from farm to kitchen
         </div>
       </div>

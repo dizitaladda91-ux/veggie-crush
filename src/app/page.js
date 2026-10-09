@@ -5,17 +5,14 @@ import FromSeedToTable from "../components/homepage/from-seed-to-table";
 import SubscriptionBoxes from "../components/homepage/subscription-boxes";
 import SocialGram from "../components/homepage/social-gram";
 import Newsletter from "../components/homepage/newsletter";
-import WelcomeLoader from "../components/homepage/welcome-loader";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
-    <>
-      <WelcomeLoader />
-      <main className="w-full bg-white">
-        {/* 1. Hero Section matching Wix comp-mhs1bc6l */}
-        <Herosection />
+    <main className="w-full bg-white">
+      {/* 1. Hero Section matching Wix comp-mhs1bc6l */}
+      <Herosection />
 
       {/* 2. New Arrivals matching Wix comp-ml7u8bz8 */}
       <NewArrivalsSection />
@@ -33,8 +30,7 @@ export default function Home() {
       <SocialGram />
 
       {/* 7. Newsletter matching Wix comp-ml7xiso4 */}
-        <Newsletter />
-      </main>
-    </>
+      <Newsletter />
+    </main>
   );
 }
