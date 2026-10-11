@@ -3,8 +3,8 @@
 :root {
   --background: #FFFFFF;
   --foreground: #1E3821;
-  --font-display: Arial, Helvetica, sans-serif;
-  --font-body: Arial, Helvetica, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @theme inline {
