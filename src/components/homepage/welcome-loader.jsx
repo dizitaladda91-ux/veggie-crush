@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const vegetableItems = [
   { emoji: "🥬", left: "10%", drift: "-28px", delay: 0, duration: 1.9, size: 38 },
@@ -11,15 +12,29 @@ const vegetableItems = [
   { emoji: "🥑", left: "86%", drift: "20px", delay: 240, duration: 2.3, size: 38 },
 ];
 
+// Tracks whether the user has already entered the site in the current SPA lifecycle
+// so client-side page changes (including navigating back to "/") never re-trigger the loader.
+let hasEnteredSite = false;
+
 export default function WelcomeLoader() {
-  const [showLoader, setShowLoader] = useState(true);
+  const pathname = usePathname();
+  const [showLoader, setShowLoader] = useState(() => {
+    if (hasEnteredSite) return false;
+    return pathname === "/";
+  });
 
   useEffect(() => {
+    hasEnteredSite = true;
+    if (pathname !== "/") {
+      setShowLoader(false);
+      return undefined;
+    }
+
     const timer = setTimeout(() => setShowLoader(false), 1800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
-  if (!showLoader) {
+  if (!showLoader || pathname !== "/") {
     return null;
   }
 

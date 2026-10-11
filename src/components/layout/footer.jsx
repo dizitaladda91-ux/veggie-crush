@@ -36,13 +36,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
           {/* Column 1: Brand & Logo (lg: 4 cols) */}
           <div className="lg:col-span-4">
-            <Link href="/" className="mb-5 inline-flex items-center transition-transform hover:scale-[1.02]">
+            <Link href="/" className="mb-5 inline-flex items-center bg-transparent transition-transform hover:scale-[1.02]">
               <Image
                 src="/brand/veggiecrush-logo-transparent.png"
                 alt="VeggieCrush — Farm to Door"
-                width={358}
-                height={149}
-                className="h-[58px] w-[140px] object-contain"
+                width={280}
+                height={125}
+                unoptimized
+                className="h-[58px] w-auto bg-transparent object-contain"
               />
             </Link>
 

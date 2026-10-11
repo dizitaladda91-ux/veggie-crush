@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Search, User, Truck, ShoppingBag, ChevronDown, Leaf, X, Menu, LogOut } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 import { useAuth } from "../auth/auth-context";
@@ -33,13 +34,13 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount, openCart } = useCart();
   const { user, openAuthModal, logout } = useAuth();
-  const active = "All Products";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -98,13 +99,15 @@ export default function Navbar() {
 
         {/* ── CENTER: Logo (always centered) ── */}
         <div className="flex justify-center">
-          <Link href="/" className="group flex items-center justify-center">
+          <Link href="/" className="group flex items-center justify-center bg-transparent">
             <Image
               src="/brand/veggiecrush-logo-transparent.png"
               alt="VeggieCrush — Farm to Door"
-              width={358}
-              height={149}
-              className="h-[46px] w-[110px] object-contain transition-transform group-hover:scale-[1.03] sm:h-[56px] sm:w-[135px]"
+              width={280}
+              height={125}
+              unoptimized
+              priority
+              className="h-[48px] w-auto bg-transparent object-contain transition-transform group-hover:scale-[1.03] sm:h-[58px]"
             />
           </Link>
         </div>
@@ -205,7 +208,7 @@ export default function Navbar() {
       >
         <ul className="flex items-center justify-center gap-1 px-5 lg:px-10 max-w-[1440px] mx-auto text-[13px] font-semibold relative">
           {NAV_LINKS.map((link) => {
-            const isActive = link.label === active;
+            const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
             const isOpen = openDropdown === link.label;
 
             return (
@@ -215,7 +218,7 @@ export default function Navbar() {
                 onMouseEnter={() => link.dropdown && setOpenDropdown(link.label)}
                 onMouseLeave={() => link.dropdown && setOpenDropdown(null)}
               >
-                <a
+                <Link
                   href={link.href}
                   className="flex items-center gap-1 px-3 py-3 transition-all duration-150 rounded-md hover:text-[#1E4620]"
                   style={{ color: isActive ? "#1E4620" : "#4B5443" }}
@@ -237,7 +240,7 @@ export default function Navbar() {
                       }}
                     />
                   )}
-                </a>
+                </Link>
 
                 {/* Active underline */}
                 {isActive && (
@@ -258,9 +261,10 @@ export default function Navbar() {
                     }}
                   >
                     {link.dropdown.map((item) => (
-                      <a
+                      <Link
                         key={item}
-                        href="#"
+                        href={link.href}
+                        onClick={() => setOpenDropdown(null)}
                         className="flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors hover:bg-[#F3F4F6]"
                         style={{ color: "#3A4433" }}
                       >
@@ -271,7 +275,7 @@ export default function Navbar() {
                           <Leaf size={10} color="#6FAE3E" />
                         </span>
                         {item}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -301,7 +305,7 @@ export default function Navbar() {
           <ul className="px-4 py-3 space-y-1">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
                   className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors hover:bg-[#EAF4DA]"
                   style={{ color: "#24321F" }}
@@ -309,7 +313,7 @@ export default function Navbar() {
                 >
                   <Leaf size={13} color="#6FAE3E" />
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
