@@ -6,50 +6,49 @@ import { ArrowLeft, ChevronDown, HelpCircle, MessageCircle, Mail, Phone } from "
 
 const FAQ_SECTIONS = [
   {
-    category: "Produce Purity & Sourcing",
+    category: "Purity & Sourcing",
     questions: [
       {
-        q: "Are VeggieCrush vegetables truly 100% organic and pesticide-free?",
-        a: "Yes. All our produce is cultivated on certified organic farms using regenerative organic methods (Jeevamrutha, cow dung compost, neem-oil sprays). We perform regular multi-residue gas chromatography tests through NABL-accredited laboratories to verify zero synthetic chemical residues.",
+        q: "What is VeggieCrush powder made of?",
+        a: "Each single-origin jar contains exactly 100% of that single ingredient—pure beetroot, moringa leaves, amla, turmeric rhizomes, or giloy stems. No preservatives, no added sugars, no artificial colours, and zero fillers. EverFit is our proprietary multi-ingredient superfood blend, with every single ingredient transparently declared on the pack.",
       },
       {
-        q: "How soon after harvesting do I receive my vegetables?",
-        a: "Our farmers harvest crops at dawn (between 5:30 AM and 7:30 AM). Produce is washed with food-grade ozone water, sorted by hand, and delivered to your doorstep in refrigerated vans within 12 hours of being cut from the plant.",
+        q: "How are the powders made?",
+        a: "We follow a disciplined 7-step process: Select fresh quality vegetables & herbs → Wash thoroughly → Cut into small pieces → Machine-Dry at controlled temperatures → Grind → Sieve for smooth dissolution → Pack hygienically into airtight glass jars.",
+      },
+      {
+        q: "What is the pack size?",
+        a: "All VeggieCrush individual products and combos come in premium, reusable 200 g glass jars.",
       },
     ],
   },
   {
-    category: "Delivery & Cold-Chain Logistics",
+    category: "Usage & Daily Routine",
     questions: [
       {
-        q: "What is your delivery fee and free shipping policy?",
-        a: "Orders above ₹599 and all weekly/monthly Farm Subscription Boxes enjoy 100% FREE delivery. For individual orders under ₹599, a nominal ₹49 cold-chain logistics fee applies.",
+        q: "How much should I take?",
+        a: "Take 1–2 teaspoons a day (or ½–1 teaspoon for Turmeric, and 1–2 tablespoons for EverFit). If you are new to a herb or superfood, start with less and increase gradually.",
       },
       {
-        q: "Which cities do you currently deliver to?",
-        a: "We currently operate full same-day and next-day cold chain delivery across Bangalore, Pune, Mumbai, Hyderabad, and Delhi NCR. We are expanding to other metro regions soon.",
+        q: "How do I use it?",
+        a: "Mix it easily into plain water, morning smoothies, milk or plant milk, curd/yoghurt, fresh fruit juices, soups, dal, or knead it directly into your roti and chapati dough.",
+      },
+      {
+        q: "How should I store it?",
+        a: "Keep the jar closed tightly in a cool, dry place away from direct sunlight. Always use a clean, dry spoon. Best before 12 months from packing date; once opened, consume within 60 to 90 days for peak freshness.",
       },
     ],
   },
   {
-    category: "Farm Boxes & Subscriptions",
+    category: "Safety & Special Uses",
     questions: [
       {
-        q: "Can I pause, skip, or cancel my Farm Box subscription?",
-        a: "Absolutely. You have 100% flexibility. You can pause, skip a delivery week, or cancel anytime with a single click from your account dashboard with zero penalties or lock-in periods.",
+        q: "Can I use it on my skin?",
+        a: "VeggieCrush powders are certified food products, not cosmetics. If you choose to try one on your skin for a DIY mask, please do a 24-hour patch test on your forearm first and avoid broken skin. Note that turmeric and beetroot naturally stain skin temporarily.",
       },
       {
-        q: "Can I customize what goes into my weekly harvest box?",
-        a: "Yes. Every Sunday morning before dawn harvest, we email and WhatsApp you this week's harvest preview. You can swap up to 2 items for other seasonal vegetables or superfood powders.",
-      },
-    ],
-  },
-  {
-    category: "Freshness Guarantee & Returns",
-    questions: [
-      {
-        q: "What if I receive a damaged or wilted item?",
-        a: "We stand behind our produce with a 100% Freshness Guarantee. If any vegetable or herbal product does not meet your expectations, simply share a quick photo via WhatsApp within 24 hours of delivery and we will either replace it or credit your account instantly.",
+        q: "Can children, pregnant women or people on medication use it?",
+        a: "While everyday foods like beetroot, amla, and moringa are gentle, please check with your doctor before using concentrated herbs like Giloy or superfood blends if you are pregnant, nursing, on regular medication, or managing a medical condition.",
       },
     ],
   },
@@ -86,7 +85,7 @@ export default function FAQsPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-xs sm:text-sm mt-2 text-[#6B7280]">
-            Everything you need to know about our organic certification, dawn harvest logistics, and farm subscriptions.
+            Everything you need to know about our pure vegetable &amp; herb powders, daily routines, storage, and natural processing.
           </p>
         </div>
 

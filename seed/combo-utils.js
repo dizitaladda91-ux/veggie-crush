@@ -4,9 +4,9 @@ const COMBO_DESCRIPTORS = {
   A: "Beetroot powder (nitrates, antioxidants)",
   B: "Amla powder (natural Vitamin C)",
   C: "Moringa powder (plant protein, essential minerals)",
-  D: "Everfit capsules (daily vitality)",
+  D: "EverFit superfood blend (vitality, energy, immunity)",
   E: "Giloy extract powder (immune support)",
-  F: "Neem powder (traditional cleansing)",
+  F: "Turmeric powder (curcuminoids, antioxidants)",
 };
 
 function slugify(value) {

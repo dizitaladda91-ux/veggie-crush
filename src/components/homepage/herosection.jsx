@@ -36,7 +36,7 @@ export default function HeroSection() {
               }}
             >
               <Sprout size={14} className="text-[#5C8E42]" />
-              <span>Is There Such a Thing as Too Many Fresh Greens?</span>
+              <span>Nature, Nothing Else</span>
             </motion.div>
 
             {/* Wix Main Heading */}
@@ -46,7 +46,7 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mb-6 text-[#173719]"
             >
-              Discover the latest addition to your growing organic table.
+              VeggieCrush: Nature, Nothing Else
             </motion.h1>
 
             {/* Subtitle */}
@@ -56,36 +56,45 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base sm:text-lg text-[#4A634E] max-w-xl leading-relaxed mb-8 font-normal"
             >
-              Hand-harvested at dawn from local certified chemical-free farms, cleaned with pure ozonated water, and delivered straight to your doorstep within hours.
+              Fresh vegetables and herbs, machine-dried and ground into fine powders for your daily food, drinks and routine.
             </motion.p>
 
-            {/* CTA Buttons - Matching Wix Plant Store button styling */}
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4 mb-10"
+              className="flex flex-wrap items-center gap-3.5 mb-10"
             >
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-sm font-bold text-white transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
                 style={{ backgroundColor: "#1E4620" }}
               >
-                <span>Shop Farm Harvest</span>
+                <span>Shop Products</span>
                 <ArrowRight size={16} />
               </Link>
 
               <Link
-                href="/farm-boxes"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5"
+                href="/combos"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5"
                 style={{
                   backgroundColor: "#FFFFFF",
                   borderColor: "#CBDDC5",
                   color: "#1E4620",
                 }}
               >
-                <span>Shop Subscription Boxes</span>
+                <span>Shop Combos</span>
               </Link>
+
+              <a
+                href="https://wa.me/919876543210"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5 bg-[#EAF4DA] border-[#CBDDC5] text-[#1E4620]"
+              >
+                <span>Order on WhatsApp</span>
+              </a>
             </motion.div>
 
             {/* Botanical Trust Pill Highlights */}
@@ -100,8 +109,8 @@ export default function HeroSection() {
                   <ShieldCheck size={16} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#1E4620]">100% Organic</h4>
-                  <p className="text-[11px] text-[#5C7560]">Zero Pesticides</p>
+                  <h4 className="text-xs font-bold text-[#1E4620]">Machine-Dried</h4>
+                  <p className="text-[11px] text-[#5C7560]">Real plants & herbs</p>
                 </div>
               </div>
 
@@ -110,8 +119,8 @@ export default function HeroSection() {
                   <Clock size={16} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#1E4620]">Sunrise Harvest</h4>
-                  <p className="text-[11px] text-[#5C7560]">Delivered in 12h</p>
+                  <h4 className="text-xs font-bold text-[#1E4620]">Fine Powder</h4>
+                  <p className="text-[11px] text-[#5C7560]">Easy to mix</p>
                 </div>
               </div>
 
@@ -120,8 +129,8 @@ export default function HeroSection() {
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#1E4620]">Direct Farm</h4>
-                  <p className="text-[11px] text-[#5C7560]">Fair to Farmers</p>
+                  <h4 className="text-xs font-bold text-[#1E4620]">200 g Glass Jar</h4>
+                  <p className="text-[11px] text-[#5C7560]">Nature, Nothing Else</p>
                 </div>
               </div>
             </motion.div>

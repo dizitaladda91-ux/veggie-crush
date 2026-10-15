@@ -10,8 +10,9 @@ import PageTransition from "../components/layout/page-transition";
 import WelcomeLoader from "../components/homepage/welcome-loader";
 
 export const metadata = {
-  title: "VeggieCrush — Farm Fresh Organic Harvest & Wellness",
-  description: "Fresh farm-picked organic vegetables, wellness herbs, and curated farm boxes delivered directly from local pesticide-free farms.",
+  title: "VeggieCrush – Pure Vegetable & Herb Powders | 200 g",
+  description:
+    "Shop VeggieCrush beetroot, moringa, amla, turmeric, giloy powders and EverFit. Machine-dried, finely ground, easy to mix.",
 };
 
 export default function RootLayout({ children }) {

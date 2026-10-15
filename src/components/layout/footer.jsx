@@ -48,8 +48,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed mb-6 max-w-sm">
-              A neighbourhood farm-to-door studio. Harvested fresh every morning,
-              hand-selected organic produce delivered across the city in three hours.
+              Fresh vegetables and herbs, machine-dried and ground into fine powders for your daily food, drinks and routine. Nature, Nothing Else.
             </p>
 
             {/* Circular outline social icon buttons matching reference image */}
@@ -162,50 +161,67 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Visit or call (lg: 3 cols) */}
+          {/* Column 4: Contact & Orders (lg: 3 cols) */}
           <div className="lg:col-span-3">
             <h3 className="text-base font-bold text-[#1E2E1C] mb-4 tracking-tight">
-              Visit or call
+              Contact &amp; Orders
             </h3>
             <ul className="space-y-4 text-xs sm:text-sm text-[#4B5563]">
               <li className="flex items-start gap-3">
                 <MapPin size={17} className="text-[#6FAE3E] shrink-0 mt-0.5" />
                 <span className="leading-snug">
-                  123 Maplewood Lane Apartment 4B, Springfield, IL 62704 USA
+                  VeggieCrush Naturals Pvt. Ltd.<br />
+                  Plot No. 42, Green Agri Park, Sector 8, Bangalore 560064, India
                 </span>
               </li>
 
               <li className="flex items-center gap-3">
                 <Phone size={17} className="text-[#6FAE3E] shrink-0" />
                 <a
-                  href="tel:+1000555555"
+                  href="https://wa.me/919876543210"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-[#1E4620] font-medium transition-colors"
                 >
-                  +1 (000) 555-555
+                  WhatsApp: +91 98765 43210
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
                 <Mail size={17} className="text-[#6FAE3E] shrink-0" />
                 <a
-                  href="mailto:contact@example.com"
+                  href="mailto:care@veggiecrush.com"
                   className="hover:text-[#1E4620] font-medium transition-colors"
                 >
-                  contact@example.com
+                  care@veggiecrush.com
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
                 <Clock size={17} className="text-[#6FAE3E] shrink-0" />
-                <span>Open daily, 8:00 – 20:00</span>
+                <span>Mon – Sat, 9:00 – 19:00 IST</span>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* ── MANDATORY HEALTH DISCLAIMER & FSSAI COMPLIANCE ROW ── */}
+        <div className="border-t border-[#E5E7EB] py-6 text-[11px] sm:text-xs text-[#6B7280] leading-relaxed space-y-2">
+          <p>
+            <strong className="text-[#374151]">Disclaimer:</strong> This product is a food supplement and is not intended to diagnose, treat, cure or prevent any disease. Consult your doctor if you are pregnant, nursing, on medication or have a health condition. Statements on this website have not been evaluated as medical advice.
+          </p>
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[#4B5563]">
+            <span><strong>FSSAI Lic. No.:</strong> 10024042000123</span>
+            <span>•</span>
+            <span><strong>Manufactured by:</strong> VeggieCrush Naturals Pvt. Ltd.</span>
+            <span>•</span>
+            <span><strong>Best before:</strong> 12 months from packing date</span>
+          </p>
+        </div>
+
         {/* ── SUB-FOOTER BOTTOM ROW ── */}
-        <div className="border-t border-[#E5E7EB] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B7280]">
-          <p>© 2026 VeggieCrush. All rights reserved.</p>
+        <div className="border-t border-[#E5E7EB] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B7280]">
+          <p>© 2026 VeggieCrush. Nature, Nothing Else. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="hover:text-[#1E4620] transition-colors">
@@ -215,7 +231,7 @@ export default function Footer() {
               Terms of Service
             </Link>
             <Link href="/faqs" className="hover:text-[#1E4620] transition-colors">
-              Data Security
+              FAQs
             </Link>
           </div>
         </div>

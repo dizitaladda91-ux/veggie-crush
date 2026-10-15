@@ -26,7 +26,6 @@ export default function WelcomeLoader() {
   useEffect(() => {
     hasEnteredSite = true;
     if (pathname !== "/") {
-      setShowLoader(false);
       return undefined;
     }
 

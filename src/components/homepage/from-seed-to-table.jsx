@@ -21,7 +21,7 @@ export default function FromSeedToTable() {
           >
             <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-3xl overflow-hidden border border-[#DCEBD7] shadow-lg bg-[#F2F7F0]">
               <Image
-                src="/homesection/hero-veggiecrush.png"
+                src="/homesection/hero-veggiecrush2.png"
                 alt="Organic farm harvesting in the morning"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -51,49 +51,60 @@ export default function FromSeedToTable() {
           >
             {/* Wix Eyebrow / Heading */}
             <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full w-fit mb-4" style={{ backgroundColor: "#EAF3E7", color: "#2E5D31" }}>
-              <span>OUR BOTANICAL PHILOSOPHY</span>
+              <span>ABOUT VEGGIECRUSH</span>
             </div>
 
             <h2
               className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-6"
               style={{ color: "#173719" }}
             >
-              From Seed to Table
+              How We Make It
             </h2>
 
             <p className="text-base text-[#465F4A] leading-relaxed mb-6 font-normal">
-              At VeggieCrush, we believe the food you eat should come with a heartbeat of the soil, not a chemical footprint. We partner directly with smallholder farmers who restore soil ecology with bio-compost, harvest exclusively at peak seasonal ripeness, and never touch synthetic pesticides.
+              At VeggieCrush, we believe good health starts with simple, natural ingredients. We select quality vegetables, fruits and herbs, wash them, cut them into small pieces, dry them in a machine and grind them into fine, sieved powders. Each 200 g jar brings the goodness of the plant to your kitchen. Stir a spoonful into a smoothie, roti dough, soup, curd or juice, and make it part of your day.
             </p>
 
             <div className="space-y-3 mb-8">
               <div className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-[#5C8E42] mt-0.5 shrink-0" />
                 <span className="text-sm font-medium text-[#2C4930]">
-                  Dawn harvest, sorted, ozone-washed, and delivered to your kitchen in under 12 hours.
+                  <strong>Select &amp; Wash:</strong> Fresh, premium vegetables, fruits and herbs thoroughly cleaned.
                 </span>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-[#5C8E42] mt-0.5 shrink-0" />
                 <span className="text-sm font-medium text-[#2C4930]">
-                  Zero cold-storage holding rooms — keeping 100% of vital phytonutrients alive.
+                  <strong>Cut &amp; Machine-Dry:</strong> Precision sliced and gently dehydrated at controlled temperature to lock in nutrients.
                 </span>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-[#5C8E42] mt-0.5 shrink-0" />
                 <span className="text-sm font-medium text-[#2C4930]">
-                  Fair, transparent income directly deposited into our farming families’ accounts.
+                  <strong>Grind, Sieve &amp; Pack:</strong> Ground to fine consistency, sieved, and sealed in 200 g glass jars. Nature, Nothing Else.
                 </span>
               </div>
             </div>
 
-            <div>
+            <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/products"
                 className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-sm font-bold text-white transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
                 style={{ backgroundColor: "#1E4620" }}
               >
-                <span>Shop Fresh Produce</span>
+                <span>Shop Pure Powders</span>
                 <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/combos"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "#CBDDC5",
+                  color: "#1E4620",
+                }}
+              >
+                <span>Shop Combos</span>
               </Link>
             </div>
           </motion.div>
