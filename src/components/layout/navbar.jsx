@@ -103,8 +103,8 @@ export default function Navbar() {
             <Image
               src="/brand/veggiecrush-logo-transparent.png"
               alt="VeggieCrush — Farm to Door"
-              width={280}
-              height={125}
+              width={380}
+              height={225}
               unoptimized
               priority
               className="h-[48px] w-auto bg-transparent object-contain transition-transform group-hover:scale-[1.03] sm:h-[58px]"
