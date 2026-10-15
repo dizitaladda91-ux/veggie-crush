@@ -102,12 +102,12 @@ export default function Navbar() {
           <Link href="/" className="group flex items-center justify-center bg-transparent">
             <Image
               src="/brand/veggiecrush-logo-transparent.png"
-              alt="VeggieCrush — Farm to Door"
-              width={380}
-              height={225}
+              alt="VeggieCrush — Nature, Nothing Else"
+              width={420}
+              height={250}
               unoptimized
               priority
-              className="h-[48px] w-auto bg-transparent object-contain transition-transform group-hover:scale-[1.03] sm:h-[58px]"
+              className="h-[56px] sm:h-[68px] md:h-[74px] lg:h-[80px] w-auto bg-transparent object-contain transition-transform group-hover:scale-[1.03]"
             />
           </Link>
         </div>

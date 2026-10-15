@@ -1,5 +1,6 @@
 import Herosection from "../components/homepage/herosection";
 import NewArrivalsSection from "@/components/homepage/new-arrivals-section";
+import WhyVeggieCrush from "../components/homepage/why-veggiecrush";
 import CategoriesSection from "../components/homepage/categories-section";
 import FromSeedToTable from "../components/homepage/from-seed-to-table";
 import SubscriptionBoxes from "../components/homepage/subscription-boxes";
@@ -14,8 +15,11 @@ export default function Home() {
       {/* 1. Hero Section matching Wix comp-mhs1bc6l */}
       <Herosection />
 
-      {/* 2. New Arrivals matching Wix comp-ml7u8bz8 */}
+      {/* 2. New Arrivals (Product Grid) matching Wix comp-ml7u8bz8 */}
       <NewArrivalsSection />
+
+      {/* 3. Why VeggieCrush Section */}
+      <WhyVeggieCrush />
 
       {/* 3. Shop by Category matching Wix comp-ml7ubq9z */}
       <CategoriesSection />
