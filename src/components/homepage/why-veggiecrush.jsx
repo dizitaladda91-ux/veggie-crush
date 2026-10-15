@@ -16,8 +16,6 @@ import {
   ShieldCheck,
   Leaf,
   ArrowRight,
-  Play,
-  Pause,
   ChevronRight,
 } from "lucide-react";
 
@@ -165,16 +163,14 @@ const PRODUCT_STRIP = [
 export default function WhyVeggieCrush() {
   const shouldReduceMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Auto-play timer for step cycle
+  // Continuous auto-play cycle for steps
   useEffect(() => {
-    if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % TIMELINE_STEPS.length);
     }, 4200);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, []);
 
   const currentStep = TIMELINE_STEPS[activeStep];
 
@@ -408,11 +404,7 @@ export default function WhyVeggieCrush() {
           </div>
 
           {/* TWO COLUMN INTERACTIVE PROCESS SHOWCASE */}
-          <div
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
-          >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* ── LEFT COLUMN: PROCESS CONTENT (6 Steps List) ── */}
             <div className="lg:col-span-6 relative">
               {/* Dotted connecting line track on left */}
@@ -446,8 +438,9 @@ export default function WhyVeggieCrush() {
                       }`}
                     >
                       {/* Active Progress Line indicator */}
-                      {isActive && isAutoPlaying && !shouldReduceMotion && (
+                      {isActive && !shouldReduceMotion && (
                         <motion.div
+                          key={`progress-${activeStep}`}
                           initial={{ width: "0%" }}
                           animate={{ width: "100%" }}
                           transition={{ duration: 4.2, ease: "linear" }}
@@ -594,41 +587,21 @@ export default function WhyVeggieCrush() {
                   </AnimatePresence>
                 </div>
 
-                {/* Bottom Step Indicator Dots & Auto-play control */}
-                <div className="mt-4 flex items-center justify-between px-2">
-                  <div className="flex items-center gap-1.5">
-                    {TIMELINE_STEPS.map((s, i) => (
-                      <button
-                        key={s.num}
-                        type="button"
-                        onClick={() => setActiveStep(i)}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          activeStep === i
-                            ? "w-7 bg-[#1B5E20]"
-                            : "w-2 bg-[#CBDDC5] hover:bg-[#7CB342]"
-                        }`}
-                        aria-label={`Go to step ${s.num}: ${s.title}`}
-                      />
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsAutoPlaying((prev) => !prev)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[#EAF3E7] text-[#1B5E20] hover:bg-[#DEEBD7] transition-colors cursor-pointer"
-                  >
-                    {isAutoPlaying ? (
-                      <>
-                        <Pause size={12} />
-                        <span>Pause Cycle</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play size={12} />
-                        <span>Auto Play</span>
-                      </>
-                    )}
-                  </button>
+                {/* Bottom Step Indicator Dots */}
+                <div className="mt-4 flex items-center justify-center gap-1.5 px-2">
+                  {TIMELINE_STEPS.map((s, i) => (
+                    <button
+                      key={s.num}
+                      type="button"
+                      onClick={() => setActiveStep(i)}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        activeStep === i
+                          ? "w-8 bg-[#1B5E20]"
+                          : "w-2 bg-[#CBDDC5] hover:bg-[#7CB342]"
+                      }`}
+                      aria-label={`Go to step ${s.num}: ${s.title}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
