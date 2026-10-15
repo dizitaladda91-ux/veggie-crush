@@ -1,8 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Sprout,
   SunMedium,
@@ -15,6 +16,9 @@ import {
   ShieldCheck,
   Leaf,
   ArrowRight,
+  Play,
+  Pause,
+  ChevronRight,
 } from "lucide-react";
 
 const BELIEF_CARDS = [
@@ -48,7 +52,8 @@ const TIMELINE_STEPS = [
     text: "We choose quality vegetables, fruits and herbs.",
     icon: Sprout,
     image: "/process/01-select.jpg",
-    graphicAlt: "Farmer hand selecting fresh quality vegetables, fruits, and herbs from the soil",
+    graphicAlt: "Farmer hand selecting quality vegetables, fruits, and herbs from the soil",
+    badge: "Quality Farm Harvest",
   },
   {
     num: "02",
@@ -56,7 +61,8 @@ const TIMELINE_STEPS = [
     text: "Thorough cleaning before anything else.",
     icon: Droplets,
     image: "/process/02-wash.jpg",
-    graphicAlt: "Clear filtered water stream washing freshly harvested vegetables",
+    graphicAlt: "Clear filtered water stream washing freshly harvested carrots and greens",
+    badge: "Purified Water Wash",
   },
   {
     num: "03",
@@ -64,15 +70,17 @@ const TIMELINE_STEPS = [
     text: "Cut into small, even pieces.",
     icon: Scissors,
     image: "/process/03-cut.jpg",
-    graphicAlt: "Chef knife cutting fresh beetroot on a wooden cutting board",
+    graphicAlt: "Chef knife cutting fresh ruby red beetroot on a wooden cutting board",
+    badge: "Precision Uniform Slices",
   },
   {
     num: "04",
     title: "Machine-Dry",
     text: "Dried in a machine dehydrator.",
     icon: SunMedium,
-    image: null,
-    graphicAlt: "Controlled machine dehydrator drying at precise temperatures",
+    image: "/process/04-machine-dry.jpg",
+    graphicAlt: "Machine dehydrator with multi-tier stainless steel trays holding sliced vegetables and herbs",
+    badge: "Controlled Low-Heat Drying",
   },
   {
     num: "05",
@@ -80,7 +88,8 @@ const TIMELINE_STEPS = [
     text: "Ground fine and sieved for a smooth powder.",
     icon: Filter,
     image: "/process/05-grind-sieve.jpg",
-    graphicAlt: "Fine vegetable and herb powder being sieved through an ultra-fine mesh",
+    graphicAlt: "Fine vegetable and herb powder being sieved through an ultra-fine metal mesh",
+    badge: "Ultra-Fine Sieving",
   },
   {
     num: "06",
@@ -88,7 +97,8 @@ const TIMELINE_STEPS = [
     text: "Packed hygienically in a 200 g glass jar.",
     icon: PackageCheck,
     image: "/process/06-pack.png",
-    graphicAlt: "VeggieCrush pure powder hygienically packed in an airtight 200 g glass jar",
+    graphicAlt: "VeggieCrush pure powder hygienically sealed in an airtight 200 g glass jar",
+    badge: "Airtight Glass Seal",
   },
 ];
 
@@ -154,6 +164,19 @@ const PRODUCT_STRIP = [
 
 export default function WhyVeggieCrush() {
   const shouldReduceMotion = useReducedMotion();
+  const [activeStep, setActiveStep] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Auto-play timer for step cycle
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % TIMELINE_STEPS.length);
+    }, 4200);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const currentStep = TIMELINE_STEPS[activeStep];
 
   return (
     <section
@@ -363,7 +386,7 @@ export default function WhyVeggieCrush() {
         </div>
 
         {/* ══════════════════════════════════════════
-            BLOCK 3: FROM FRESH TO JAR (Timeline with Real Photography)
+            BLOCK 3: FROM FRESH TO JAR (Interactive: Left Content, Right Pop-In/Disappear Image)
         ══════════════════════════════════════════ */}
         <div className="bg-white rounded-[24px] p-6 sm:p-10 lg:p-12 border border-[#E6EFE3] shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
           <div className="text-center max-w-xl mx-auto mb-10">
@@ -384,125 +407,230 @@ export default function WhyVeggieCrush() {
             </p>
           </div>
 
-          {/* Desktop Timeline (Horizontal) */}
-          <div className="hidden lg:block relative">
-            {/* Connecting dotted line with leaf at end */}
-            <div
-              className="absolute top-10 left-12 right-12 border-t-2 border-dashed border-[#CBDDC5] z-0"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute top-8 right-6 w-5 h-5 rounded-full bg-[#EAF3E7] border border-[#CBDDC5] flex items-center justify-center text-[#7CB342] z-10"
-              title="A leaf at the end"
-              aria-label="Leaf connecting the end of the timeline"
-            >
-              <Leaf size={12} />
-            </div>
+          {/* TWO COLUMN INTERACTIVE PROCESS SHOWCASE */}
+          <div
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(true)}
+          >
+            {/* ── LEFT COLUMN: PROCESS CONTENT (6 Steps List) ── */}
+            <div className="lg:col-span-6 relative">
+              {/* Dotted connecting line track on left */}
+              <div
+                className="absolute left-6 top-8 bottom-8 w-0.5 border-l-2 border-dashed border-[#CBDDC5] hidden sm:block z-0"
+                aria-hidden="true"
+              />
+              {/* Leaf at the end of track */}
+              <div
+                className="absolute left-4 -bottom-3 w-5 h-5 rounded-full bg-[#EAF3E7] border border-[#CBDDC5] hidden sm:flex items-center justify-center text-[#7CB342] z-10"
+                title="A leaf at the end"
+                aria-label="Leaf connecting the end of the timeline"
+              >
+                <Leaf size={11} />
+              </div>
 
-            <div className="grid grid-cols-6 gap-3 relative z-10">
-              {TIMELINE_STEPS.map((step, idx) => {
-                const Icon = step.icon;
-                return (
-                  <motion.div
-                    key={step.num}
-                    initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.08, duration: 0.4 }}
-                    className="flex flex-col items-center text-center px-1"
-                  >
-                    {/* Step Visual Node */}
-                    <div
-                      className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-[#7CB342] shadow-sm mb-3 bg-[#F2F7EF] flex items-center justify-center group hover:scale-105 transition-transform"
-                      role="img"
-                      aria-label={step.graphicAlt}
+              <div className="space-y-3 relative z-10">
+                {TIMELINE_STEPS.map((step, idx) => {
+                  const Icon = step.icon;
+                  const isActive = activeStep === idx;
+
+                  return (
+                    <button
+                      key={step.num}
+                      type="button"
+                      onClick={() => setActiveStep(idx)}
+                      className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all duration-300 flex items-start gap-3 sm:gap-4 relative overflow-hidden group cursor-pointer ${
+                        isActive
+                          ? "bg-[#F3F8F1] border-2 border-[#1B5E20] shadow-sm translate-x-1"
+                          : "bg-white hover:bg-[#FAFBF9] border border-[#E6EFE3]"
+                      }`}
                     >
-                      {step.image ? (
-                        <Image
-                          src={step.image}
-                          alt={step.graphicAlt}
-                          fill
-                          sizes="80px"
-                          className={step.num === "06" ? "object-contain p-1" : "object-cover"}
+                      {/* Active Progress Line indicator */}
+                      {isActive && isAutoPlaying && !shouldReduceMotion && (
+                        <motion.div
+                          initial={{ width: "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 4.2, ease: "linear" }}
+                          className="absolute bottom-0 left-0 h-[2.5px] bg-[#7CB342]"
                         />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#EAF4DA] to-[#DDECD0]">
-                          <Icon size={24} className="text-[#1B5E20]" />
-                        </div>
                       )}
-                      {/* Step Number Tag */}
-                      <span className="absolute -bottom-1 -right-1 text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#1B5E20] text-white shadow-xs z-10">
-                        {step.num}
-                      </span>
-                    </div>
 
-                    <h4
-                      className="text-sm font-bold text-[#1B5E20] mb-1"
-                      style={{ fontFamily: "'Playfair Display', 'Cormorant Garamond', serif" }}
-                    >
-                      {step.title}
-                    </h4>
+                      {/* Number & Icon node */}
+                      <div
+                        className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold transition-all ${
+                          isActive
+                            ? "bg-[#1B5E20] text-white shadow-sm scale-105"
+                            : "bg-[#EAF3E7] text-[#1B5E20] group-hover:bg-[#DEEBD7]"
+                        }`}
+                      >
+                        <span className="font-extrabold">{step.num}</span>
+                      </div>
 
-                    <p className="text-[11px] text-[#526D56] leading-relaxed">
-                      {step.text}
-                    </p>
-                  </motion.div>
-                );
-              })}
+                      {/* Text details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-0.5">
+                          <h4
+                            className={`text-sm sm:text-base font-bold transition-colors ${
+                              isActive ? "text-[#1B5E20]" : "text-[#243E26]"
+                            }`}
+                            style={{ fontFamily: "'Playfair Display', 'Cormorant Garamond', Georgia, serif" }}
+                          >
+                            {step.title}
+                          </h4>
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 ${
+                              isActive
+                                ? "bg-[#1B5E20] text-white"
+                                : "bg-[#EAEFE8] text-[#5A735E]"
+                            }`}
+                          >
+                            {step.badge}
+                          </span>
+                        </div>
+                        <p
+                          className={`text-xs leading-relaxed transition-colors ${
+                            isActive ? "text-[#3E5C43] font-medium" : "text-[#556F59]"
+                          }`}
+                        >
+                          {step.text}
+                        </p>
+                      </div>
+
+                      <ChevronRight
+                        size={16}
+                        className={`shrink-0 mt-2 transition-transform duration-200 ${
+                          isActive ? "text-[#1B5E20] translate-x-0.5" : "text-[#B7C7B4] opacity-40 group-hover:opacity-100"
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* Mobile & Tablet Timeline (Vertical) */}
-          <div className="lg:hidden relative pl-6 border-l-2 border-dashed border-[#CBDDC5] ml-4 space-y-5">
-            {TIMELINE_STEPS.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <motion.div
-                  key={step.num}
-                  initial={shouldReduceMotion ? false : { opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.05, duration: 0.3 }}
-                  className="relative flex items-center gap-3.5"
+            {/* ── RIGHT COLUMN: IMAGE PROCESS WITH POP-IN & DISAPPEAR ANIMATION ── */}
+            <div className="lg:col-span-6 flex flex-col items-center">
+              <div className="w-full max-w-lg">
+                {/* Visual Stage Container */}
+                <div
+                  className="relative aspect-square sm:aspect-[4/3] rounded-[24px] overflow-hidden border-2 border-[#CBDDC5] shadow-xl bg-gradient-to-b from-[#F2F7EF] to-[#E5EFE1] p-3 sm:p-4 flex items-center justify-center"
                 >
-                  {/* Step bullet node */}
-                  <div
-                    className="absolute -left-[35px] top-3 w-8 h-8 rounded-full bg-white border-2 border-[#7CB342] flex items-center justify-center text-[11px] font-bold text-[#1B5E20] shadow-sm z-10"
-                    role="img"
-                    aria-label={step.graphicAlt}
-                  >
-                    {step.num}
-                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentStep.num}
+                      initial={
+                        shouldReduceMotion
+                          ? { opacity: 0 }
+                          : { opacity: 0, scale: 0.82, rotate: -1.5, y: 22 }
+                      }
+                      animate={
+                        shouldReduceMotion
+                          ? { opacity: 1 }
+                          : {
+                              opacity: 1,
+                              scale: 1,
+                              rotate: 0,
+                              y: 0,
+                              transition: {
+                                type: "spring",
+                                stiffness: 320,
+                                damping: 22,
+                              },
+                            }
+                      }
+                      exit={
+                        shouldReduceMotion
+                          ? { opacity: 0 }
+                          : {
+                              opacity: 0,
+                              scale: 1.12,
+                              rotate: 1.5,
+                              y: -22,
+                              transition: {
+                                duration: 0.35,
+                                ease: "easeInOut",
+                              },
+                            }
+                      }
+                      className="relative w-full h-full rounded-2xl overflow-hidden bg-white shadow-inner flex items-center justify-center"
+                    >
+                      <Image
+                        src={currentStep.image}
+                        alt={currentStep.graphicAlt}
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 90vw, 500px"
+                        className={
+                          currentStep.num === "06"
+                            ? "object-contain p-4 drop-shadow-2xl"
+                            : "object-cover object-center"
+                        }
+                      />
 
-                  <div className="bg-[#FAF7F2] p-3 sm:p-4 rounded-xl border border-[#E6EFE3] w-full flex items-center gap-3">
-                    {/* Visual thumbnail */}
-                    <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#CBDDC5] bg-[#F2F7EF]">
-                      {step.image ? (
-                        <Image
-                          src={step.image}
-                          alt={step.graphicAlt}
-                          fill
-                          sizes="56px"
-                          className={step.num === "06" ? "object-contain p-0.5" : "object-cover"}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-[#EAF4DA]">
-                          <Icon size={18} className="text-[#1B5E20]" />
+                      {/* Top floating pill badge */}
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#CBDDC5] shadow-sm flex items-center gap-2 text-xs font-bold text-[#1B5E20] z-20">
+                        <span className="w-2 h-2 rounded-full bg-[#7CB342] animate-pulse" />
+                        <span>Step {currentStep.num}: {currentStep.title}</span>
+                      </div>
+
+                      {/* Bottom caption glass overlay */}
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent p-4 sm:p-5 text-white z-20 flex items-end justify-between gap-3">
+                        <div>
+                          <p className="text-xs sm:text-sm font-semibold tracking-wide drop-shadow-sm">
+                            {currentStep.text}
+                          </p>
+                          <span className="text-[10px] text-[#DCE8D4] tracking-wider uppercase font-medium">
+                            {currentStep.badge}
+                          </span>
                         </div>
-                      )}
-                    </div>
+                        <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+                          {(() => {
+                            const IconComponent = currentStep.icon;
+                            return <IconComponent size={16} />;
+                          })()}
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
 
-                    <div>
-                      <h4 className="text-sm font-bold text-[#1B5E20]">{step.title}</h4>
-                      <p className="text-xs text-[#526D56] leading-relaxed mt-0.5">{step.text}</p>
-                    </div>
+                {/* Bottom Step Indicator Dots & Auto-play control */}
+                <div className="mt-4 flex items-center justify-between px-2">
+                  <div className="flex items-center gap-1.5">
+                    {TIMELINE_STEPS.map((s, i) => (
+                      <button
+                        key={s.num}
+                        type="button"
+                        onClick={() => setActiveStep(i)}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          activeStep === i
+                            ? "w-7 bg-[#1B5E20]"
+                            : "w-2 bg-[#CBDDC5] hover:bg-[#7CB342]"
+                        }`}
+                        aria-label={`Go to step ${s.num}: ${s.title}`}
+                      />
+                    ))}
                   </div>
-                </motion.div>
-              );
-            })}
-            <div className="flex items-center gap-2 pt-1 text-xs font-semibold text-[#1B5E20]">
-              <Leaf size={14} className="text-[#7CB342]" />
-              <span>Complete: Nature, Nothing Else.</span>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoPlaying((prev) => !prev)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[#EAF3E7] text-[#1B5E20] hover:bg-[#DEEBD7] transition-colors cursor-pointer"
+                  >
+                    {isAutoPlaying ? (
+                      <>
+                        <Pause size={12} />
+                        <span>Pause Cycle</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play size={12} />
+                        <span>Auto Play</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -568,7 +696,13 @@ export default function WhyVeggieCrush() {
             BLOCK 5: PRODUCT STRIP (6 product jars)
         ══════════════════════════════════════════ */}
         <div className="bg-white/80 backdrop-blur-sm rounded-[24px] p-6 sm:p-8 border border-[#E6EFE3]">
-          <div className="text-center mb-6">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-6"
+          >
             <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#7CB342]">
               DISCOVER THE RANGE
             </span>
@@ -578,29 +712,43 @@ export default function WhyVeggieCrush() {
             >
               Pure Powders &amp; Blends (200 g)
             </h3>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {PRODUCT_STRIP.map((product) => (
-              <Link
+            {PRODUCT_STRIP.map((product, idx) => (
+              <motion.div
                 key={product.name}
-                href={`/products/${product.slug}`}
-                className="group flex flex-col items-center text-center p-3 rounded-2xl bg-[#FAF7F2] hover:bg-[#F2F7EF] border border-[#E6EFE3] hover:border-[#CBDDC5] transition-all duration-200"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 30, scale: 0.85 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  delay: idx * 0.12,
+                  duration: 0.45,
+                  type: "spring",
+                  stiffness: 280,
+                  damping: 20,
+                }}
+                className="h-full"
               >
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 mb-2 flex items-center justify-center">
-                  <Image
-                    src={product.image}
-                    alt={product.alt}
-                    fill
-                    sizes="(max-width: 640px) 80px, 96px"
-                    className="object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-bold text-[#1B5E20] group-hover:text-[#E8871E] transition-colors">
-                  {product.name}
-                </span>
-                <span className="text-[10px] text-[#6F8672] mt-0.5">200 g Jar</span>
-              </Link>
+                <Link
+                  href={`/products/${product.slug}`}
+                  className="group flex flex-col items-center text-center p-3 h-full rounded-2xl bg-[#FAF7F2] hover:bg-[#F2F7EF] border border-[#E6EFE3] hover:border-[#CBDDC5] transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 mb-2 flex items-center justify-center">
+                    <Image
+                      src={product.image}
+                      alt={product.alt}
+                      fill
+                      sizes="(max-width: 640px) 80px, 96px"
+                      className="object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <span className="text-xs sm:text-sm font-bold text-[#1B5E20] group-hover:text-[#E8871E] transition-colors">
+                    {product.name}
+                  </span>
+                  <span className="text-[10px] text-[#6F8672] mt-0.5">200 g Jar</span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
