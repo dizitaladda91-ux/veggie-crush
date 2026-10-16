@@ -1,40 +1,48 @@
-import Herosection from "../components/homepage/herosection";
-import NewArrivalsSection from "@/components/homepage/new-arrivals-section";
-import WhyVeggieCrush from "../components/homepage/why-veggiecrush";
-import CategoriesSection from "../components/homepage/categories-section";
-import FromSeedToTable from "../components/homepage/from-seed-to-table";
-import SubscriptionBoxes from "../components/homepage/subscription-boxes";
-import SocialGram from "../components/homepage/social-gram";
-import Newsletter from "../components/homepage/newsletter";
+import JashnHeroSlider from "@/components/homepage/jashn-hero-slider";
+import JashnAboutSection from "@/components/homepage/jashn-about-section";
+import JashnProductsShowcase from "@/components/homepage/jashn-products-showcase";
+import WhyVeggieCrush from "@/components/homepage/why-veggiecrush";
+import JashnExperienceSection from "@/components/homepage/jashn-experience-section";
+import JashnStatsBar from "@/components/homepage/jashn-stats-bar";
+import Testimonials from "@/components/homepage/testimonials";
+import SocialGram from "@/components/homepage/social-gram";
+import BlogSection from "@/components/homepage/blogsection";
+import JashnContactSection from "@/components/homepage/jashn-contact-section";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
-    <main className="w-full bg-white">
-      {/* 1. Hero Section matching Wix comp-mhs1bc6l */}
-      <Herosection />
+    <main className="w-full bg-[#FAF7F2] overflow-x-hidden selection:bg-[#7CB342] selection:text-white">
+      {/* 1. Jashn Realty Style Luxury Hero Slider Banner */}
+      <JashnHeroSlider />
 
-      {/* 2. New Arrivals (Product Grid) matching Wix comp-ml7u8bz8 */}
-      <NewArrivalsSection />
+      {/* 2. Jashn About Us & Overview with Left Accent Borders */}
+      <JashnAboutSection />
 
-      {/* 3. Why VeggieCrush Section */}
+      {/* 3. Jashn Projects / Product Category Showcase (Single Powders, Blends, Combos) */}
+      <JashnProductsShowcase />
+
+      {/* 4. Why VeggieCrush - 6-Step Machine-to-Jar Process & Animated Product Grid */}
       <WhyVeggieCrush />
 
-      {/* 3. Shop by Category matching Wix comp-ml7ubq9z */}
-      <CategoriesSection />
+      {/* 5. Jashn Experience Section (Visual Tour of Botanical Processing) */}
+      <JashnExperienceSection />
 
-      {/* 4. From Seed to Table (Brand Philosophy) matching Wix comp-ml7whu8h */}
-      <FromSeedToTable />
+      {/* 6. Jashn Stats Impact Bar (10,000+ Kitchens, 100% Pure, 0% Additives) */}
+      <JashnStatsBar />
 
-      {/* 5. Shop Our Farm Subscription Boxes matching Wix comp-ml7xizsf */}
-      <SubscriptionBoxes />
+      {/* 7. Testimonials & Verified Customer Reviews */}
+      <Testimonials />
 
-      {/* 6. VeggieCrush on the #Gram matching Wix comp-ml7x2wtq */}
+      {/* 8. VeggieCrush on the #Gram Community Stories */}
       <SocialGram />
 
-      {/* 7. Newsletter matching Wix comp-ml7xiso4 */}
-      <Newsletter />
+      {/* 9. Blog & Superfood Nutrition Guides */}
+      <BlogSection />
+
+      {/* 10. Jashn Contact & Inquiry Form + Newsletter 10% Off Banner */}
+      <JashnContactSection />
     </main>
   );
 }
