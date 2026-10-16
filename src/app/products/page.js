@@ -9,6 +9,7 @@ import { useCart } from "@/components/cart/cart-provider";
 import WishlistButton from "@/components/products/wishlist-button";
 import ImageZoom from "@/components/products/image-zoom";
 import { getCloudinaryImageUrl } from "@/lib/cloudinary-url";
+import UnifiedProductCard from "@/components/products/unified-product-card";
 
 const FALLBACK_PRODUCTS = [
   {
@@ -288,109 +289,9 @@ export default function ProductsPage() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {visibleProducts.map((product) => {
-                const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
-                const isAdded = !!addedMap[product.id];
-                const badgeText = product.isBestSeller
-                ? "MOST LOVED"
-                : discount > 0
-                ? `${discount}% OFF`
-                : "100% ORGANIC";
-
-                return (
-                  <div
-                  key={product.id}
-                  className="group relative rounded-3xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-sm"
-                  style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" }}
-                >
-                  {/* Top Image Container with Floating Pill */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F9FAFB] sm:aspect-square">
-                    {/* Floating Pill Badge matching reference "MOST LOVED" pill */}
-                    <span
-                      className="pointer-events-none absolute left-3.5 top-3.5 z-10 rounded-full border border-black/5 bg-white/95 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1E4620] shadow-sm backdrop-blur-sm"
-                    >
-                      {badgeText}
-                    </span>
-
-                    {product.images?.[0] ? (
-                      <ImageZoom
-                        src={getCloudinaryImageUrl(product.images[0], 1600)}
-                        alt={product.name}
-                        className="h-full w-full"
-                      >
-                        <Image
-                          src={getCloudinaryImageUrl(product.images[0], 600)}
-                          alt={product.name}
-                          fill
-                          unoptimized
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover"
-                        />
-                      </ImageZoom>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
-                    )}
-                    <div className="absolute right-3 top-3 z-20">
-                      <WishlistButton productId={product.id} className="h-10 w-10" />
-                    </div>
-                  </div>
-
-                  {/* Bottom Details Section */}
-                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                    <Link
-                      href={`/products/${product.slug}`}
-                      aria-label={`View details for ${product.name}`}
-                      className="flex flex-1 flex-col"
-                    >
-                      <div>
-                        <h3 className="text-lg font-bold tracking-tight text-[#1E2E1C] group-hover:text-[#6FAE3E] transition-colors leading-snug mb-1">
-                          {product.name}
-                        </h3>
-
-                        <p className="text-xs text-[#6B7280] font-normal leading-relaxed line-clamp-1 mb-5">
-                          {product.description || (product.unit ? `100% Pure Organic · ${product.unit}` : "Farm-fresh daily harvest")}
-                        </p>
-                      </div>
-
-                      <div className="mt-auto flex items-baseline gap-1.5 pt-2">
-                        <span className="text-2xl font-bold tracking-tight text-[#1E2E1C]">
-                          ₹{product.price}
-                        </span>
-                        {product.unit && (
-                          <span className="text-xs text-[#6B7280] font-normal">
-                            / {product.unit}
-                          </span>
-                        )}
-                        {discount > 0 && (
-                          <span className="text-xs line-through text-[#9CA3AF] ml-1.5 font-medium">
-                            ₹{product.mrp}
-                          </span>
-                        )}
-                      </div>
-                    </Link>
-
-                    <div className="flex justify-end pt-2">
-                      <button
-                        type="button"
-                        onClick={() => handleAdd(product)}
-                        aria-label={`Add ${product.name} to cart`}
-                        className={`w-11 h-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-sm ${
-                          isAdded
-                            ? "bg-[#1E4620] border-[#1E4620] text-white"
-                            : "border-[#D1D5DB] text-[#1E4620] hover:border-[#1E4620] hover:bg-[#1E4620] hover:text-white bg-white"
-                        }`}
-                      >
-                        {isAdded ? (
-                          <Check size={18} strokeWidth={2.5} />
-                        ) : (
-                          <Plus size={20} strokeWidth={1.6} />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                  </div>
-                );
-              })}
+              {visibleProducts.map((product) => (
+                <UnifiedProductCard key={product.id || product.slug} product={product} />
+              ))}
             </div>
             {totalPages > 1 && (
               <nav
