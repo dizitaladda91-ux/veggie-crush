@@ -1,0 +1,93 @@
+export interface Product {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  volume: string;
+  badge?: string;
+  benefits: string[];
+}
+
+export const products: Product[] = [
+  {
+    id: "beetroot-crush",
+    name: "Beetroot Power Crush",
+    tagline: "Natural Stamina & Flow",
+    description:
+      "Cold-crushed ruby beetroot rich in bioavailable dietary nitrates. Naturally supports peak cardiovascular endurance, healthy blood flow, and skin radiance.",
+    price: 299,
+    originalPrice: 399,
+    image: "/images/beetroot-crush.webp",
+    volume: "200g Pure Glass Jar",
+    badge: "BESTSELLER",
+    benefits: ["Boosts Stamina", "Heart & Nitric Oxide Support", "Rich in Iron & Folate"],
+  },
+  {
+    id: "moringa-crush",
+    name: "Pure Moringa Superleaf Crush",
+    tagline: "The Miracle Tree Detox",
+    description:
+      "Hand-harvested organic moringa oleifera leaves machine-dried at low temperature to protect 90+ micro-nutrients, 46 antioxidants, and pure living chlorophyll.",
+    price: 349,
+    originalPrice: 449,
+    image: "/images/moringa-crush.webp",
+    volume: "200g Pure Glass Jar",
+    badge: "SUPERFOOD",
+    benefits: ["90+ Essential Nutrients", "Fights Daily Fatigue", "Natural Morning Detox"],
+  },
+  {
+    id: "amla-crush",
+    name: "Wild Amla Vitamin-C Crush",
+    tagline: "20x More Vit-C than Oranges",
+    description:
+      "Whole Indian gooseberry gently crushed with seeds removed. Packed with bio-flavonoids and natural Vitamin C that enhances immunity and collagen without acidity.",
+    price: 279,
+    originalPrice: 369,
+    image: "/images/amla-crush.webp",
+    volume: "200g Pure Glass Jar",
+    badge: "IMMUNITY",
+    benefits: ["Food-State Vitamin C", "Strengthens Hair Roots", "Supports Gut Flora"],
+  },
+  {
+    id: "giloy-crush",
+    name: "Giloy Immunity Herbal Crush",
+    tagline: "The Ayurvedic Amrita",
+    description:
+      "Traditional Indian Tinospora cordifolia vine extract formulated for deep cellular resilience, body purification, and seasonal fever defense.",
+    price: 329,
+    originalPrice: 429,
+    image: "/images/giloy-crush.webp",
+    volume: "200g Pure Glass Jar",
+    badge: "AYURVEDIC",
+    benefits: ["Deep Cellular Defense", "Metabolic Balance", "Natural Rejuvenator"],
+  },
+  {
+    id: "neem-crush",
+    name: "Fresh Neem Detox Crush",
+    tagline: "Ancient Blood Purifier",
+    description:
+      "Pure bitter-leaf heirloom neem extract revered for millennia to cleanse the bloodstream, balance digestive heat, and promote naturally clear skin.",
+    price: 269,
+    originalPrice: 349,
+    image: "/images/neem-crush.webp",
+    volume: "200g Pure Glass Jar",
+    badge: "PURE DETOX",
+    benefits: ["Clears Stubborn Acne", "Digestive Cleanse", "Natural Antibacterial"],
+  },
+  {
+    id: "vitality-crush",
+    name: "EverFit Vitality Daily Crush",
+    tagline: "Full-Spectrum Vitality",
+    description:
+      "An energizing synergistic blend of cold-crushed adaptogenic botanicals, amla, ashwagandha, and moringa crafted for all-day focus and natural balance.",
+    price: 399,
+    originalPrice: 499,
+    image: "/images/vitality-crush.webp",
+    volume: "60 Veg Capsules",
+    badge: "ALL-IN-ONE",
+    benefits: ["Sustained Daily Energy", "Reduces Stress Hormones", "Complete Vitality"],
+  },
+];
