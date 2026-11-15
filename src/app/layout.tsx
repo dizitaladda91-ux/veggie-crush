@@ -8,7 +8,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 // Fonts via next/font/google (No <link> tags)
 const cabin = Cabin({
   subsets: ["latin"],
-  weight: ["800"],
+  weight: ["600", "700"],
   variable: "--font-heading",
   display: "swap",
 });
