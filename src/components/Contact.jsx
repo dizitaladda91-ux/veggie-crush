@@ -11,9 +11,9 @@ export default function Contact() {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [status, setStatus] = useState(null);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
@@ -33,7 +33,7 @@ export default function Contact() {
 
       setStatus({ type: "success", text: data.message });
       setFormData({ name: "", phone: "", email: "", message: "" });
-    } catch (err: any) {
+    } catch (err) {
       setStatus({ type: "error", text: err.message || "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
@@ -51,7 +51,6 @@ export default function Contact() {
             <span>We Are Here For You</span>
           </div>
 
-          {/* Big heading: first word brand-green, second word brand-red */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading tracking-tight mb-3">
             <span className="text-brand-green">Contact</span>{" "}
             <span className="text-brand-red">Our Farm</span>
@@ -152,7 +151,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green transition-colors duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 <Send size={15} />
                 <span>{loading ? "Sending..." : "Submit Inquiry"}</span>
@@ -205,7 +204,7 @@ export default function Contact() {
                   href="https://wa.me/919876543210?text=Hi%20Pure%20VeggieCrush!%20I%20have%20an%20inquiry%20regarding%20your%20products."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 rounded-lg text-xs font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] transition-colors flex items-center justify-center gap-2 shadow-sm"
+                  className="w-full py-3 rounded-lg text-xs font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] flex items-center justify-center gap-2 shadow-sm"
                 >
                   <MessageSquare size={16} />
                   <span>Chat with Us on WhatsApp</span>

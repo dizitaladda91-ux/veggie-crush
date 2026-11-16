@@ -42,7 +42,6 @@ export default function Testimonials() {
             <span>Real Health Stories</span>
           </div>
 
-          {/* Big heading: first word brand-green, second word brand-red */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading tracking-tight mb-3">
             <span className="text-brand-green">Customer</span>{" "}
             <span className="text-brand-red">Reviews</span>
@@ -62,7 +61,7 @@ export default function Testimonials() {
           {REVIEWS.map((rev) => (
             <div
               key={rev.name}
-              className="rounded-2xl bg-white border border-brand-green/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              className="rounded-2xl bg-white border border-brand-green/10 p-7 shadow-sm hover:shadow-md flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

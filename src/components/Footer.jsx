@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Leaf } from "lucide-react";
 
-function InstagramIcon({ size = 16 }: { size?: number }) {
+function InstagramIcon({ size = 16 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
@@ -12,7 +12,7 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function FacebookIcon({ size = 16 }: { size?: number }) {
+function FacebookIcon({ size = 16 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
@@ -20,7 +20,7 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function TwitterIcon({ size = 16 }: { size?: number }) {
+function TwitterIcon({ size = 16 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
@@ -29,7 +29,7 @@ function TwitterIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function YoutubeIcon({ size = 16 }: { size?: number }) {
+function YoutubeIcon({ size = 16 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
@@ -85,7 +85,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-orange text-white grid place-items-center transition-all duration-200"
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-orange text-white grid place-items-center"
                   >
                     <Icon size={16} />
                   </a>
@@ -101,31 +101,31 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm font-body text-brand-cream/80">
               <li>
-                <Link href="#home" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="#home" className="hover:text-white flex items-center gap-1.5">
                   <Leaf size={12} className="text-brand-orange" />
                   <span>Home</span>
                 </Link>
               </li>
               <li>
-                <Link href="#products" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="#products" className="hover:text-white flex items-center gap-1.5">
                   <Leaf size={12} className="text-brand-orange" />
                   <span>Farm Products</span>
                 </Link>
               </li>
               <li>
-                <Link href="#why-us" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="#why-us" className="hover:text-white flex items-center gap-1.5">
                   <Leaf size={12} className="text-brand-orange" />
                   <span>Why Choose Us</span>
                 </Link>
               </li>
               <li>
-                <Link href="#about" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="#about" className="hover:text-white flex items-center gap-1.5">
                   <Leaf size={12} className="text-brand-orange" />
                   <span>About Our Farm</span>
                 </Link>
               </li>
               <li>
-                <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="#contact" className="hover:text-white flex items-center gap-1.5">
                   <Leaf size={12} className="text-brand-orange" />
                   <span>Contact Desk</span>
                 </Link>

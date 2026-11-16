@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request) {
   try {
     const body = await request.json();
     const { name, phone, message, email } = body;
 
-    // Basic validation
     if (!name || !phone || !message) {
       return NextResponse.json(
         { error: "Name, phone number, and message are required." },
@@ -13,7 +12,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Server-side log or integration (e.g., Supabase / Database / CRM)
     console.log("[Pure VeggieCrush Contact Submission]", {
       name,
       phone,

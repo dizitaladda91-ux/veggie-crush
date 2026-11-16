@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Check, Plus, Leaf, Star } from "lucide-react";
-import { Product } from "@/data/products";
 
-interface ProductCardProps {
-  product: Product;
-}
-
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }) {
   const [added, setAdded] = useState(false);
 
   function handleAddToCart() {
@@ -78,7 +73,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Benefits list */}
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {product.benefits.map((b) => (
+          {product.benefits?.map((b) => (
             <span
               key={b}
               className="text-[10px] font-semibold text-brand-green bg-brand-green/8 px-2 py-0.5 rounded-md"

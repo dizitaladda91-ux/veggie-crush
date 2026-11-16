@@ -14,7 +14,6 @@ export default function Products() {
             <span>Farm Harvest Selection</span>
           </div>
 
-          {/* Big heading: first word brand-green, second word brand-red */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading tracking-tight mb-3">
             <span className="text-brand-green">Fresh</span>{" "}
             <span className="text-brand-red">Crushes</span>

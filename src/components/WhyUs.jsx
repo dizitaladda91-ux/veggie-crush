@@ -43,7 +43,6 @@ export default function WhyUs() {
             <span>The Pure Difference</span>
           </div>
 
-          {/* Big heading: first word brand-green, second word brand-red */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading tracking-tight mb-3">
             <span className="text-brand-green">Why</span>{" "}
             <span className="text-brand-red">Choose Us</span>

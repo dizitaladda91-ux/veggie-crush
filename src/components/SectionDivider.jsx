@@ -1,11 +1,6 @@
 import React from "react";
 
-interface SectionDividerProps {
-  flip?: boolean;
-  className?: string;
-}
-
-export default function SectionDivider({ flip = false, className = "" }: SectionDividerProps) {
+export default function SectionDivider({ flip = false, className = "" }) {
   return (
     <div
       className={`w-full overflow-hidden leading-none pointer-events-none select-none ${
@@ -29,7 +24,6 @@ export default function SectionDivider({ flip = false, className = "" }: Section
           </linearGradient>
         </defs>
 
-        {/* Dynamic Curved Swoosh */}
         <path
           d="M0,0 C320,55 580,68 820,40 C1060,12 1280,48 1440,25 L1440,70 L0,70 Z"
           fill="url(#swoosh-gradient)"

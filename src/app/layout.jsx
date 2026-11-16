@@ -1,4 +1,3 @@
-import type { Metadata, Viewport } from "next";
 import { Cabin, Alfa_Slab_One, Playfair_Display, Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -39,13 +38,13 @@ const openSans = Open_Sans({
   display: "swap",
 });
 
-export const viewport: Viewport = {
+export const viewport = {
   themeColor: "#1B5E14",
   width: "device-width",
   initialScale: 1,
 };
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL("https://veggiecrush.in"),
   title: {
     default: "Pure VeggieCrush™ | Nature, Nothing Else.",
@@ -92,11 +91,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }) {
   return (
     <html
       lang="en"

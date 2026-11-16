@@ -2,15 +2,10 @@
 
 import { MessageSquare } from "lucide-react";
 
-interface WhatsAppButtonProps {
-  phoneNumber?: string;
-  message?: string;
-}
-
 export default function WhatsAppButton({
   phoneNumber = "919876543210",
   message = "Hello Pure VeggieCrush! I would like to order fresh farm crushes.",
-}: WhatsAppButtonProps) {
+}) {
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (

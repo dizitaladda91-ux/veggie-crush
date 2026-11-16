@@ -1,17 +1,4 @@
-export interface Product {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  volume: string;
-  badge?: string;
-  benefits: string[];
-}
-
-export const products: Product[] = [
+export const products = [
   {
     id: "beetroot-crush",
     name: "Beetroot Power Crush",
