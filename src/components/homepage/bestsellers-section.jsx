@@ -110,10 +110,10 @@ function BestsellerCard({ product }) {
 
   return (
     <div
-      className="group relative flex flex-col justify-between rounded-3xl border border-[#E3EDE0] bg-white overflow-hidden shadow-sm"
+      className="group relative flex flex-col justify-between rounded-3xl border border-[#E8EFE5] bg-white overflow-hidden shadow-xs hover:border-[#1B5E14]/40 transition-colors"
     >
       {/* Top Image + Badges */}
-      <div className="relative aspect-square w-full bg-[#F6FAF4] overflow-hidden flex items-center justify-center p-6">
+      <div className="relative aspect-square w-full bg-[#FFFBF2] overflow-hidden flex items-center justify-center p-6 border-b border-[#E8EFE5]">
         <Link href={`/products/${product.slug}`} className="relative w-full h-full block">
           <Image
             src={product.images[0]}
@@ -124,14 +124,14 @@ function BestsellerCard({ product }) {
           />
         </Link>
 
-        {/* Bestseller Badge */}
+        {/* Bestseller Badge with Crush Red & Pure Orange */}
         <div className="absolute top-3.5 left-3.5 flex flex-col gap-1.5 items-start">
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#1E4620] text-white shadow-sm flex items-center gap-1">
-            <Flame size={11} className="text-[#F0B429]" />
+          <span className="px-3 py-1 rounded-full text-[10px] font-heading font-black uppercase tracking-wider bg-[#B00D0D] text-white shadow-xs flex items-center gap-1">
+            <Flame size={12} className="text-[#F7941D]" />
             {product.badge}
           </span>
           {discount > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-[#EAF4DA] text-[#1E4620] border border-[#D5E8C0]">
+            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-heading font-black uppercase tracking-wider bg-[#FFF5E6] text-[#B85D00] border border-[#F7941D]/35">
               Save {discount}%
             </span>
           )}
@@ -148,56 +148,56 @@ function BestsellerCard({ product }) {
         <div>
           {/* Rating */}
           <div className="flex items-center gap-1 mb-1.5">
-            <div className="flex text-[#F0B429]">
+            <div className="flex text-[#F7941D]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} fill="#F0B429" color="#F0B429" />
+                <Star key={i} size={12} fill="#F7941D" color="#F7941D" />
               ))}
             </div>
-            <span className="text-[11px] font-bold text-[#173719] ml-1">{product.rating}</span>
-            <span className="text-[10px] text-[#7A937D]">({product.reviews})</span>
+            <span className="text-[11px] font-heading font-bold text-[#1B5E14] ml-1">{product.rating}</span>
+            <span className="text-[10px] font-body text-[#7A937D]">({product.reviews})</span>
           </div>
 
           <Link href={`/products/${product.slug}`} className="block">
-            <h3 className="text-base font-bold text-[#173719] leading-snug">
+            <h3 className="text-base font-heading font-bold text-[#1B5E14] group-hover:text-[#B00D0D] transition-colors leading-snug">
               {product.name}
             </h3>
           </Link>
 
-          <p className="text-[11px] text-[#526955] font-medium mt-1">
+          <p className="text-[11px] font-body text-[#526955] font-medium mt-1">
             {product.benefit}
           </p>
 
-          <span className="inline-block text-[11px] text-[#7A937D] mt-1 font-semibold">
-            {product.unit} · Airtight Glass
+          <span className="inline-block text-[11px] font-heading font-semibold text-[#B85D00] mt-1">
+            {product.unit} · Airtight Glass Jar
           </span>
         </div>
 
         {/* Price & Add to Cart button */}
-        <div className="mt-5 pt-3 border-t border-[#EEF5EC] flex items-center justify-between">
+        <div className="mt-5 pt-3 border-t border-[#F0F5ED] flex items-center justify-between">
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-lg font-black text-[#173719]">₹{product.price}</span>
+              <span className="text-lg font-heading font-black text-[#B00D0D]">₹{product.price}</span>
               {product.mrp > product.price && (
-                <span className="text-xs text-[#9CA3AF] line-through font-semibold">
+                <span className="text-xs font-body text-[#9CA3AF] line-through font-semibold">
                   ₹{product.mrp}
                 </span>
               )}
             </div>
-            <span className="text-[10px] text-[#5C8E42] font-bold">In Stock · Same Day Dispatch</span>
+            <span className="text-[10px] font-heading font-bold text-[#2E8B1F]">In Stock · Dawn Fresh</span>
           </div>
 
           <button
             onClick={handleAdd}
             aria-label={`Add ${product.name} to cart`}
-            className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm ${
+            className={`px-4 py-2 rounded-full text-xs font-heading font-bold flex items-center gap-1.5 shadow-sm transition-colors ${
               added
-                ? "bg-[#1E4620] text-white"
-                : "bg-[#F0F7ED] text-[#1E4620] hover:bg-[#1E4620] hover:text-white border border-[#DCE8D8]"
+                ? "bg-[#2E8B1F] text-white"
+                : "bg-[#1B5E14] text-white hover:bg-[#B00D0D]"
             }`}
           >
             {added ? (
               <>
-                <Check size={14} className="text-[#A8D96A]" />
+                <Check size={14} className="text-white" />
                 <span>Added</span>
               </>
             ) : (
@@ -215,26 +215,26 @@ function BestsellerCard({ product }) {
 
 export default function BestsellersSection() {
   return (
-    <section id="our-bestsellers" className="w-full py-16 lg:py-24 px-6 lg:px-12 bg-[#F9FBF8] border-b border-[#E6EFE3]">
+    <section id="our-bestsellers" className="w-full py-16 lg:py-24 px-6 lg:px-12 bg-white border-b border-[#E8EFE5]">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3 text-[#1E4620] bg-[#EAF4DA] border border-[#D5E8C0]">
-              <Flame size={13} className="text-[#D97706]" />
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-heading font-bold tracking-widest uppercase mb-3 text-[#B00D0D] bg-[#FFF1F0] border border-[#B00D0D]/30">
+              <Flame size={13} className="text-[#B00D0D]" />
               <span>05 · Our Bestsellers</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#173719] leading-tight">
-              India&apos;s Favorite Pure Farm Superfoods
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black tracking-tight text-[#1B5E14] leading-tight">
+              India&apos;s Favorite <span className="text-[#B00D0D]">Pure Farm Superfoods</span>
             </h2>
-            <p className="text-sm sm:text-base text-[#4A634E] mt-2 max-w-xl">
+            <p className="text-sm sm:text-base font-body text-[#3B4D3C] mt-2 max-w-xl">
               Freshly dehydrated 200g glass jar superfoods trusted by over 10,000 households for everyday morning wellness.
             </p>
           </div>
 
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-[#1E4620] bg-white border border-[#D2E4CC] hover:bg-[#1E4620] hover:text-white transition-colors shadow-sm shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-heading font-bold text-[#1B5E14] bg-[#FFFBF2] border-2 border-[#1B5E14]/30 hover:bg-[#1B5E14] hover:text-white transition-colors shadow-xs shrink-0"
           >
             <ShoppingBag size={14} />
             <span>View All Products</span>

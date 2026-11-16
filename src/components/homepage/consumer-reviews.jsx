@@ -94,49 +94,49 @@ export default function ConsumerReviews() {
     : REVIEWS.filter((r) => r.category === selectedCat);
 
   return (
-    <section id="what-our-consumer-says" className="w-full py-16 lg:py-24 px-6 lg:px-12 bg-white border-b border-[#E6EFE3]">
+    <section id="what-our-consumer-says" className="w-full py-16 lg:py-24 px-6 lg:px-12 bg-[#FFFBF2] border-b border-[#E8EFE5]">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3 text-[#1E4620] bg-[#EAF4DA] border border-[#D5E8C0]">
-            <HeartHandshake size={13} className="text-[#5C8E42]" />
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-heading font-bold tracking-widest uppercase mb-3 text-[#B00D0D] bg-white border border-[#B00D0D]/25">
+            <HeartHandshake size={13} className="text-[#B00D0D]" />
             <span>04 · What Our Consumers Say</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#173719] leading-tight">
-            Loved By Over 10,000+ Conscious Indian Families
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black tracking-tight text-[#1B5E14] leading-tight">
+            Loved By Over <span className="text-[#B00D0D]">10,000+</span> Conscious Indian Families
           </h2>
-          <p className="text-sm sm:text-base text-[#4A634E] mt-4 leading-relaxed">
+          <p className="text-sm sm:text-base font-body text-[#3B4D3C] mt-4 leading-relaxed">
             Real experiences from everyday people who made our pure farm powders their daily morning health ritual.
           </p>
         </div>
 
-        {/* Rating summary bar */}
-        <div className="rounded-3xl p-6 sm:p-8 bg-[#F8FAF6] border border-[#E1EBE0] mb-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Rating summary bar in brand colors */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-white border border-[#F7941D]/30 mb-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
           <div className="flex items-center gap-4">
-            <div className="text-4xl sm:text-5xl font-black text-[#173719]">4.9</div>
+            <div className="text-4xl sm:text-5xl font-heading font-black text-[#1B5E14]">4.9</div>
             <div>
-              <div className="flex items-center gap-1 text-[#F0B429]">
+              <div className="flex items-center gap-1 text-[#F7941D]">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="#F0B429" color="#F0B429" />
+                  <Star key={i} size={18} fill="#F7941D" color="#F7941D" />
                 ))}
               </div>
-              <p className="text-xs text-[#526955] font-semibold mt-1">
+              <p className="text-xs font-heading font-semibold text-[#5C7560] mt-1">
                 Based on 1,420+ Verified Customer Purchases
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-bold text-[#173719]">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-heading font-bold text-[#1B5E14]">
             <div className="flex items-center gap-2">
-              <CheckCircle size={16} className="text-[#5C8E42]" />
+              <CheckCircle size={16} className="text-[#2E8B1F]" />
               <span>100% Genuine Reviews</span>
             </div>
             <div className="flex items-center gap-2">
-              <ShieldCheck size={16} className="text-[#5C8E42]" />
+              <ShieldCheck size={16} className="text-[#F7941D]" />
               <span>Verified Buyer Orders</span>
             </div>
             <div className="flex items-center gap-2">
-              <ThumbsUp size={16} className="text-[#5C8E42]" />
+              <ThumbsUp size={16} className="text-[#B00D0D]" />
               <span>98% Repeat Order Rate</span>
             </div>
           </div>
@@ -148,10 +148,10 @@ export default function ConsumerReviews() {
             <button
               key={cat}
               onClick={() => setSelectedCat(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-colors border ${
+              className={`px-4 py-2 rounded-full text-xs font-heading font-bold transition-colors border ${
                 selectedCat === cat
-                  ? "bg-[#1E4620] text-white border-[#1E4620] shadow-sm"
-                  : "bg-white text-[#4A634E] border-[#DCE8D8] hover:bg-[#F2F7EF]"
+                  ? "bg-[#B00D0D] text-white border-[#B00D0D] shadow-sm"
+                  : "bg-white text-[#1B5E14] border-[#1B5E14]/25 hover:border-[#F7941D]"
               }`}
             >
               {cat}
@@ -164,41 +164,41 @@ export default function ConsumerReviews() {
           {filtered.map((rev) => (
             <div
               key={rev.id}
-              className="rounded-3xl border border-[#E3EDE0] bg-white p-6 sm:p-7 flex flex-col justify-between shadow-sm"
+              className="rounded-3xl border border-[#E8EFE5] bg-white p-6 sm:p-7 flex flex-col justify-between shadow-xs"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-1 text-[#F0B429]">
+                  <div className="flex items-center gap-1 text-[#F7941D]">
                     {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} size={14} fill="#F0B429" color="#F0B429" />
+                      <Star key={i} size={14} fill="#F7941D" color="#F7941D" />
                     ))}
                   </div>
-                  <Quote size={20} className="text-[#D3E3CE]" />
+                  <Quote size={20} className="text-[#F7941D]/30" />
                 </div>
 
-                <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#F0F7ED] text-[#2F6627] border border-[#DCEBD6] mb-3">
+                <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-heading font-bold bg-[#FFF5E6] text-[#B85D00] border border-[#F7941D]/35 mb-3">
                   {rev.tag}
                 </span>
 
-                <h4 className="text-sm font-bold text-[#173719] mb-2 leading-snug">
+                <h4 className="text-sm font-heading font-bold text-[#1B5E14] mb-2 leading-snug">
                   &ldquo;{rev.title}&rdquo;
                 </h4>
-                <p className="text-xs text-[#4F6553] leading-relaxed">
+                <p className="text-xs font-body text-[#4F6553] leading-relaxed">
                   {rev.comment}
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#EEF5EC] flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-[#F0F5ED] flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#173719]">{rev.name}</span>
+                    <span className="text-xs font-heading font-bold text-[#1B5E14]">{rev.name}</span>
                     {rev.verified && (
-                      <CheckCircle size={13} className="text-[#5C8E42] shrink-0" />
+                      <CheckCircle size={13} className="text-[#2E8B1F] shrink-0" />
                     )}
                   </div>
-                  <span className="text-[11px] text-[#7A937D]">{rev.city}</span>
+                  <span className="text-[11px] font-body text-[#7A937D]">{rev.city}</span>
                 </div>
-                <span className="text-[10px] font-semibold text-[#8DA690]">{rev.time}</span>
+                <span className="text-[10px] font-body font-semibold text-[#8DA690]">{rev.time}</span>
               </div>
             </div>
           ))}

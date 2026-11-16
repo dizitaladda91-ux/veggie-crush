@@ -23,7 +23,7 @@
   --font-body: var(--font-body), "Open Sans", sans-serif;
 }
 
-/* Explicit fallback utility classes */
+/* Explicit fallback utility classes based directly on the Pure VeggieCrush logo */
 .bg-brand-green { background-color: #1B5E14; }
 .text-brand-green { color: #1B5E14; }
 .border-brand-green { border-color: #1B5E14; }
@@ -43,6 +43,17 @@
 .bg-brand-cream { background-color: #FFFBF2; }
 .text-brand-cream { color: #FFFBF2; }
 .border-brand-cream { border-color: #FFFBF2; }
+
+.bg-brand-cream-light { background-color: #FFFEFA; }
+.bg-brand-orange-light { background-color: #FFF5E6; }
+.text-brand-orange-dark { color: #B85D00; }
+.border-brand-orange-subtle { border-color: rgba(247, 148, 29, 0.3); }
+
+.bg-brand-red-light { background-color: #FFF1F0; }
+.border-brand-red-subtle { border-color: rgba(176, 13, 13, 0.25); }
+
+.bg-brand-green-light { background-color: #F0F7EE; }
+.border-brand-green-subtle { border-color: rgba(27, 94, 20, 0.18); }
 
 .bg-brand-ink { background-color: #1A1A1A; }
 .text-brand-ink { color: #1A1A1A; }
