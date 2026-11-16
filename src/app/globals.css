@@ -23,7 +23,7 @@
   --font-body: var(--font-body), "Open Sans", sans-serif;
 }
 
-/* Explicit fallback utility classes for brand colors */
+/* Explicit fallback utility classes */
 .bg-brand-green { background-color: #1B5E14; }
 .text-brand-green { color: #1B5E14; }
 .border-brand-green { border-color: #1B5E14; }
@@ -52,9 +52,9 @@
 .font-tagline { font-family: var(--font-tagline), "Playfair Display", serif; }
 .font-body { font-family: var(--font-body), "Open Sans", sans-serif; }
 
-/* Smooth scroll */
+/* Scroll behavior */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -63,20 +63,4 @@ body {
   font-family: var(--font-body), "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Subtle animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out forwards;
 }

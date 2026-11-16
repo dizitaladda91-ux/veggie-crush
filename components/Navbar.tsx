@@ -19,11 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
     }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -31,16 +27,16 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md py-2.5 border-b border-brand-green/10"
-          : "bg-white/80 backdrop-blur-sm py-4 border-b border-transparent"
+          ? "bg-white shadow-md py-2.5 border-b border-brand-green/10"
+          : "bg-white py-4 border-b border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo Left */}
         <Link href="#home" className="flex items-center gap-2 group">
-          <div className="relative h-12 w-36 sm:h-14 sm:w-44 transition-transform duration-300 group-hover:scale-105">
+          <div className="relative h-12 w-36 sm:h-14 sm:w-44">
             <Image
               src="/images/logo.png"
               alt="Pure VeggieCrush Logo - Nature, Nothing Else"
@@ -58,10 +54,9 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-semibold text-brand-ink hover:text-brand-green transition-colors flex items-center gap-1 group py-1"
+              className="text-sm font-semibold text-brand-ink hover:text-brand-green flex items-center gap-1 group py-1"
             >
               <span>{link.label}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
           ))}
         </nav>
@@ -70,14 +65,14 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <Link
             href="#contact"
-            className="text-xs font-bold text-brand-green hover:text-brand-red flex items-center gap-1.5 transition-colors"
+            className="text-xs font-bold text-brand-green hover:text-brand-red flex items-center gap-1.5"
           >
             <PhoneCall size={14} className="text-brand-orange" />
             <span>Support</span>
           </Link>
           <Link
             href="#products"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-brand-red hover:bg-brand-green transition-colors duration-200 shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-brand-red hover:bg-brand-green shadow-sm"
           >
             <ShoppingBag size={14} />
             <span>Order Now</span>
@@ -88,13 +83,13 @@ export default function Navbar() {
         <div className="flex md:hidden items-center gap-2">
           <Link
             href="#products"
-            className="px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-brand-red hover:bg-brand-green transition-colors"
+            className="px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-brand-red hover:bg-brand-green"
           >
             Order
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-lg text-brand-green hover:bg-brand-cream transition-colors"
+            className="p-2 rounded-lg text-brand-green hover:bg-brand-cream"
             aria-label="Toggle Navigation Menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,7 +99,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-b border-brand-green/10 px-6 py-5 shadow-xl animate-fadeIn">
+        <div className="md:hidden bg-white border-b border-brand-green/10 px-6 py-5 shadow-xl">
           <div className="flex flex-col space-y-4">
             {NAV_LINKS.map((link) => (
               <Link
@@ -121,7 +116,7 @@ export default function Navbar() {
               <Link
                 href="#products"
                 onClick={() => setIsOpen(false)}
-                className="w-full py-3 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green flex items-center justify-center gap-2 shadow-md transition-colors"
+                className="w-full py-3 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green flex items-center justify-center gap-2 shadow-md"
               >
                 <ShoppingBag size={16} />
                 <span>Order Pure Crushes Now</span>

@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Check, Plus, ShoppingBag, Leaf, Star } from "lucide-react";
+import { Check, Plus, Leaf, Star } from "lucide-react";
 import { Product } from "@/data/products";
 
 interface ProductCardProps {
@@ -23,10 +22,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     : 0;
 
   return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group relative flex flex-col justify-between rounded-2xl bg-white border border-brand-green/10 p-5 shadow-sm hover:shadow-xl transition-all duration-300"
+    <div
+      className="group relative flex flex-col justify-between rounded-2xl bg-white border border-brand-green/10 p-5 shadow-sm hover:shadow-md"
     >
       <div>
         {/* Product Image Box */}
@@ -36,7 +33,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain transition-transform duration-500 group-hover:scale-108"
+            className="object-contain"
           />
 
           {/* Top Badges */}
@@ -54,7 +51,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Leaf accent */}
-          <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 grid place-items-center shadow-sm text-brand-leaf opacity-80 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 grid place-items-center shadow-sm text-brand-leaf opacity-80">
             <Leaf size={14} />
           </div>
         </div>
@@ -67,7 +64,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className="text-[11px] font-bold text-brand-ink/60 ml-1">4.9</span>
         </div>
 
-        <h3 className="text-lg font-bold text-brand-ink font-heading group-hover:text-brand-green transition-colors leading-snug">
+        <h3 className="text-lg font-bold text-brand-ink font-heading leading-snug">
           {product.name}
         </h3>
 
@@ -112,9 +109,9 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <button
           onClick={handleAddToCart}
-          className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-sm cursor-pointer ${
+          className={`px-4 py-2.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm cursor-pointer ${
             added
-              ? "bg-brand-green text-white scale-105"
+              ? "bg-brand-green text-white"
               : "bg-brand-red text-white hover:bg-brand-green"
           }`}
           aria-label={`Add ${product.name} to Cart`}
@@ -132,6 +129,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }

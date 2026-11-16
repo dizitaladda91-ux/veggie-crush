@@ -16,7 +16,7 @@ export default function Hero() {
           <div className="lg:col-span-7 flex flex-col justify-center text-left">
             {/* Small leaf badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-brand-green/20 text-xs font-semibold text-brand-green w-fit mb-6 shadow-sm">
-              <Leaf size={14} className="text-brand-leaf animate-pulse" />
+              <Leaf size={14} className="text-brand-leaf" />
               <span>100% Raw, Cold-Crushed Organics</span>
             </div>
 
@@ -40,7 +40,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-10">
               <Link
                 href="#products"
-                className="px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green transition-colors duration-200 shadow-md flex items-center justify-center gap-2"
+                className="px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green shadow-md flex items-center justify-center gap-2"
               >
                 <span>Order Fresh Today</span>
                 <ArrowRight size={16} />
@@ -48,7 +48,7 @@ export default function Hero() {
 
               <Link
                 href="#about"
-                className="px-7 py-3.5 rounded-lg text-sm font-bold text-brand-green bg-white border-2 border-brand-green hover:bg-brand-green hover:text-white transition-colors duration-200 flex items-center justify-center gap-2"
+                className="px-7 py-3.5 rounded-lg text-sm font-bold text-brand-green bg-white border-2 border-brand-green hover:bg-brand-green hover:text-white flex items-center justify-center gap-2"
               >
                 <span>Learn Our Process</span>
                 <Leaf size={16} className="text-brand-leaf" />
@@ -83,7 +83,7 @@ export default function Hero() {
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 450px"
-                  className="object-contain transition-transform duration-700 hover:scale-105"
+                  className="object-contain"
                 />
               </div>
 

@@ -65,19 +65,19 @@ export default function WhyUs() {
             return (
               <div
                 key={reason.title}
-                className="group rounded-2xl bg-white border border-brand-green/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group rounded-2xl bg-white border border-brand-green/10 p-7 shadow-sm hover:shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-14 h-14 rounded-xl bg-brand-cream border border-brand-green/15 text-brand-green grid place-items-center group-hover:bg-brand-green group-hover:text-white transition-colors duration-300">
-                      <Icon size={26} className="transition-transform group-hover:scale-110" />
+                    <div className="w-14 h-14 rounded-xl bg-brand-cream border border-brand-green/15 text-brand-green grid place-items-center">
+                      <Icon size={26} />
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-brand-green/10 text-brand-green">
                       {reason.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-brand-ink font-heading group-hover:text-brand-green transition-colors mb-2">
+                  <h3 className="text-lg font-bold text-brand-ink font-heading mb-2">
                     {reason.title}
                   </h3>
 

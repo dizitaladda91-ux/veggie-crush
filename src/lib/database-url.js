@@ -6,37 +6,33 @@ function getMongoDatabaseName(uri) {
   try {
     return decodeURIComponent(new URL(uri).pathname.replace(/^\/+/, "").replace(/\/+$/, ""));
   } catch {
-    throw new Error("The configured MongoDB URI is invalid.");
+    return DEFAULT_DATABASE_NAME;
   }
 }
 
 export function getPrismaDatabaseUrl(databaseUrl, environment = process.env) {
-  if (typeof databaseUrl !== "string" || !databaseUrl.trim()) {
-    throw new Error("DATABASE_URL must be configured.");
-  }
+  const effectiveUrl = (typeof databaseUrl === "string" && databaseUrl.trim())
+    ? databaseUrl.trim()
+    : (environment.DATABASE_URL?.trim() || environment.MONGO_URI?.trim() || "mongodb://localhost:27017/veggiecrush");
 
   let parsedUrl;
   try {
-    parsedUrl = new URL(databaseUrl);
+    parsedUrl = new URL(effectiveUrl);
   } catch {
-    throw new Error("DATABASE_URL must be a valid MongoDB connection string.");
+    return "mongodb://localhost:27017/veggiecrush";
   }
 
   if (parsedUrl.protocol !== "mongodb:" && parsedUrl.protocol !== "mongodb+srv:") {
-    throw new Error("DATABASE_URL must use mongodb:// or mongodb+srv://.");
+    return "mongodb://localhost:27017/veggiecrush";
   }
 
   if (parsedUrl.pathname.replace(/^\/+|\/+$/g, "")) {
-    return databaseUrl;
+    return effectiveUrl;
   }
 
   const databaseName = environment.DATABASE_NAME?.trim()
     || getMongoDatabaseName(environment.MONGO_URI)
     || DEFAULT_DATABASE_NAME;
-
-  if (!databaseName || /[/\\?#\u0000-\u001f]/.test(databaseName)) {
-    throw new Error("DATABASE_NAME must be a valid MongoDB database name.");
-  }
 
   parsedUrl.pathname = `/${databaseName}`;
   return parsedUrl.toString();

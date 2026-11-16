@@ -17,7 +17,7 @@ export default function About() {
                 alt="Pure VeggieCrush regenerative organic farms in India"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 hover:scale-105"
+                className="object-cover"
               />
               <div
                 className="absolute inset-0 pointer-events-none"
@@ -25,7 +25,7 @@ export default function About() {
                   background: "linear-gradient(180deg, rgba(27,94,20,0.02) 0%, rgba(27,94,20,0.45) 100%)",
                 }}
               />
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-white/95 backdrop-blur-md border border-brand-green/20 shadow-md flex items-center justify-between">
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-white border border-brand-green/20 shadow-md flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold text-brand-green font-heading">Direct From Indian Soil</p>
                   <p className="text-[11px] text-brand-ink/70 font-body">Harvested by local rural farmers with dignity & fair wages</p>
@@ -84,7 +84,7 @@ export default function About() {
             <div>
               <Link
                 href="#products"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green transition-colors duration-200 shadow-md"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green shadow-md"
               >
                 <span>Discover Our Crushes</span>
                 <ArrowRight size={16} />
