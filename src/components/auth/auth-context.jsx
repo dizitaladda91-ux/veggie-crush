@@ -1,57 +1,60 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 
 const AuthContext = createContext(null);
+
+const DEFAULT_AUTH = {
+  user: null,
+  loading: false,
+  isAuthModalOpen: false,
+  authModalTab: "login",
+  authSessionId: null,
+  openAuthModal: () => {},
+  closeAuthModal: () => {},
+  login: async () => {},
+  register: async () => {},
+  logout: async () => {},
+  refreshUser: async () => {},
+};
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState("login");
-  const [authSessionId, setAuthSessionId] = useState(0);
-
-  useEffect(() => {
-    let active = true;
-
-    async function checkAuth() {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (res.ok) {
-          const data = await res.json();
-          if (active) setUser(data.user || null);
-        } else if (active) {
-          setUser(null);
-        }
-      } catch {
-        if (active) setUser(null);
-      } finally {
-        if (active) setLoading(false);
-      }
-    }
-
-    checkAuth();
-
-    return () => {
-      active = false;
-    };
-  }, []);
+  const [authSessionId, setAuthSessionId] = useState(null);
 
   const refreshUser = useCallback(async () => {
     try {
-      const res = await fetch("/api/auth/me");
+      const res = await fetch("/api/auth/me", { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        setUser(data.user || null);
+        setUser(data.user);
       } else {
         setUser(null);
       }
     } catch {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  const login = useCallback(async (email, password, { closeModal = true } = {}) => {
+  useEffect(() => {
+    refreshUser();
+  }, [refreshUser]);
+
+  const openAuthModal = useCallback((tab = "login") => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setIsAuthModalOpen(false);
+  }, []);
+
+  const login = useCallback(async (email, password) => {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,11 +67,11 @@ export function AuthProvider({ children }) {
     }
 
     setUser(data.user);
-    if (closeModal) setIsAuthModalOpen(false);
+    closeAuthModal();
     return data.user;
-  }, []);
+  }, [closeAuthModal]);
 
-  const register = useCallback(async (formData, { closeModal = true } = {}) => {
+  const register = useCallback(async (formData) => {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -81,21 +84,17 @@ export function AuthProvider({ children }) {
     }
 
     setUser(data.user);
-    if (closeModal) setIsAuthModalOpen(false);
+    closeAuthModal();
     return data.user;
-  }, []);
+  }, [closeAuthModal]);
 
   const logout = useCallback(async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    setUser(null);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } finally {
+      setUser(null);
+    }
   }, []);
-
-  const openAuthModal = useCallback((tab = "login") => {
-    setAuthModalTab(tab === "register" ? "register" : "login");
-    setAuthSessionId((current) => current + 1);
-    setIsAuthModalOpen(true);
-  }, []);
-  const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
 
   const value = useMemo(
     () => ({
@@ -103,7 +102,6 @@ export function AuthProvider({ children }) {
       loading,
       isAuthModalOpen,
       authModalTab,
-      setAuthModalTab,
       authSessionId,
       openAuthModal,
       closeAuthModal,
@@ -121,7 +119,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    return DEFAULT_AUTH;
   }
   return context;
 }

@@ -4,6 +4,10 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { AuthProvider } from "@/components/auth/auth-context";
+import { CartProvider } from "@/components/cart/cart-provider";
+import CartDrawer from "@/components/cart/cart-drawer";
+import AuthModal from "@/components/auth/auth-modal";
 
 // Fonts via next/font/google (No <link> tags)
 const cabin = Cabin({
@@ -96,13 +100,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cabin.variable} ${alfaSlabOne.variable} ${playfairDisplay.variable} ${openSans.variable} scroll-smooth`}
+      className={`${cabin.variable} ${alfaSlabOne.variable} ${playfairDisplay.variable} ${openSans.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-white text-brand-ink font-body antialiased selection:bg-brand-orange/20 selection:text-brand-green">
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <WhatsAppButton />
+            <CartDrawer />
+            <AuthModal />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
