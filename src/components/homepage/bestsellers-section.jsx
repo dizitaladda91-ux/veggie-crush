@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, Check, Plus, ShoppingBag, Flame, Sparkles, ShieldCheck } from "lucide-react";
+import { Star, Check, Plus, ShoppingBag, Flame } from "lucide-react";
 import { useCart } from "../cart/cart-provider";
 import WishlistButton from "@/components/products/wishlist-button";
 
@@ -110,10 +109,8 @@ function BestsellerCard({ product }) {
   }
 
   return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex flex-col justify-between rounded-3xl border border-[#E3EDE0] bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all"
+    <div
+      className="group relative flex flex-col justify-between rounded-3xl border border-[#E3EDE0] bg-white overflow-hidden shadow-sm"
     >
       {/* Top Image + Badges */}
       <div className="relative aspect-square w-full bg-[#F6FAF4] overflow-hidden flex items-center justify-center p-6">
@@ -123,7 +120,7 @@ function BestsellerCard({ product }) {
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-contain transition-transform duration-500 group-hover:scale-108"
+            className="object-contain"
           />
         </Link>
 
@@ -161,7 +158,7 @@ function BestsellerCard({ product }) {
           </div>
 
           <Link href={`/products/${product.slug}`} className="block">
-            <h3 className="text-base font-bold text-[#173719] group-hover:text-[#366829] transition-colors leading-snug">
+            <h3 className="text-base font-bold text-[#173719] leading-snug">
               {product.name}
             </h3>
           </Link>
@@ -192,9 +189,9 @@ function BestsellerCard({ product }) {
           <button
             onClick={handleAdd}
             aria-label={`Add ${product.name} to cart`}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+            className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm ${
               added
-                ? "bg-[#1E4620] text-white scale-105"
+                ? "bg-[#1E4620] text-white"
                 : "bg-[#F0F7ED] text-[#1E4620] hover:bg-[#1E4620] hover:text-white border border-[#DCE8D8]"
             }`}
           >
@@ -212,7 +209,7 @@ function BestsellerCard({ product }) {
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -237,7 +234,7 @@ export default function BestsellersSection() {
 
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-[#1E4620] bg-white border border-[#D2E4CC] hover:bg-[#1E4620] hover:text-white transition-all shadow-sm shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-[#1E4620] bg-white border border-[#D2E4CC] hover:bg-[#1E4620] hover:text-white transition-colors shadow-sm shrink-0"
           >
             <ShoppingBag size={14} />
             <span>View All Products</span>

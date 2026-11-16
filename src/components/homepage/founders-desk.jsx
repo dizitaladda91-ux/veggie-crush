@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { PenTool, Quote, Sparkles, CheckCircle2, HeartHandshake, ShieldCheck, ArrowRight } from "lucide-react";
+import { PenTool, Quote, ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function FoundersDesk() {
   return (
@@ -31,13 +30,7 @@ export default function FoundersDesk() {
 
           <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Founder Photo / Portrait Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-5 flex flex-col items-center text-center"
-            >
+            <div className="lg:col-span-5 flex flex-col items-center text-center">
               <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-[#EAF3E7]">
                 <Image
                   src="/homesection/hero-veggiecrush.png"
@@ -66,16 +59,10 @@ export default function FoundersDesk() {
                   &ldquo;If any ingredient or batch doesn&apos;t meet pure 100% lab residue-free standards, we discard it. We never sell what we wouldn&apos;t feed our own children.&rdquo;
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right: The Inspiring Letter */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-7 flex flex-col justify-center"
-            >
+            <div className="lg:col-span-7 flex flex-col justify-center">
               <Quote size={40} className="text-[#C5DCBD] mb-4" />
 
               <h3 className="text-2xl sm:text-3xl font-extrabold text-[#173719] mb-4 leading-snug">
@@ -114,7 +101,7 @@ export default function FoundersDesk() {
                   <ArrowRight size={13} />
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

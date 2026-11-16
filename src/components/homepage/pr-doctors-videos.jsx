@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, X, Stethoscope, Award, CheckCircle, ShieldCheck, Video, HeartPulse } from "lucide-react";
+import { Play, X, Stethoscope, CheckCircle, ShieldCheck } from "lucide-react";
 
 const DOCTOR_VIDEOS = [
   {
@@ -69,14 +68,10 @@ export default function PrDoctorsVideos() {
 
         {/* Doctor Video Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {DOCTOR_VIDEOS.map((doc, idx) => (
-            <motion.div
+          {DOCTOR_VIDEOS.map((doc) => (
+            <div
               key={doc.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="group rounded-3xl border border-[#DCE8D8] bg-[#FDFEFC] overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+              className="group rounded-3xl border border-[#DCE8D8] bg-[#FDFEFC] overflow-hidden shadow-sm flex flex-col justify-between"
             >
               {/* Doctor Video Thumbnail */}
               <div
@@ -88,7 +83,7 @@ export default function PrDoctorsVideos() {
                   alt={doc.doctor}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                  className="object-cover opacity-90 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
@@ -102,7 +97,7 @@ export default function PrDoctorsVideos() {
 
                 {/* Play Button Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-[#1E4620]/90 border border-white/40 text-white grid place-items-center shadow-2xl group-hover:scale-115 group-hover:bg-[#6FAE3E] transition-all duration-300">
+                  <div className="w-14 h-14 rounded-full bg-[#1E4620]/90 border border-white/40 text-white grid place-items-center shadow-2xl">
                     <Play size={22} fill="white" className="ml-1" />
                   </div>
                 </div>
@@ -121,7 +116,7 @@ export default function PrDoctorsVideos() {
                     {doc.qualifications}
                   </span>
 
-                  <h3 className="text-sm sm:text-base font-extrabold text-[#173719] mt-2 mb-3 leading-snug group-hover:text-[#366829] transition-colors">
+                  <h3 className="text-sm sm:text-base font-extrabold text-[#173719] mt-2 mb-3 leading-snug">
                     {doc.title}
                   </h3>
 
@@ -146,7 +141,7 @@ export default function PrDoctorsVideos() {
                   </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -172,55 +167,48 @@ export default function PrDoctorsVideos() {
       </div>
 
       {/* Video Modal Player */}
-      <AnimatePresence>
-        {activeVideo && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative w-full max-w-3xl rounded-3xl overflow-hidden bg-[#121B13] border border-white/20 shadow-2xl"
-            >
-              {/* Modal Header */}
-              <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#172218]">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#A8D96A]">
-                    {activeVideo.doctor} · {activeVideo.domain}
-                  </span>
-                  <h4 className="text-sm sm:text-base font-bold text-white leading-tight">
-                    {activeVideo.title}
-                  </h4>
-                </div>
-                <button
-                  onClick={() => setActiveVideo(null)}
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white grid place-items-center transition-colors"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              {/* Video Player */}
-              <div className="relative aspect-video w-full bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1`}
-                  title={activeVideo.title}
-                  allow="accelerated-video; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full border-0"
-                />
-              </div>
-
-              {/* Modal Footer Note */}
-              <div className="p-4 bg-[#172218] flex items-center justify-between text-xs text-[#C5DDC0]">
-                <span>{activeVideo.recommendation}</span>
-                <span className="text-[11px] font-bold text-[#A8D96A] shrink-0 ml-3">
-                  Domain Verified
+      {activeVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-3xl rounded-3xl overflow-hidden bg-[#121B13] border border-white/20 shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#172218]">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#A8D96A]">
+                  {activeVideo.doctor} · {activeVideo.domain}
                 </span>
+                <h4 className="text-sm sm:text-base font-bold text-white leading-tight">
+                  {activeVideo.title}
+                </h4>
               </div>
-            </motion.div>
+              <button
+                onClick={() => setActiveVideo(null)}
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white grid place-items-center transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Video Player */}
+            <div className="relative aspect-video w-full bg-black">
+              <iframe
+                src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1`}
+                title={activeVideo.title}
+                allow="accelerated-video; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </div>
+
+            {/* Modal Footer Note */}
+            <div className="p-4 bg-[#172218] flex items-center justify-between text-xs text-[#C5DDC0]">
+              <span>{activeVideo.recommendation}</span>
+              <span className="text-[11px] font-bold text-[#A8D96A] shrink-0 ml-3">
+                Domain Verified
+              </span>
+            </div>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </section>
   );
 }

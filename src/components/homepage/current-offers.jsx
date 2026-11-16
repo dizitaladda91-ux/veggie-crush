@@ -2,18 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { 
-  Tag, 
   Copy, 
   Check, 
   Timer, 
-  Truck, 
-  BookOpen, 
   ShieldCheck, 
-  Sparkles, 
   ArrowRight,
-  Flame,
   Gift
 } from "lucide-react";
 
@@ -40,9 +34,11 @@ export default function CurrentOffers() {
   }, []);
 
   function handleCopy(code) {
-    navigator.clipboard.writeText(code);
-    setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(code);
+      setCopiedCode(code);
+      setTimeout(() => setCopiedCode(null), 2000);
+    }
   }
 
   const OFFERS = [
@@ -120,14 +116,10 @@ export default function CurrentOffers() {
 
         {/* 4 Offers Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {OFFERS.map((offer, idx) => (
-            <motion.div
+          {OFFERS.map((offer) => (
+            <div
               key={offer.title}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: idx * 0.08 }}
-              className="rounded-3xl border border-[#DCE8D8] bg-white p-6 flex flex-col justify-between shadow-sm hover:shadow-lg transition-all"
+              className="rounded-3xl border border-[#DCE8D8] bg-white p-6 flex flex-col justify-between shadow-sm"
             >
               <div>
                 <span className="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#EAF4DA] text-[#1E4620] border border-[#D5E8C0] mb-3">
@@ -170,7 +162,7 @@ export default function CurrentOffers() {
                   </button>
                 )}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -192,7 +184,7 @@ export default function CurrentOffers() {
 
           <Link
             href="#our-bestsellers"
-            className="px-8 py-4 rounded-full text-xs font-black uppercase tracking-wider text-white bg-[#1E4620] hover:bg-[#28572B] transition-all hover:scale-105 shadow-xl flex items-center gap-2 shrink-0"
+            className="px-8 py-4 rounded-full text-xs font-black uppercase tracking-wider text-white bg-[#1E4620] hover:bg-[#28572B] transition-colors shadow-xl flex items-center gap-2 shrink-0"
           >
             <span>Claim Offer &amp; Shop Bestsellers</span>
             <ArrowRight size={14} />

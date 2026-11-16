@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { 
   Store, 
-  ShoppingBag, 
-  Zap, 
-  ShieldCheck, 
-  Truck, 
   MapPin, 
   CheckCircle2, 
   ArrowRight,
@@ -39,7 +34,7 @@ const CHANNELS = [
     partners: ["Blinkit", "Zepto", "Swiggy Instamart"],
     availability: "Available in Delhi NCR, Mumbai, Bengaluru, Pune & Hyderabad.",
     ctaText: "Available On Apps",
-    ctaLink: "#",
+    ctaLink: "/products",
   },
   {
     name: "Online Marketplaces",
@@ -49,7 +44,7 @@ const CHANNELS = [
     partners: ["Amazon.in", "Flipkart Supermart"],
     availability: "Pan-India delivery coverage with 4.8+ Star customer rating.",
     ctaText: "Find on Amazon / Flipkart",
-    ctaLink: "#",
+    ctaLink: "/products",
   },
 ];
 
@@ -92,10 +87,10 @@ export default function WhereToBuy() {
           {CHANNELS.map((ch) => (
             <div
               key={ch.name}
-              className={`rounded-3xl p-7 sm:p-8 flex flex-col justify-between transition-all ${
+              className={`rounded-3xl p-7 sm:p-8 flex flex-col justify-between ${
                 ch.featured
-                  ? "bg-[#1E4620] text-white shadow-2xl border-2 border-[#6FAE3E] scale-[1.02]"
-                  : "bg-white text-[#173719] border border-[#DCE8D8] shadow-sm hover:shadow-lg"
+                  ? "bg-[#1E4620] text-white shadow-2xl border-2 border-[#6FAE3E]"
+                  : "bg-white text-[#173719] border border-[#DCE8D8] shadow-sm"
               }`}
             >
               <div>
@@ -154,7 +149,7 @@ export default function WhereToBuy() {
                 {ch.featured ? (
                   <Link
                     href={ch.ctaLink}
-                    className="w-full py-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-[#A8D96A] text-[#173719] hover:bg-white transition-all shadow-md"
+                    className="w-full py-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-[#A8D96A] text-[#173719] hover:bg-white transition-colors shadow-md"
                   >
                     <span>{ch.ctaText}</span>
                     <ArrowRight size={14} />
@@ -200,16 +195,14 @@ export default function WhereToBuy() {
             />
             <button
               type="submit"
-              className="px-7 py-3.5 rounded-2xl bg-[#1E4620] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#28572B] transition-all shrink-0"
+              className="px-7 py-3.5 rounded-2xl bg-[#1E4620] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#28572B] transition-colors shrink-0"
             >
               Check Availability
             </button>
           </form>
 
           {pinResult && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className={`mt-4 p-3.5 rounded-xl text-xs font-medium ${
                 pinResult.valid
                   ? "bg-[#F0FDF4] text-[#166534] border border-[#BBF7D0]"
@@ -217,7 +210,7 @@ export default function WhereToBuy() {
               }`}
             >
               {pinResult.message}
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Star, CheckCircle, Quote, ThumbsUp, HeartHandshake, ShieldCheck } from "lucide-react";
 
 const REVIEWS = [
@@ -149,7 +148,7 @@ export default function ConsumerReviews() {
             <button
               key={cat}
               onClick={() => setSelectedCat(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-all border ${
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-colors border ${
                 selectedCat === cat
                   ? "bg-[#1E4620] text-white border-[#1E4620] shadow-sm"
                   : "bg-white text-[#4A634E] border-[#DCE8D8] hover:bg-[#F2F7EF]"
@@ -162,14 +161,10 @@ export default function ConsumerReviews() {
 
         {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((rev, idx) => (
-            <motion.div
+          {filtered.map((rev) => (
+            <div
               key={rev.id}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: idx * 0.05 }}
-              className="rounded-3xl border border-[#E3EDE0] bg-white p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-3xl border border-[#E3EDE0] bg-white p-6 sm:p-7 flex flex-col justify-between shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -205,7 +200,7 @@ export default function ConsumerReviews() {
                 </div>
                 <span className="text-[10px] font-semibold text-[#8DA690]">{rev.time}</span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

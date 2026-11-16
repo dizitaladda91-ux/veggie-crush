@@ -50,12 +50,12 @@ export default function Footer() {
           {/* Brand Info (Col 5) */}
           <div className="lg:col-span-5 space-y-4">
             <Link href="#home" className="inline-block">
-              <div className="relative h-14 w-48 bg-white/95 rounded-xl px-2 py-1 shadow-inner">
+              <div className="relative h-20 w-64 sm:h-24 sm:w-72 bg-white/95 rounded-2xl px-3 py-2 shadow-inner">
                 <Image
                   src="/images/logo.png"
                   alt="Pure VeggieCrush"
                   fill
-                  sizes="200px"
+                  sizes="300px"
                   className="object-contain"
                 />
               </div>

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { ArrowRight, Sprout, ShieldCheck, Clock, Sparkles } from "lucide-react";
 
 export default function HeroSection() {
@@ -24,10 +23,7 @@ export default function HeroSection() {
           {/* Left Column: Wix-style Editorial Copy */}
           <div className="lg:col-span-7 flex flex-col justify-center text-left lg:-translate-y-8">
             {/* Wix Eyebrow / Question */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+            <div
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide w-fit mb-5 border"
               style={{
                 backgroundColor: "#EAF3E7",
@@ -37,38 +33,23 @@ export default function HeroSection() {
             >
               <Sprout size={14} className="text-[#5C8E42]" />
               <span>Nature, Nothing Else</span>
-            </motion.div>
+            </div>
 
             {/* Wix Main Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mb-6 text-[#173719]"
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mb-6 text-[#173719]">
               VeggieCrush: Nature, Nothing Else
-            </motion.h1>
+            </h1>
 
             {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-base sm:text-lg text-[#4A634E] max-w-xl leading-relaxed mb-8 font-normal"
-            >
-              Fresh vegetables and herbs, machine-dried and ground into fine powders for your daily food, drinks and routine.
-            </motion.p>
+            <p className="text-base sm:text-lg text-[#4A634E] max-w-xl leading-relaxed mb-8 font-normal">
+              Fresh vegetables and ancient herbs, machine-dried and ground into pure powders in 200g glass jars for your daily food, drinks and wellness routine.
+            </p>
 
             {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-3.5 mb-10"
-            >
+            <div className="flex flex-wrap items-center gap-3.5 mb-10">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white shadow-sm"
                 style={{ backgroundColor: "#1E4620" }}
               >
                 <span>Shop Products</span>
@@ -77,7 +58,7 @@ export default function HeroSection() {
 
               <Link
                 href="/combos"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold border"
                 style={{
                   backgroundColor: "#FFFFFF",
                   borderColor: "#CBDDC5",
@@ -91,26 +72,21 @@ export default function HeroSection() {
                 href="https://wa.me/919876543210"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 border hover:-translate-y-0.5 bg-[#EAF4DA] border-[#CBDDC5] text-[#1E4620]"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold border bg-[#EAF4DA] border-[#CBDDC5] text-[#1E4620]"
               >
                 <span>Order on WhatsApp</span>
               </a>
-            </motion.div>
+            </div>
 
             {/* Botanical Trust Pill Highlights */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="grid grid-cols-3 gap-3 pt-6 border-t border-[#E1ECE0]"
-            >
+            <div className="grid grid-cols-3 gap-3 pt-6 border-t border-[#E1ECE0]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#EAF3E7] text-[#2E6032] shrink-0">
                   <ShieldCheck size={16} />
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-[#1E4620]">Machine-Dried</h4>
-                  <p className="text-[11px] text-[#5C7560]">Real plants & herbs</p>
+                  <p className="text-[11px] text-[#5C7560]">Real plants &amp; herbs</p>
                 </div>
               </div>
 
@@ -133,16 +109,11 @@ export default function HeroSection() {
                   <p className="text-[11px] text-[#5C7560]">Nature, Nothing Else</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Column: High Quality Botanical & Produce Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
+          <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-[480px] lg:max-w-none rounded-3xl overflow-hidden shadow-xl border border-[#DCEBD7] bg-white p-3">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#F2F7F0]">
                 <Image
@@ -151,7 +122,7 @@ export default function HeroSection() {
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                  className="object-cover object-center"
                 />
 
                 {/* Floating Botanical Quality Card */}
@@ -177,7 +148,7 @@ export default function HeroSection() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

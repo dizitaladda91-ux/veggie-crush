@@ -1,46 +1,50 @@
-import Hero from "@/components/Hero";
-import SectionDivider from "@/components/SectionDivider";
-import Products from "@/components/Products";
-import WhyUs from "@/components/WhyUs";
-import About from "@/components/About";
-import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
+import HeroSection from "@/components/homepage/herosection";
+import WhoWeAre from "@/components/homepage/who-we-are";
+import WhatWeDo from "@/components/homepage/what-we-do";
+import ManufacturingProcess from "@/components/homepage/manufacturing-process";
+import ConsumerReviews from "@/components/homepage/consumer-reviews";
+import BestsellersSection from "@/components/homepage/bestsellers-section";
+import FoundersDesk from "@/components/homepage/founders-desk";
+import PrMediaVideos from "@/components/homepage/pr-media-videos";
+import PrDoctorsVideos from "@/components/homepage/pr-doctors-videos";
+import WhereToBuy from "@/components/homepage/where-to-buy";
+import CurrentOffers from "@/components/homepage/current-offers";
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. Hero Section (Cream background) */}
-      <Hero />
+      {/* 0. Hero Section */}
+      <HeroSection />
 
-      {/* Curved orange-to-green swoosh transition to Products */}
-      <SectionDivider className="bg-brand-cream" />
+      {/* 01. Who We Are */}
+      <WhoWeAre />
 
-      {/* 2. Products Section (White background) */}
-      <Products />
+      {/* 02. What We Do */}
+      <WhatWeDo />
 
-      {/* Curved orange-to-green swoosh transition to Why Us */}
-      <SectionDivider flip className="bg-white" />
+      {/* 03. How We Make Products (Manufacturing Unit, Working Employees & Packaging Line) */}
+      <ManufacturingProcess />
 
-      {/* 3. Why Choose Us Section (Cream background) */}
-      <WhyUs />
+      {/* 04. What Our Consumer Says */}
+      <ConsumerReviews />
 
-      {/* Curved orange-to-green swoosh transition to About */}
-      <SectionDivider className="bg-brand-cream" />
+      {/* 05. Our Bestsellers */}
+      <BestsellersSection />
 
-      {/* 4. About Our Farm Section (White background) */}
-      <About />
+      {/* 06. Idea Behind It - Founder's Desk */}
+      <FoundersDesk />
 
-      {/* Curved orange-to-green swoosh transition to Testimonials */}
-      <SectionDivider flip className="bg-white" />
+      {/* 07. PR - What Major People and Agency Says About Us */}
+      <PrMediaVideos />
 
-      {/* 5. Testimonials Section (Cream background) */}
-      <Testimonials />
+      {/* 08. PR - Doctors of Different Domain Recommendation */}
+      <PrDoctorsVideos />
 
-      {/* Curved orange-to-green swoosh transition to Contact */}
-      <SectionDivider className="bg-brand-cream" />
+      {/* 09. From Where You Can Get The Products */}
+      <WhereToBuy />
 
-      {/* 6. Contact Section (White background) */}
-      <Contact />
+      {/* 10. Abhi Purchase Karne Se Kya Offer Hai */}
+      <CurrentOffers />
     </>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { 
   Sparkles, 
   Leaf, 
@@ -10,8 +9,7 @@ import {
   Coffee, 
   Utensils, 
   GlassWater, 
-  ArrowRight,
-  ShieldCheck 
+  ArrowRight
 } from "lucide-react";
 
 const PILLARS = [
@@ -67,20 +65,16 @@ export default function WhatWeDo() {
 
         {/* 4 Core Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {PILLARS.map((pillar, idx) => {
+          {PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <motion.div
+              <div
                 key={pillar.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="group relative rounded-3xl p-7 bg-[#FBFDFB] border border-[#E3EDE0] hover:border-[#6FAE3E] hover:shadow-lg transition-all flex flex-col justify-between"
+                className="group relative rounded-3xl p-7 bg-[#FBFDFB] border border-[#E3EDE0] shadow-sm flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-[#EAF4DA] text-[#1E4620] grid place-items-center group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EAF4DA] text-[#1E4620] grid place-items-center">
                       <Icon size={22} className="text-[#366829]" />
                     </div>
                     <span className="text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-white border border-[#DCE8D8] text-[#366829]">
@@ -88,14 +82,14 @@ export default function WhatWeDo() {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#173719] mb-2 group-hover:text-[#366829] transition-colors">
+                  <h3 className="text-lg font-bold text-[#173719] mb-2">
                     {pillar.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#4E6251] leading-relaxed">
                     {pillar.desc}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -129,7 +123,7 @@ export default function WhatWeDo() {
 
           <Link
             href="/products"
-            className="px-6 py-3.5 rounded-full text-xs font-bold text-[#173719] bg-[#A8D96A] hover:bg-white transition-all hover:scale-105 shrink-0 flex items-center gap-1.5 shadow-md"
+            className="px-6 py-3.5 rounded-full text-xs font-bold text-[#173719] bg-[#A8D96A] hover:bg-white transition-colors shrink-0 flex items-center gap-1.5 shadow-md"
           >
             <span>Explore Products</span>
             <ArrowRight size={14} />

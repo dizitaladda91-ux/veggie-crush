@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sprout, 
   Droplets, 
@@ -12,9 +11,7 @@ import {
   PackageCheck, 
   Users, 
   Factory, 
-  ShieldCheck, 
-  CheckCircle2,
-  Sparkles
+  ShieldCheck
 } from "lucide-react";
 
 const STEPS = [
@@ -131,15 +128,14 @@ export default function ManufacturingProcess() {
         {/* Step Navigation Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
           {STEPS.map((step, idx) => {
-            const Icon = step.icon;
             const isActive = activeStep === idx;
             return (
               <button
                 key={step.num}
                 onClick={() => setActiveStep(idx)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-2xl text-xs font-bold shrink-0 transition-all border ${
+                className={`flex items-center gap-2 px-4 py-3 rounded-2xl text-xs font-bold shrink-0 border ${
                   isActive
-                    ? "bg-[#1E4620] text-white border-[#1E4620] shadow-md scale-[1.02]"
+                    ? "bg-[#1E4620] text-white border-[#1E4620] shadow-md"
                     : "bg-white text-[#4A634E] border-[#DCE8D8] hover:bg-[#F0F7ED]"
                 }`}
               >
@@ -155,81 +151,75 @@ export default function ManufacturingProcess() {
         </div>
 
         {/* Active Step Showcase Card */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeStep}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35 }}
-            className="rounded-3xl border border-[#DCE8D8] bg-white p-6 sm:p-10 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
-          >
-            {/* Step Photo */}
-            <div className="lg:col-span-6 relative">
-              <div className="relative aspect-[16/11] rounded-2xl overflow-hidden border border-[#DCE8D8] bg-[#F2F7F0] shadow-inner">
-                <Image
-                  src={current.image}
-                  alt={current.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#D2E4CC] text-[10px] font-bold uppercase tracking-wider text-[#1E4620]">
-                  Step {current.num} · {current.badge}
-                </div>
+        <div
+          key={activeStep}
+          className="rounded-3xl border border-[#DCE8D8] bg-white p-6 sm:p-10 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          {/* Step Photo */}
+          <div className="lg:col-span-6 relative">
+            <div className="relative aspect-[16/11] rounded-2xl overflow-hidden border border-[#DCE8D8] bg-[#F2F7F0] shadow-inner">
+              <Image
+                src={current.image}
+                alt={current.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#D2E4CC] text-[10px] font-bold uppercase tracking-wider text-[#1E4620]">
+                Step {current.num} · {current.badge}
+              </div>
+            </div>
+          </div>
+
+          {/* Step Details & Employee Highlight */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5C8E42]">
+                {current.subtitle}
+              </span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-[#173719] mb-4">
+              {current.title}
+            </h3>
+            <p className="text-sm sm:text-base text-[#465F4A] leading-relaxed mb-6">
+              {current.desc}
+            </p>
+
+            {/* Working Employee & Packaging Role Box */}
+            <div className="p-4 rounded-2xl bg-[#F6FAF4] border border-[#DCEBD7] mb-6 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-[#EAF4DA] text-[#1E4620] grid place-items-center shrink-0 mt-0.5">
+                <Users size={16} className="text-[#366829]" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[#173719]">Working Employees &amp; Quality Role:</p>
+                <p className="text-xs text-[#526955] mt-0.5 leading-snug">{current.employeeRole}</p>
               </div>
             </div>
 
-            {/* Step Details & Employee Highlight */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#5C8E42]">
-                  {current.subtitle}
-                </span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-[#173719] mb-4">
-                {current.title}
-              </h3>
-              <p className="text-sm sm:text-base text-[#465F4A] leading-relaxed mb-6">
-                {current.desc}
-              </p>
-
-              {/* Working Employee & Packaging Role Box */}
-              <div className="p-4 rounded-2xl bg-[#F6FAF4] border border-[#DCEBD7] mb-6 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#EAF4DA] text-[#1E4620] grid place-items-center shrink-0 mt-0.5">
-                  <Users size={16} className="text-[#366829]" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-[#173719]">Working Employees &amp; Quality Role:</p>
-                  <p className="text-xs text-[#526955] mt-0.5 leading-snug">{current.employeeRole}</p>
-                </div>
-              </div>
-
-              {/* Step indicator pagination */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#EDF4EB]">
-                <span className="text-xs font-semibold text-[#667E68]">
-                  Step {activeStep + 1} of {STEPS.length}
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    disabled={activeStep === 0}
-                    onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
-                    className="px-3.5 py-1.5 rounded-xl border border-[#DCE8D8] text-xs font-bold text-[#1E4620] disabled:opacity-40 hover:bg-[#F0F7ED]"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    disabled={activeStep === STEPS.length - 1}
-                    onClick={() => setActiveStep((prev) => Math.min(STEPS.length - 1, prev + 1))}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#1E4620] text-white text-xs font-bold disabled:opacity-40 hover:bg-[#28572B]"
-                  >
-                    Next Step
-                  </button>
-                </div>
+            {/* Step indicator pagination */}
+            <div className="flex items-center justify-between pt-4 border-t border-[#EDF4EB]">
+              <span className="text-xs font-semibold text-[#667E68]">
+                Step {activeStep + 1} of {STEPS.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  disabled={activeStep === 0}
+                  onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
+                  className="px-3.5 py-1.5 rounded-xl border border-[#DCE8D8] text-xs font-bold text-[#1E4620] disabled:opacity-40 hover:bg-[#F0F7ED]"
+                >
+                  Previous
+                </button>
+                <button
+                  disabled={activeStep === STEPS.length - 1}
+                  onClick={() => setActiveStep((prev) => Math.min(STEPS.length - 1, prev + 1))}
+                  className="px-3.5 py-1.5 rounded-xl bg-[#1E4620] text-white text-xs font-bold disabled:opacity-40 hover:bg-[#28572B]"
+                >
+                  Next Step
+                </button>
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );

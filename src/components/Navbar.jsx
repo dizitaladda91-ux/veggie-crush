@@ -6,11 +6,12 @@ import Link from "next/link";
 import { Menu, X, ShoppingBag, Leaf, PhoneCall } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Products", href: "#products" },
-  { label: "Why Us", href: "#why-us" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Products", href: "#our-bestsellers" },
+  { label: "Why Us", href: "#who-we-are" },
+  { label: "How We Make", href: "#manufacturing-process" },
+  { label: "Reviews", href: "#what-our-consumer-says" },
+  { label: "Offers", href: "#current-offers" },
 ];
 
 export default function Navbar() {
@@ -29,32 +30,32 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-40 w-full ${
         scrolled
-          ? "bg-white shadow-md py-2.5 border-b border-brand-green/10"
-          : "bg-white py-4 border-b border-transparent"
+          ? "bg-white shadow-md py-1.5 border-b border-brand-green/10"
+          : "bg-white py-2 sm:py-2.5 border-b border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo Left */}
-        <Link href="#home" className="flex items-center gap-2 group">
-          <div className="relative h-12 w-36 sm:h-14 sm:w-44">
+        {/* Logo Left - Prominent & Large */}
+        <Link href="/" className="flex items-center gap-2 group py-1">
+          <div className="relative h-16 w-48 sm:h-20 sm:w-64 md:h-24 md:w-72">
             <Image
               src="/images/logo.png"
               alt="Pure VeggieCrush Logo - Nature, Nothing Else"
               fill
               priority
-              sizes="(max-width: 640px) 150px, 180px"
+              sizes="(max-width: 640px) 200px, (max-width: 768px) 260px, 300px"
               className="object-contain object-left"
             />
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-semibold text-brand-ink hover:text-brand-green flex items-center gap-1 group py-1"
+              className="text-sm font-semibold text-brand-ink hover:text-brand-green flex items-center gap-1 group py-1 transition-colors"
             >
               <span>{link.label}</span>
             </Link>
@@ -63,16 +64,18 @@ export default function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <Link
-            href="#contact"
-            className="text-xs font-bold text-brand-green hover:text-brand-red flex items-center gap-1.5"
+          <a
+            href="https://wa.me/919876543210"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-bold text-brand-green hover:text-brand-red flex items-center gap-1.5 transition-colors"
           >
             <PhoneCall size={14} className="text-brand-orange" />
             <span>Support</span>
-          </Link>
+          </a>
           <Link
-            href="#products"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-brand-red hover:bg-brand-green shadow-sm"
+            href="#our-bestsellers"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-brand-red hover:bg-brand-green shadow-sm transition-colors"
           >
             <ShoppingBag size={14} />
             <span>Order Now</span>
@@ -82,7 +85,7 @@ export default function Navbar() {
         {/* Mobile Hamburger Button */}
         <div className="flex md:hidden items-center gap-2">
           <Link
-            href="#products"
+            href="#our-bestsellers"
             className="px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-brand-red hover:bg-brand-green"
           >
             Order
@@ -114,7 +117,7 @@ export default function Navbar() {
             ))}
             <div className="pt-2">
               <Link
-                href="#products"
+                href="#our-bestsellers"
                 onClick={() => setIsOpen(false)}
                 className="w-full py-3 rounded-lg text-sm font-bold text-white bg-brand-red hover:bg-brand-green flex items-center justify-center gap-2 shadow-md"
               >
