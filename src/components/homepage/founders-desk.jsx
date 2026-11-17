@@ -42,7 +42,7 @@ export default function FoundersDesk() {
               </div>
 
               <div className="mt-6">
-                <h4 className="text-xl font-heading font-black text-[#1B5E14]">Satyam &amp; Team</h4>
+                <h4 className="text-xl font-heading font-black text-[#1B5E14]">Anil Sharma &amp; Team</h4>
                 <p className="text-xs font-heading font-bold text-[#B00D0D] tracking-wide uppercase mt-0.5">
                   Founders &amp; Chief Farm Advocates
                 </p>
