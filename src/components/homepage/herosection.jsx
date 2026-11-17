@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 
 const banners = [
   {
@@ -17,16 +17,36 @@ const banners = [
 
 export default function HeroSection() {
   const [activeBanner, setActiveBanner] = useState(0);
+  const [rotationEnabled, setRotationEnabled] = useState(true);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const showBanner = (index) => {
     setActiveBanner((index + banners.length) % banners.length);
   };
+
+  useEffect(() => {
+    if (!rotationEnabled || isInteracting) return;
+
+    const intervalId = window.setInterval(() => {
+      setActiveBanner((current) => (current + 1) % banners.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [rotationEnabled, isInteracting]);
 
   return (
     <section
       aria-label="VeggieCrush hero banners"
       aria-roledescription="carousel"
       className="w-full overflow-hidden border-b border-[#E8EFE5]"
+      onMouseEnter={() => setIsInteracting(true)}
+      onMouseLeave={() => setIsInteracting(false)}
+      onFocusCapture={() => setIsInteracting(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsInteracting(false);
+        }
+      }}
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#FFFBF2]">
         {banners.map((banner, index) => (
@@ -35,10 +55,14 @@ export default function HeroSection() {
             role="img"
             aria-label={banner.alt}
             aria-hidden={activeBanner !== index}
-            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${
+            className={`absolute inset-0 bg-no-repeat transition-opacity duration-500 ${
               activeBanner === index ? "opacity-100" : "opacity-0"
             }`}
-            style={{ backgroundImage: `url("${banner.src}")` }}
+            style={{
+              backgroundImage: `url("${banner.src}")`,
+              backgroundPosition: "center",
+              backgroundSize: "90% 90%",
+            }}
           />
         ))}
 
@@ -51,6 +75,14 @@ export default function HeroSection() {
         </Link>
 
         <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2 rounded-full bg-white/90 p-1.5 shadow-md sm:bottom-5 sm:right-5">
+          <button
+            type="button"
+            onClick={() => setRotationEnabled((enabled) => !enabled)}
+            aria-label={rotationEnabled ? "Pause banner rotation" : "Resume banner rotation"}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-[#1B5E14] hover:bg-[#F0F7EE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1B5E14]"
+          >
+            {rotationEnabled ? <Pause size={15} /> : <Play size={15} />}
+          </button>
           <button
             type="button"
             onClick={() => showBanner(activeBanner - 1)}
