@@ -55,13 +55,11 @@ export default function HeroSection() {
             role="img"
             aria-label={banner.alt}
             aria-hidden={activeBanner !== index}
-            className={`absolute inset-0 bg-no-repeat transition-opacity duration-500 ${
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${
               activeBanner === index ? "opacity-100" : "opacity-0"
             }`}
             style={{
               backgroundImage: `url("${banner.src}")`,
-              backgroundPosition: "center",
-              backgroundSize: "90% 90%",
             }}
           />
         ))}
